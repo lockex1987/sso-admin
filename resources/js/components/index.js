@@ -1,0 +1,36 @@
+// Đăng ký các component hay dùng
+import DatePicker from './DatePicker';
+import DateRangePicker from './DateRangePicker';
+import DateRangePickerSeparate from './DateRangePickerSeparate';
+import WeekPicker from './WeekPicker';
+import MonthPicker from './MonthPicker';
+import YearPicker from './YearPicker';
+import TheBreadcrumb from './TheBreadcrumb';
+import DropdownSelect from './DropdownSelect';
+// import TagsInput from './TagsInput';
+import Tree from './Tree.vue';
+import TreeChooser from './TreeChooser.vue';
+import SingleSelect from './SingleSelect.vue';
+import Editor from './Editor.vue';
+import UploadFile from './UploadFile.vue';
+import UploadImage from './UploadImage.vue';
+import AttachmentFile from './AttachmentFile.vue';
+import ImportButton from './ImportButton.vue';
+
+Vue.component('date-picker', DatePicker);
+Vue.component('date-range-picker', DateRangePicker);
+Vue.component('date-range-picker-separate', DateRangePickerSeparate);
+Vue.component('week-picker', WeekPicker);
+Vue.component('month-picker', MonthPicker);
+Vue.component('year-picker', YearPicker);
+Vue.component('the-breadcrumb', TheBreadcrumb);
+Vue.component('dropdown-select', DropdownSelect);
+// Vue.component('tags-input', TagsInput);
+Vue.component('tree', Tree);
+Vue.component('tree-chooser', TreeChooser);
+Vue.component('single-select', SingleSelect);
+Vue.component('editor', Editor);
+Vue.component('upload-file', UploadFile);
+Vue.component('upload-image', UploadImage);
+Vue.component('attachment-file', AttachmentFile);
+Vue.component('import-button', ImportButton);

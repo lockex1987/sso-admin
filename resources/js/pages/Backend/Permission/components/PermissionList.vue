@@ -1,0 +1,170 @@
+<template>
+    <div>
+        <div class="form-inline mt-5">
+            <input type="text"
+                    class="form-control mb-2 mr-sm-2"
+                    v-model.trim="searchText"
+                    placeholder="Từ khóa"
+                    @input="debouncedSearch()">
+
+            <button class="btn btn-primary btn-ripple mb-2 ml-auto" type="button" @click="openCreateForm()">
+                Thêm mới
+            </button>
+        </div>
+
+        <div class="datatable-wrapper">
+            <table class="table table-bordered" ref="searchResult" v-show="permissionList.length > 0">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width: 50px">
+                            #
+                        </th>
+                        <th class="text-center">
+                            Mã
+                        </th>
+                        <th class="text-center">
+                            Tên
+                        </th>
+                        <th class="text-center" style="width: 215px;">
+                            Thao tác
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr v-for="permission in permissionList" :key="permission.id">
+                        <td class="text-center">
+                            {{permission.stt}}
+                        </td>
+                        <td>
+                            {{permission.code}}
+                        </td>
+                        <td>
+                            {{permission.name}}
+                        </td>
+                        <td class="text-center">
+                            <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
+                                    title="Cập nhật"
+                                    @click="openUpdateForm(permission)"></i>
+
+                            <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
+                                    title="Xóa"
+                                    @click="deleteRecord(permission)"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <permission-form
+                ref="appForm"
+                @search-again="search()"/>
+    </div>
+</template>
+
+
+<script>
+import PermissionForm from './PermissionForm.vue';
+
+
+export default {
+    components: {
+        PermissionForm
+    },
+
+    data() {
+        return {
+            // Danh sách kết quả tìm kiếm
+            permissionList: [],
+
+            // Text tìm kiếm
+            searchText: '',
+
+            // Đối tượng datatable
+            datatable: null
+        };
+    },
+
+    mounted() {
+        this.initDatatable();
+    },
+
+    methods: {
+        /**
+         * Khởi tạo đối tượng datatable.
+         */
+        initDatatable() {
+            this.datatable = new Datatable({
+                table: this.$refs.searchResult,
+                ajax: (page, pageSize, sortColumn, sortDirection) => {
+                    const params = {
+                        search: this.searchText,
+                        page: page,
+                        size: pageSize
+                    };
+                    return axios.get('/permission/search', { params });
+                },
+                bindItemsCallback: (items) => {
+                    this.permissionList = items;
+                },
+                getTotalAndData: ({ data }) => {
+                    return {
+                        total: data.total,
+                        data: data.data
+                    };
+                },
+                showLoading: true
+            });
+        },
+
+        /**
+         * Lọc theo từ khóa.
+         */
+        debouncedSearch: CommonUtils.debounce(
+            function () {
+                this.search();
+            },
+            500
+        ),
+
+        /**
+         * Tìm kiếm.
+         */
+        search() {
+            this.datatable.reload();
+        },
+
+        /**
+         * Bật form thêm mới.
+         */
+        openCreateForm() {
+            this.$refs.appForm.openCreateForm();
+        },
+
+        /**
+         * Bật form cập nhật.
+         */
+        openUpdateForm(permission) {
+            this.$refs.appForm.openUpdateForm(permission);
+        },
+
+        /**
+         * Xóa bản ghi.
+         */
+        deleteRecord(permission) {
+            noti.confirm('Bạn chắc chắn muốn xoá bản ghi <b>' + CommonUtils.escapeHtml(permission.code) + '</b> hay không?', async () => {
+                const params = {
+                    id: permission.id
+                };
+                const { data } = await axios.delete('/permission/destroy', { data: params });
+                if (data.code == 0) {
+                    noti.success('Xóa thành công');
+                    this.search();
+                } else {
+                    noti.error(data.message);
+                }
+            });
+        }
+    }
+};
+</script>
