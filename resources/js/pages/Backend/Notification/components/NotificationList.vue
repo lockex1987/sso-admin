@@ -11,7 +11,8 @@
         </div>
 
         <div class="mb-3">
-            <button class="btn btn-primary" @click="publish()">
+            <button class="btn btn-primary"
+                @click="publish()">
                 Test publish
             </button>
         </div>
@@ -145,6 +146,9 @@ export default {
             }
         },
 
+        /**
+         * Thử publish một thông báo.
+         */
         async publish() {
             await axios.post('/notification/publish');
         }
