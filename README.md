@@ -21,16 +21,12 @@ Khởi tạo, import CSDL:
 
 Chạy:
 
-php artisan serve
+    php artisan serve
 
 Vào localhost:8000 để kiểm tra
 
+Chuyển upload file vào sso-admin, menu "Data explorer", tham khảo project afm, voice-landing-admin.
 
-Chuyển upload file vào sso-admin, menu "Data explorer", tham khảo project afm, voice-landing-admin
-    Tích hợp sửa HTML (summernote), sửa text (textarea) luôn
+Tích hợp sửa HTML (summernote), sửa text (textarea) luôn.
 
-
-Quản lý phim
-    Dữ liệu:
-        Mission Top Secret
-        https://www.youtube.com/channel/UClt6hXZzH1lluUvEDMgL8ig
+Quản lý phim: [Mission Top Secret](https://www.youtube.com/channel/UClt6hXZzH1lluUvEDMgL8ig)
