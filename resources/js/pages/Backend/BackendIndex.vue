@@ -1,25 +1,39 @@
 <template>
-    <div class="backend-layout d-flex">
+    <div class="d-md-flex">
         <left-aside />
 
-        <router-view class="px-5 py-3 flex-1"/>
+        <div class="flex-grow-1">
+            <top-header />
+
+            <div class="adjust-height overflow-y-auto overflow-x-hidden custom-scrollbar px-3 pb-3">
+                <router-view />
+            </div>
+        </div>
     </div>
 </template>
 
 
 <script>
-import LeftAside from './components/LeftAside';
+import LeftAside from './components/LeftAside.vue';
+import TopHeader from './components/TopHeader.vue';
 
 export default {
     components: {
-        LeftAside
+        LeftAside,
+        TopHeader
     }
 };
 </script>
 
 
 <style scoped lang="scss">
-    .backend-layout {
-        min-height: 100vh;
-    }
+.adjust-height {
+    height: calc(100vh - 70px);
+}
+</style>
+
+<style lang="scss">
+.backend-layout-min-height {
+    min-height: calc(100vh - 70px - 16px);
+}
 </style>
