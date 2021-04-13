@@ -3,6 +3,9 @@ const state = {
 };
 
 const mutations = {
+    /**
+     * Ẩn hiện menu desktop.
+     */
     toggleLeftAside(state) {
         if (state.showLeftAside) {
             localStorage.removeItem('showLeftAside');

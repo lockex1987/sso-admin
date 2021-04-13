@@ -1,55 +1,54 @@
 <template>
     <div>
-        <div class="d-flex mt-5 mb-2">
+        <div class="d-flex mt-5 flex-wrap">
             <input type="text"
-                    class="form-control"
-                    v-model.trim="searchText"
-                    placeholder="Mã hoặc tên"
-                    @input="debouncedSearch()"
-                    style="width: 200px;">
+                class="form-control mb-2"
+                v-model.trim="searchText"
+                placeholder="Mã hoặc tên"
+                @input="debouncedSearch()"
+                style="width: 200px;">
 
-            <single-select
-                    class="ml-2"
-                    placeholder="Loại"
-                    :options="typeList"
-                    v-model="type"
-                    :show-clear="true"
-                    @change="search()"
-                    style="width: 250px;"/>
+            <single-select class="ml-2 mb-2"
+                placeholder="Loại"
+                :options="typeList"
+                v-model="type"
+                :show-clear="true"
+                @change="search()"
+                style="width: 250px;" />
 
-            <button class="btn btn-primary btn-ripple ml-auto"
-                    type="button"
-                    @click="openCreateForm()">
+            <button class="btn btn-primary btn-ripple ml-auto mb-2"
+                type="button"
+                @click="openCreateForm()">
                 Thêm mới
             </button>
 
             <button type="button"
-                    class="btn btn-secondary ml-2"
-                    @click="exportExcel()">
+                class="btn btn-secondary ml-2 mb-2"
+                @click="exportExcel()">
                 Export
             </button>
 
-            <import-button
-                    :validate-row="validateRow"
-                    :insert-row="insertRow"
-                    :is-data-row="isDataRow"
-                    :template-path="'/templates/Danh sách cấp tỉnh __15_07_2020.xlsx'"
-                    @done="search()"/>
+            <import-button :validate-row="validateRow"
+                :insert-row="insertRow"
+                :is-data-row="isDataRow"
+                :template-path="'/templates/Danh sách cấp tỉnh __15_07_2020.xlsx'"
+                @done="search()" />
 
             <button type="button"
-                    class="btn btn-danger ml-2"
-                    @click="deleteAll()">
+                class="btn btn-danger ml-2 mb-2"
+                @click="deleteAll()">
                 Xóa danh sách
             </button>
         </div>
 
         <div class="datatable-wrapper">
             <table class="table table-bordered"
-                    ref="searchResult"
-                    v-show="provinceList.length > 0">
+                ref="searchResult"
+                v-show="provinceList.length > 0">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width: 50px">
+                        <th class="text-center"
+                            style="width: 50px">
                             #
                         </th>
                         <th class="text-center">
@@ -61,7 +60,8 @@
                         <th class="text-center">
                             Loại
                         </th>
-                        <th class="text-center" style="width: 215px;">
+                        <th class="text-center"
+                            style="width: 215px;">
                             Thao tác
                         </th>
                     </tr>
@@ -69,7 +69,7 @@
 
                 <tbody>
                     <tr v-for="province in provinceList"
-                            :key="province.id">
+                        :key="province.id">
                         <td class="text-center">
                             {{province.stt}}
                         </td>
@@ -84,22 +84,21 @@
                         </td>
                         <td class="text-center">
                             <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
-                                    title="Cập nhật"
-                                    @click="openUpdateForm(province)"></i>
+                                title="Cập nhật"
+                                @click="openUpdateForm(province)"></i>
 
                             <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
-                                    title="Xóa"
-                                    @click="deleteRecord(province)"></i>
+                                title="Xóa"
+                                @click="deleteRecord(province)"></i>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <province-form
-                ref="provinceForm"
-                :type-list="typeList"
-                @stored="search()"/>
+        <province-form ref="provinceForm"
+            :type-list="typeList"
+            @stored="search()" />
     </div>
 </template>
 

@@ -1,8 +1,6 @@
 <template>
-    <div class="container-fluid">
-        <div class="bg-white rounded p-3 backend-layout-min-height">
-            <content-list />
-        </div>
+    <div class="backend-layout-min-height">
+        <content-list />
     </div>
 </template>
 

@@ -1,86 +1,82 @@
 <template>
     <div>
-        <div class="d-flex flex-wrap mt-5 mb-2">
+        <div class="d-flex flex-wrap mt-5">
             <input type="text"
-                    class="form-control"
-                    v-model.trim="searchText"
-                    placeholder="Mã hoặc tên"
-                    @input="debouncedSearch()"
-                    style="width: 200px;">
+                class="form-control mb-2"
+                v-model.trim="searchText"
+                placeholder="Mã hoặc tên"
+                @input="debouncedSearch()"
+                style="width: 200px;">
 
-            <single-select
-                    class="ml-2"
-                    placeholder="Loại"
-                    :options="typeList"
-                    v-model="type"
+            <single-select class="ml-2 mb-2"
+                placeholder="Loại"
+                :options="typeList"
+                v-model="type"
+                :show-clear="true"
+                @change="search()"
+                style="width: 250px;" />
+
+            <div class="border rounded d-flex ml-2 mb-2 cascade-select">
+                <single-select class=""
+                    placeholder="Tỉnh / thành phố"
+                    :options="provinceList"
+                    v-model="province"
+                    :show-clear="!district.id"
+                    :has-search="true"
+                    @change="updateDistrictSelect(); search();" />
+
+                <single-select class="ml-2"
+                    placeholder="Huyện / quận"
+                    :options="districtList"
+                    v-model="district"
+                    :show-clear="!commune.id"
+                    :has-search="true"
+                    @change="updateCommuneSelect(); search()"
+                    v-show="districtList.length > 0" />
+
+                <single-select class="ml-2"
+                    placeholder="Xã / phường"
+                    :options="communeList"
+                    v-model="commune"
                     :show-clear="true"
+                    :has-search="true"
                     @change="search()"
-                    style="width: 250px;"/>
-
-            <div class="border rounded d-flex ml-2 cascade-select">
-                <single-select
-                        class=""
-                        placeholder="Tỉnh / thành phố"
-                        :options="provinceList"
-                        v-model="province"
-                        :show-clear="!district.id"
-                        :has-search="true"
-                        @change="updateDistrictSelect(); search();"/>
-
-                <single-select
-                        class="ml-2"
-                        placeholder="Huyện / quận"
-                        :options="districtList"
-                        v-model="district"
-                        :show-clear="!commune.id"
-                        :has-search="true"
-                        @change="updateCommuneSelect(); search()"
-                        v-show="districtList.length > 0"/>
-
-                <single-select
-                        class="ml-2"
-                        placeholder="Xã / phường"
-                        :options="communeList"
-                        v-model="commune"
-                        :show-clear="true"
-                        :has-search="true"
-                        @change="search()"
-                        v-show="communeList.length > 0"/>
+                    v-show="communeList.length > 0" />
             </div>
 
-            <button class="btn btn-primary btn-ripple ml-auto"
-                    type="button"
-                    @click="openCreateForm()">
+            <button class="btn btn-primary btn-ripple ml-auto mb-2"
+                type="button"
+                @click="openCreateForm()">
                 Thêm mới
             </button>
 
             <button type="button"
-                    class="btn btn-secondary ml-2"
-                    @click="exportExcel()">
+                class="btn btn-secondary ml-2 mb-2"
+                @click="exportExcel()">
                 Export
             </button>
 
-            <import-button
-                    :validate-row="validateRow"
-                    :insert-row="insertRow"
-                    :is-data-row="isDataRow"
-                    :template-path="'/templates/Danh sách cấp xã ___15_07_2020.xlsx'"
-                    @done="search()"/>
+            <import-button :validate-row="validateRow"
+                :insert-row="insertRow"
+                :is-data-row="isDataRow"
+                :template-path="'/templates/Danh sách cấp xã ___15_07_2020.xlsx'"
+                @done="search()" />
 
             <button type="button"
-                    class="btn btn-danger ml-2"
-                    @click="deleteAll()">
+                class="btn btn-danger ml-2 mb-2"
+                @click="deleteAll()">
                 Xóa danh sách
             </button>
         </div>
 
         <div class="datatable-wrapper">
             <table class="table table-bordered"
-                    ref="searchResult"
-                    v-show="resultList.length > 0">
+                ref="searchResult"
+                v-show="resultList.length > 0">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width: 50px">
+                        <th class="text-center"
+                            style="width: 50px">
                             #
                         </th>
                         <th class="text-center">
@@ -98,7 +94,8 @@
                         <th class="text-center">
                             Huyện / quận
                         </th>
-                        <th class="text-center" style="width: 215px;">
+                        <th class="text-center"
+                            style="width: 215px;">
                             Thao tác
                         </th>
                     </tr>
@@ -106,7 +103,7 @@
 
                 <tbody>
                     <tr v-for="commune in resultList"
-                            :key="commune.id">
+                        :key="commune.id">
                         <td class="text-center">
                             {{commune.stt}}
                         </td>
@@ -127,23 +124,22 @@
                         </td>
                         <td class="text-center">
                             <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
-                                    title="Cập nhật"
-                                    @click="openUpdateForm(commune)"></i>
+                                title="Cập nhật"
+                                @click="openUpdateForm(commune)"></i>
 
                             <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
-                                    title="Xóa"
-                                    @click="deleteRecord(commune)"></i>
+                                title="Xóa"
+                                @click="deleteRecord(commune)"></i>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <commune-form
-                ref="communeForm"
-                :type-list="typeList"
-                :province-list="provinceList"
-                @stored="search()"/>
+        <commune-form ref="communeForm"
+            :type-list="typeList"
+            :province-list="provinceList"
+            @stored="search()" />
     </div>
 </template>
 
@@ -452,7 +448,7 @@ export default {
 .cascade-select {
     .custom-select {
         border: none;
-        height: calc(1.5em + .75rem);
+        height: calc(1.5em + 0.75rem);
     }
 
     .dropdown-menu {

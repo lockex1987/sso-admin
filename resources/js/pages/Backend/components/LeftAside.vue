@@ -25,7 +25,7 @@
                 <ul>
                     <li>
                         <router-link :to="{ name: 'dashboard' }"
-                            class="text-decoration-none sidebar-closer">
+                            class="sidebar-closer">
                             <i class="la la-dashboard font-size-1.25 mr-2"></i>
                             Dashboard
                         </router-link>
@@ -33,7 +33,7 @@
 
                     <li>
                         <router-link :to="{ name: 'notification' }"
-                            class="text-decoration-none sidebar-closer">
+                            class="sidebar-closer">
                             <i class="la la-bell font-size-1.25 mr-2"></i>
                             Thông báo
                             <span class="badge badge-warning"
@@ -44,40 +44,8 @@
                     </li>
 
                     <li>
-                        <router-link :to="{ name: 'app' }"
-                            class="text-decoration-none sidebar-closer">
-                            <i class="lab la-app-store font-size-1.25 mr-2"></i>
-                            Ứng dụng
-                        </router-link>
-                    </li>
-
-                    <li>
-                        <router-link :to="{ name: 'permission' }"
-                            class="text-decoration-none sidebar-closer">
-                            <i class="la la-shield-alt font-size-1.25 mr-2"></i>
-                            Quyền
-                        </router-link>
-                    </li>
-
-                    <li>
-                        <router-link :to="{ name: 'role' }"
-                            class="text-decoration-none sidebar-closer">
-                            <i class="la la-users font-size-1.25 mr-2"></i>
-                            Vai trò
-                        </router-link>
-                    </li>
-
-                    <li>
-                        <router-link :to="{ name: 'user' }"
-                            class="text-decoration-none sidebar-closer">
-                            <i class="la la-user font-size-1.25 mr-2"></i>
-                            Người dùng
-                        </router-link>
-                    </li>
-
-                    <li>
                         <router-link :to="{ name: 'chat' }"
-                            class="text-decoration-none sidebar-closer">
+                            class="sidebar-closer">
                             <i class="la la-sms font-size-1.25 mr-2"></i>
                             Chat (Web Socket)
                         </router-link>
@@ -85,93 +53,29 @@
 
                     <li>
                         <router-link :to="{ name: 'chatRtc' }"
-                            class="text-decoration-none sidebar-closer">
+                            class="sidebar-closer">
                             <i class="la la-sms font-size-1.25 mr-2"></i>
                             Chat (Web RTC)
                         </router-link>
                     </li>
 
                     <li>
-                        <router-link :to="{ name: 'organization' }"
-                            class="text-decoration-none sidebar-closer">
-                            <i class="la la-project-diagram font-size-1.25 mr-2"></i>
-                            Tổ chức
-                        </router-link>
-                    </li>
-
-                    <li>
-                        <router-link :to="{ name: 'config' }"
-                            class="text-decoration-none sidebar-closer">
-                            <i class="la la-sliders-h font-size-1.25 mr-2"></i>
-                            Cấu hình hệ thống
-                        </router-link>
-                    </li>
-
-                    <li>
-                        <router-link :to="{ name: 'country' }"
-                            class="text-decoration-none sidebar-closer">
-                            <i class="la la-layer-group font-size-1.25 mr-2"></i>
-                            Quốc gia
-                        </router-link>
-                    </li>
-
-                    <li>
-                        <router-link :to="{ name: 'province' }"
-                            class="text-decoration-none sidebar-closer">
-                            <i class="la la-layer-group font-size-1.25 mr-2"></i>
-                            Tỉnh / thành phố
-                        </router-link>
-                    </li>
-
-                    <li>
-                        <router-link :to="{ name: 'district' }"
-                            class="text-decoration-none sidebar-closer">
-                            <i class="la la-layer-group font-size-1.25 mr-2"></i>
-                            Huyện / quận
-                        </router-link>
-                    </li>
-
-                    <li>
-                        <router-link :to="{ name: 'commune' }"
-                            class="text-decoration-none sidebar-closer">
-                            <i class="la la-layer-group font-size-1.25 mr-2"></i>
-                            Xã / phường
-                        </router-link>
-                    </li>
-
-                    <li>
                         <router-link :to="{ name: 'slide' }"
-                            class="text-decoration-none sidebar-closer">
+                            class="sidebar-closer">
                             <i class="la la-image font-size-1.25 mr-2"></i>
                             Slide
                         </router-link>
                     </li>
 
                     <li>
-                        <router-link :to="{ name: 'category', params: { category: 'movie_format' } }"
-                            class="text-decoration-none sidebar-closer">
-                            <i class="la la-layer-group font-size-1.25 mr-2"></i>
-                            Định dạng phim
-                        </router-link>
-                    </li>
-
-                    <li>
-                        <router-link :to="{ name: 'category', params: { category: 'movie_genre' } }"
-                            class="text-decoration-none sidebar-closer">
-                            <i class="la la-layer-group font-size-1.25 mr-2"></i>
-                            Thể loại phim
-                        </router-link>
-                    </li>
-
-                    <li>
                         <router-link :to="{ name: 'content' }"
-                            class="text-decoration-none sidebar-closer">
+                            class="sidebar-closer">
                             <i class="la la-file-word font-size-1.25 mr-2"></i>
                             Nội dung
                         </router-link>
                     </li>
 
-                    <li class="sub-menu d-none">
+                    <li class="sub-menu">
                         <a href="#">
                             <i class="la la-atom font-size-1.25 mr-2"></i>
                             Component demo
@@ -203,9 +107,125 @@
                         </ul>
                     </li>
 
+                    <li class="sub-menu">
+                        <a href="#">
+                            <i class="la la-users font-size-1.25 mr-2"></i>
+                            Admin
+                            <i class="la la-angle-right arrow float-right"></i>
+                        </a>
+
+                        <ul>
+                            <li>
+                                <router-link :to="{ name: 'app' }"
+                                    class="sidebar-closer">
+                                    <i class="la la-circle"></i>
+                                    Ứng dụng
+                                </router-link>
+                            </li>
+
+                            <li>
+                                <router-link :to="{ name: 'permission' }"
+                                    class="sidebar-closer">
+                                    <i class="la la-circle"></i>
+                                    Quyền
+                                </router-link>
+                            </li>
+
+                            <li>
+                                <router-link :to="{ name: 'role' }"
+                                    class="sidebar-closer">
+                                    <i class="la la-circle"></i>
+                                    Vai trò
+                                </router-link>
+                            </li>
+
+                            <li>
+                                <router-link :to="{ name: 'user' }"
+                                    class="sidebar-closer">
+                                    <i class="la la-circle"></i>
+                                    Người dùng
+                                </router-link>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="sub-menu">
+                        <a href="#">
+                            <i class="la la-layer-group font-size-1.25 mr-2"></i>
+                            Danh mục
+                            <i class="la la-angle-right arrow float-right"></i>
+                        </a>
+
+                        <ul>
+                            <li>
+                                <router-link :to="{ name: 'organization' }"
+                                    class="sidebar-closer">
+                                    <i class="la la-circle"></i>
+                                    Tổ chức
+                                </router-link>
+                            </li>
+
+                            <li>
+                                <router-link :to="{ name: 'config' }"
+                                    class="sidebar-closer">
+                                    <i class="la la-circle"></i>
+                                    Cấu hình hệ thống
+                                </router-link>
+                            </li>
+
+                            <li>
+                                <router-link :to="{ name: 'country' }"
+                                    class="sidebar-closer">
+                                    <i class="la la-circle"></i>
+                                    Quốc gia
+                                </router-link>
+                            </li>
+
+                            <li>
+                                <router-link :to="{ name: 'province' }"
+                                    class="sidebar-closer">
+                                    <i class="la la-circle"></i>
+                                    Tỉnh / thành phố
+                                </router-link>
+                            </li>
+
+                            <li>
+                                <router-link :to="{ name: 'district' }"
+                                    class="sidebar-closer">
+                                    <i class="la la-circle"></i>
+                                    Huyện / quận
+                                </router-link>
+                            </li>
+
+                            <li>
+                                <router-link :to="{ name: 'commune' }"
+                                    class="sidebar-closer">
+                                    <i class="la la-circle"></i>
+                                    Xã / phường
+                                </router-link>
+                            </li>
+
+                            <li>
+                                <router-link :to="{ name: 'category', params: { category: 'movie_format' } }"
+                                    class="sidebar-closer">
+                                    <i class="la la-circle"></i>
+                                    Định dạng phim
+                                </router-link>
+                            </li>
+
+                            <li>
+                                <router-link :to="{ name: 'category', params: { category: 'movie_genre' } }"
+                                    class="sidebar-closer">
+                                    <i class="la la-circle"></i>
+                                    Thể loại phim
+                                </router-link>
+                            </li>
+                        </ul>
+                    </li>
+
                     <li>
                         <router-link :to="{ name: 'systemLog' }"
-                            class="text-decoration-none sidebar-closer">
+                            class="sidebar-closer">
                             <i class="la la-history font-size-1.25 mr-2"></i>
                             Log hệ thống
                         </router-link>
@@ -213,7 +233,7 @@
 
                     <li>
                         <router-link :to="{ name: 'logFile' }"
-                            class="text-decoration-none sidebar-closer">
+                            class="sidebar-closer">
                             <i class="la la-file-code font-size-1.25 mr-2"></i>
                             File log
                         </router-link>
@@ -222,7 +242,7 @@
                     <li>
                         <a href="#"
                             @click.prevent="processLogout()"
-                            class="text-decoration-none sidebar-closer">
+                            class="sidebar-closer">
                             <i class="la la-sign-out font-size-1.25 mr-2"></i>
                             Đăng xuất
                         </a>
@@ -262,9 +282,32 @@ export default {
 
         // this.initWebSocket();
         this.handleClickEvents();
+        this.openActiveMenu();
+        this.handleToggleMenu();
     },
 
     methods: {
+        /**
+         * Hiển thị menu hiện tại (khi nhấn F5).
+         */
+        openActiveMenu() {
+            const activeLink = $(this.$el).find('.router-link-active');
+            const aTag = activeLink.closest('.sub-menu').find('a:first-of-type');
+            aTag.next().slideDown();
+            aTag.parent().addClass('open');
+        },
+
+        /**
+         * Xử lý đóng mở nhóm menu con khi click vào các header.
+         */
+        handleToggleMenu() {
+            $(this.$el).on('click', '.sub-menu > a', (evt) => {
+                const aTag = $(evt.target.closest('a'));
+                aTag.next().slideToggle();
+                aTag.parent().toggleClass('open');
+            });
+        },
+
         /**
          * Lắng nghe các sự kiện chuột.
          */
@@ -398,44 +441,67 @@ $sidebarWidth: 250px;
             width: 4rem;
             height: 4rem;
         }
+    }
+}
 
-        .menu {
-            $orangeColor: #e06950;
+.menu {
+    $orangeColor: #e06950;
 
-            ul {
-                padding: 0;
+    ul {
+        padding: 0;
 
-                li {
-                    list-style-type: none;
+        li {
+            list-style-type: none;
 
-                    a {
-                        display: block;
-                        padding: 10px 0 10px 5px;
-                        border-left: solid transparent 3px;
+            a {
+                text-decoration: none;
+                display: block;
+                padding: 10px 0 10px 5px;
+                border-left: solid transparent 3px;
 
-                        &:hover {
-                            color: $orangeColor;
-                        }
+                &:hover {
+                    color: $orangeColor;
+                }
 
-                        // Menu đang active
-                        &.router-link-active {
-                            border-left-color: $orangeColor;
-                            color: $orangeColor;
-                        }
+                // Menu đang active
+                &.router-link-active {
+                    border-left-color: $orangeColor;
+                    color: $orangeColor;
+                }
 
-                        i {
-                            min-width: 20px;
-                        }
-                    }
+                i {
+                    min-width: 20px;
                 }
             }
         }
     }
-}
 
-// TODO: Có dùng?
-.adjust-height {
-    height: calc(100vh - 190px);
+    .sub-menu {
+        ul {
+            display: none;
+
+            li {
+                // background: rgba(110, 174, 207, 0.25);
+                border-bottom: none;
+
+                a {
+                    padding-left: 20px;
+                }
+            }
+        }
+
+        .arrow {
+            margin-top: 0.25rem;
+            margin-right: 0.75rem;
+            transition: all 0.3s ease-in-out;
+        }
+
+        &.open {
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    }
 }
 </style>
 

@@ -1,57 +1,56 @@
 <template>
     <div>
-        <the-breadcrumb :paths="['Log hệ thống']"/>
+        <the-breadcrumb :paths="['Log hệ thống']" />
 
-        <div class="d-flex mb-2">
-            <date-range-picker-separate
-                    :is-start-required="false"
-                    :is-end-required="false"
-                    :min-start-datex="minStartDate"
-                    :max-start-datex="maxStartDate"
-                    :min-end-datex="minEndDate"
-                    :max-end-datex="maxEndDate"
-                    :options="{ drops: 'down' }"
-                    v-model="searchTime"
-                    @change="search()"
-                    style="width: 360px"/>
-
-            <input type="text"
-                    class="form-control ml-2"
-                    style="width: 200px"
-                    v-model.trim="ip"
-                    placeholder="IP"
-                    @input="debouncedSearch()">
-
-            <single-select
-                    class="ml-2"
-                    style="width: 200px"
-                    placeholder="Loại"
-                    :options="typeList"
-                    v-model="type"
-                    :show-clear="true"
-                    @change="search()"/>
+        <div class="d-flex flex-wrap">
+            <date-range-picker-separate :is-start-required="false"
+                :is-end-required="false"
+                :min-start-datex="minStartDate"
+                :max-start-datex="maxStartDate"
+                :min-end-datex="minEndDate"
+                :max-end-datex="maxEndDate"
+                :options="{ drops: 'down' }"
+                v-model="searchTime"
+                @change="search()"
+                class="mb-2"
+                style="width: 360px" />
 
             <input type="text"
-                    class="form-control ml-2"
-                    style="width: 200px"
-                    v-model.trim="username"
-                    placeholder="Tài khoản"
-                    @input="debouncedSearch()">
+                class="form-control ml-2 mb-2"
+                style="width: 200px"
+                v-model.trim="ip"
+                placeholder="IP"
+                @input="debouncedSearch()">
 
-            <button class="btn btn-danger ml-auto"
-                    @click="deleteBatch()">
+            <single-select class="ml-2 mb-2"
+                style="width: 200px"
+                placeholder="Loại"
+                :options="typeList"
+                v-model="type"
+                :show-clear="true"
+                @change="search()" />
+
+            <input type="text"
+                class="form-control ml-2 mb-2"
+                style="width: 200px"
+                v-model.trim="username"
+                placeholder="Tài khoản"
+                @input="debouncedSearch()">
+
+            <button class="btn btn-danger ml-auto mb-2"
+                @click="deleteBatch()">
                 Xóa
             </button>
         </div>
 
         <div class="datatable-wrapper">
             <table class="table table-bordered"
-                    ref="searchResult"
-                    v-show="logList.length > 0">
+                ref="searchResult"
+                v-show="logList.length > 0">
                 <thead>
                     <tr>
                         <th class="text-center"
-                                style="width: 50px">
+                            style="width: 50px">
                             #
                         </th>
                         <th class="text-center">
@@ -74,7 +73,7 @@
 
                 <tbody>
                     <tr v-for="log in logList"
-                            :key="log.id">
+                        :key="log.id">
                         <td class="text-center">
                             {{log.stt}}
                         </td>
