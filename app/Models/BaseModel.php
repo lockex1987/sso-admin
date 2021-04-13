@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Str;
+use Illuminate\Support\Str;
 
 class BaseModel extends Model
 {
@@ -12,10 +12,10 @@ class BaseModel extends Model
     public $timestamps = false;
 
     /**
-     * Get the table associated with the model.
+     * Lấy bảng trong CSDL mà liên kết với model này.
      * Ghi đè phương thức này, không chuyển thành số nhiều.
      *
-     * @return string
+     * @return string Tên bảng
      */
     public function getTable()
     {

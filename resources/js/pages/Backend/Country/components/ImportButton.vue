@@ -1,19 +1,19 @@
 <template>
     <span>
         <button type="button"
-                class="btn btn-success ml-2"
-                @click="openChooseFileDialog()">
+            class="btn btn-success ml-2"
+            @click="openChooseFileDialog()">
             Nhập file Excel
         </button>
 
         <input type="file"
-                ref="excelFileInput"
-                class="d-none"
-                accept=".xlsx"
-                @change="importExcel($event)"/>
+            ref="excelFileInput"
+            class="d-none"
+            accept=".xlsx"
+            @change="importExcel($event)" />
 
         <a href="/templates/country.xlsx"
-                class="ml-2">
+            class="ml-2">
             File mẫu
         </a>
     </span>

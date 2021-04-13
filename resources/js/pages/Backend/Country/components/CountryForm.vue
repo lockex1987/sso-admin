@@ -2,12 +2,16 @@
     <div class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form @submit.prevent="submitForm()" novalidate>
+                <form @submit.prevent="submitForm()"
+                    novalidate>
                     <div class="modal-header">
                         <h4 class="modal-title">
-                            {{id ? 'Cập nhật' : 'Thêm mới'}} quốc gia
+                            {{id ? 'Cập nhật' : 'Thêm mới'}}
+                            quốc gia
                         </h4>
-                        <button type="button" class="close" data-dismiss="modal">
+                        <button type="button"
+                            class="close"
+                            data-dismiss="modal">
                             &times;
                         </button>
                     </div>
@@ -19,9 +23,9 @@
                             </label>
 
                             <input type="text"
-                                    v-model.trim="code"
-                                    class="form-control"
-                                    data-validation="required|maxLength:100"/>
+                                v-model.trim="code"
+                                class="form-control"
+                                data-validation="required|maxLength:100" />
                         </div>
 
                         <div class="form-group validate-container">
@@ -30,19 +34,23 @@
                             </label>
 
                             <input type="text"
-                                    v-model.trim="name"
-                                    class="form-control"
-                                    data-validation="required|maxLength:100"/>
+                                v-model.trim="name"
+                                class="form-control"
+                                data-validation="required|maxLength:100" />
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit"
+                            class="btn btn-primary">
                             {{id ? 'Cập nhật' : 'Thêm mới'}}
-                            <span class="spinner-border spinner-border-sm" v-show="isSaving"></span>
+                            <span class="spinner-border spinner-border-sm"
+                                v-show="isSaving"></span>
                         </button>
 
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                        <button type="button"
+                            class="btn btn-outline-secondary"
+                            data-dismiss="modal">
                             Đóng
                         </button>
                     </div>

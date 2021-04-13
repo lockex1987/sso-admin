@@ -1,44 +1,45 @@
 <template>
     <div>
-        <div class="form-inline mt-5 mb-2">
+        <div class="form-inline mt-5 flex-wrap">
             <input type="text"
-                    class="form-control"
-                    v-model.trim="searchText"
-                    placeholder="Từ khóa"
-                    @input="debouncedSearch()">
+                class="form-control mb-2"
+                v-model.trim="searchText"
+                placeholder="Từ khóa"
+                @input="debouncedSearch()">
 
-            <button class="btn btn-primary btn-ripple ml-auto"
-                    type="button"
-                    @click="openCreateForm()">
+            <button class="btn btn-primary btn-ripple ml-auto mb-2"
+                type="button"
+                @click="openCreateForm()">
                 Thêm mới
             </button>
 
             <button type="button"
-                    class="btn btn-secondary ml-2"
-                    @click="exportExcel()">
+                class="btn btn-secondary ml-2 mb-2"
+                @click="exportExcel()">
                 Export
             </button>
 
-            <import-button
-                    :validate-row="validateRow"
-                    :insert-row="insertRow"
-                    :template-path="'/templates/country.xlsx'"
-                    @done="search()"/>
+            <import-button :validate-row="validateRow"
+                :insert-row="insertRow"
+                :template-path="'/templates/country.xlsx'"
+                class="mb-2"
+                @done="search()" />
 
             <button type="button"
-                    class="btn btn-danger ml-2"
-                    @click="deleteAll()">
+                class="btn btn-danger ml-2 mb-2"
+                @click="deleteAll()">
                 Xóa danh sách
             </button>
         </div>
 
         <div class="datatable-wrapper">
             <table class="table table-bordered"
-                    ref="searchResult"
-                    v-show="countryList.length > 0">
+                ref="searchResult"
+                v-show="countryList.length > 0">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width: 50px">
+                        <th class="text-center"
+                            style="width: 50px">
                             #
                         </th>
                         <th class="text-center">
@@ -47,7 +48,8 @@
                         <th class="text-center">
                             Tên
                         </th>
-                        <th class="text-center" style="width: 215px;">
+                        <th class="text-center"
+                            style="width: 215px;">
                             Thao tác
                         </th>
                     </tr>
@@ -55,7 +57,7 @@
 
                 <tbody>
                     <tr v-for="country in countryList"
-                            :key="country.id">
+                        :key="country.id">
                         <td class="text-center">
                             {{country.stt}}
                         </td>
@@ -67,21 +69,20 @@
                         </td>
                         <td class="text-center">
                             <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
-                                    title="Cập nhật"
-                                    @click="openUpdateForm(country)"></i>
+                                title="Cập nhật"
+                                @click="openUpdateForm(country)"></i>
 
                             <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
-                                    title="Xóa"
-                                    @click="deleteRecord(country)"></i>
+                                title="Xóa"
+                                @click="deleteRecord(country)"></i>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <country-form
-                ref="countryForm"
-                @stored="search()"/>
+        <country-form ref="countryForm"
+            @stored="search()" />
     </div>
 </template>
 
