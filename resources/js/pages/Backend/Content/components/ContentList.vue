@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-show="screen == 'list'">
-            <the-breadcrumb :paths="['Nội dung']" />
+            <top-header :paths="['Nội dung']" />
 
             <div class="d-flex flex-wrap">
                 <!-- Form tìm kiếm -->

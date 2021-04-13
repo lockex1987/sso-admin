@@ -1,6 +1,6 @@
 <template>
     <div class="combo-box-page">
-        <the-breadcrumb :paths="['Component demo', 'Tags Input']" />
+        <top-header :paths="['Component demo', 'Tags Input']" />
 
         <div class="mb-3">
             <new-tags-input :tags="tags"

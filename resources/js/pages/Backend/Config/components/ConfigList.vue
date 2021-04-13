@@ -1,26 +1,27 @@
 <template>
     <div>
-        <div class="form-inline mt-5">
+        <div class="form-inline">
             <input type="text"
-                    class="form-control mb-2 mr-sm-2"
-                    v-model.trim="searchText"
-                    placeholder="Từ khóa"
-                    @input="debouncedSearch()">
+                class="form-control mb-2 mr-sm-2"
+                v-model.trim="searchText"
+                placeholder="Từ khóa"
+                @input="debouncedSearch()">
 
             <button class="btn btn-primary btn-ripple mb-2 ml-auto"
-                    type="button"
-                    @click="openCreateForm()">
+                type="button"
+                @click="openCreateForm()">
                 Thêm mới
             </button>
         </div>
 
         <div class="datatable-wrapper">
             <table class="table table-bordered"
-                    ref="searchResult"
-                    v-show="configList.length > 0">
+                ref="searchResult"
+                v-show="configList.length > 0">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width: 50px">
+                        <th class="text-center"
+                            style="width: 50px">
                             #
                         </th>
                         <th class="text-center">
@@ -32,7 +33,8 @@
                         <th class="text-center">
                             Giá trị
                         </th>
-                        <th class="text-center" style="width: 215px;">
+                        <th class="text-center"
+                            style="width: 215px;">
                             Thao tác
                         </th>
                     </tr>
@@ -40,7 +42,7 @@
 
                 <tbody>
                     <tr v-for="config in configList"
-                            :key="config.id">
+                        :key="config.id">
                         <td class="text-center">
                             {{config.stt}}
                         </td>
@@ -55,29 +57,27 @@
                         </td>
                         <td class="text-center">
                             <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
-                                    title="Cập nhật"
-                                    @click="openUpdateForm(config)"></i>
+                                title="Cập nhật"
+                                @click="openUpdateForm(config)"></i>
 
                             <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
-                                    title="Xóa"
-                                    @click="deleteRecord(config)"
-                                    v-if="!config.strict"></i>
+                                title="Xóa"
+                                @click="deleteRecord(config)"
+                                v-if="!config.strict"></i>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <config-form
-                ref="systemConfigForm"
-                @stored="search()"/>
+        <config-form ref="systemConfigForm"
+            @stored="search()" />
     </div>
 </template>
 
 
 <script>
 import ConfigForm from './ConfigForm.vue';
-
 
 export default {
     components: {

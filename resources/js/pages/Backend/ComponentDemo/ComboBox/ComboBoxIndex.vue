@@ -1,7 +1,7 @@
 <template>
     <div class="combo-box-page">
 
-        <the-breadcrumb :paths="['Component demo', 'Combo box']" />
+        <top-header :paths="['Component demo', 'Combo box']" />
 
         <div class="mb-3">
             Selected:

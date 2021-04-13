@@ -1,11 +1,11 @@
 <template>
     <div>
         <div class="d-flex justify-content-between align-items-start">
-            <the-breadcrumb :paths="['Quản trị', 'Tổ chức']"/>
+            <top-header :paths="['Quản trị', 'Tổ chức']" />
 
             <button class="btn btn-primary btn-ripple"
-                    type="button"
-                    @click="openCreateForm()">
+                type="button"
+                @click="openCreateForm()">
                 Thêm mới
             </button>
         </div>
@@ -13,25 +13,25 @@
         <div class="row">
             <div class="col-lg-3">
                 <input type="text"
-                        class="form-control mb-3"
-                        v-model.trim="searchText"
-                        placeholder="Từ khóa"
-                        @input="debouncedSearch()">
+                    class="form-control mb-3"
+                    v-model.trim="searchText"
+                    placeholder="Từ khóa"
+                    @input="debouncedSearch()">
 
-                <organization-search-tree
-                        @selected="selectNodeOfLeftTree($event)"
-                        :selected-org="selectedOrg"
-                        :all-list="allListAndAllOption"/>
+                <organization-search-tree @selected="selectNodeOfLeftTree($event)"
+                    :selected-org="selectedOrg"
+                    :all-list="allListAndAllOption" />
             </div>
 
             <div class="col-lg-9">
                 <div class="datatable-wrapper">
                     <table class="table table-bordered"
-                            ref="searchResult"
-                            v-show="orgList.length > 0">
+                        ref="searchResult"
+                        v-show="orgList.length > 0">
                         <thead>
                             <tr>
-                                <th class="text-center" style="width: 50px">
+                                <th class="text-center"
+                                    style="width: 50px">
                                     STT
                                 </th>
                                 <th class="text-center">
@@ -40,14 +40,16 @@
                                 <th class="text-center">
                                     Mô tả
                                 </th>
-                                <th class="text-center" style="width: 215px;">
+                                <th class="text-center"
+                                    style="width: 215px;">
                                     Thao tác
                                 </th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            <tr v-for="org in orgList" :key="org.id">
+                            <tr v-for="org in orgList"
+                                :key="org.id">
                                 <td class="text-center">
                                     {{org.stt}}
                                 </td>
@@ -59,12 +61,12 @@
                                 </td>
                                 <td class="text-center">
                                     <i class="cursor-pointer la la-lg la-pencil text-info"
-                                            title="Cập nhật"
-                                            @click="openUpdateForm(org)"></i>
+                                        title="Cập nhật"
+                                        @click="openUpdateForm(org)"></i>
 
                                     <i class="cursor-pointer la la-lg la-trash text-danger ml-2"
-                                            title="Xóa"
-                                            @click="deleteRecord(org)"></i>
+                                        title="Xóa"
+                                        @click="deleteRecord(org)"></i>
                                 </td>
                             </tr>
                         </tbody>
@@ -73,10 +75,9 @@
             </div>
         </div>
 
-        <organization-form
-                ref="frm"
-                @stored="storeCallback()"
-                :org-list="allList"/>
+        <organization-form ref="frm"
+            @stored="storeCallback()"
+            :org-list="allList" />
     </div>
 </template>
 

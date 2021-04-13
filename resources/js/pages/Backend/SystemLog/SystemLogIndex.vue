@@ -1,6 +1,6 @@
 <template>
     <div>
-        <the-breadcrumb :paths="['Log hệ thống']" />
+        <top-header :paths="['Log hệ thống']" />
 
         <div class="d-flex flex-wrap">
             <date-range-picker-separate :is-start-required="false"

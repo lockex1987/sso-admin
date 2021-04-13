@@ -1,6 +1,6 @@
 <template>
     <div>
-        <the-breadcrumb :paths="['Quản lý quyền']"/>
+        <top-header :paths="['Quản lý quyền']" />
 
         <permission-list />
     </div>

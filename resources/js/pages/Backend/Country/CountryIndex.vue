@@ -1,6 +1,6 @@
 <template>
     <div>
-        <the-breadcrumb :paths="['Quốc gia']"/>
+        <top-header :paths="['Quốc gia']" />
 
         <country-list />
     </div>

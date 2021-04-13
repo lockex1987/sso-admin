@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="submitForm()"
         novalidate>
-        <the-breadcrumb :paths="['Nội dung', (id ? 'Cập nhật' : 'Thêm mới') + ' nội dung']" />
+        <top-header :paths="['Nội dung', (id ? 'Cập nhật' : 'Thêm mới') + ' nội dung']" />
 
         <div class="row">
             <div class="col-lg-6">
@@ -12,7 +12,7 @@
 
                     <input type="text"
                         v-model.trim="title"
-                        class="form-control"
+                        class="form-control form-control-max-width"
                         data-validation="required|maxLength:500" />
                 </div>
 
@@ -23,7 +23,7 @@
 
                     <textarea type="text"
                         v-model.trim="description"
-                        class="form-control"
+                        class="form-control form-control-max-width"
                         data-validation="required|maxLength:1000"></textarea>
                 </div>
 
@@ -33,6 +33,7 @@
                     </label>
 
                     <single-select placeholder=""
+                        class="form-control-max-width"
                         :options="statusList"
                         v-model="status"
                         :show-clear="false" />
@@ -44,6 +45,7 @@
                     </label>
 
                     <single-select placeholder=""
+                        class="form-control-max-width"
                         :options="typeList"
                         v-model="type"
                         :show-clear="false" />

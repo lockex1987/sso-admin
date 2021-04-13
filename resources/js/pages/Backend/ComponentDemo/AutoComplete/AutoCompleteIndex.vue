@@ -1,6 +1,6 @@
 <template>
     <div class="auto-complete-page">
-        <the-breadcrumb :paths="['Component demo', 'Auto complete']" />
+        <top-header :paths="['Component demo', 'Auto complete']" />
 
         <div class="mb-3">
             Selected:

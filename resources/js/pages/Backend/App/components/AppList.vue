@@ -1,26 +1,27 @@
 <template>
     <div>
-        <div class="form-inline mt-5">
+        <div class="form-inline">
             <input type="text"
-                    class="form-control mb-2 mr-sm-2"
-                    v-model.trim="searchText"
-                    placeholder="Từ khóa"
-                    @input="debouncedSearch()">
+                class="form-control mb-2 mr-sm-2"
+                v-model.trim="searchText"
+                placeholder="Từ khóa"
+                @input="debouncedSearch()">
 
             <button class="btn btn-primary btn-ripple mb-2 ml-auto"
-                    type="button"
-                    @click="openCreateForm()">
+                type="button"
+                @click="openCreateForm()">
                 Thêm mới
             </button>
         </div>
 
         <div class="datatable-wrapper">
             <table class="table table-bordered"
-                    ref="searchResult"
-                    v-show="appList.length > 0">
+                ref="searchResult"
+                v-show="appList.length > 0">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width: 50px">
+                        <th class="text-center"
+                            style="width: 50px">
                             #
                         </th>
                         <th class="text-center">
@@ -35,7 +36,8 @@
                         <th class="text-center">
                             Logout redirect
                         </th>
-                        <th class="text-center" style="width: 215px;">
+                        <th class="text-center"
+                            style="width: 215px;">
                             Thao tác
                         </th>
                     </tr>
@@ -43,7 +45,7 @@
 
                 <tbody>
                     <tr v-for="app in appList"
-                            :key="app.id">
+                        :key="app.id">
                         <td class="text-center">
                             {{app.stt}}
                         </td>
@@ -61,21 +63,20 @@
                         </td>
                         <td class="text-center">
                             <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
-                                    title="Cập nhật"
-                                    @click="openUpdateForm(app)"></i>
+                                title="Cập nhật"
+                                @click="openUpdateForm(app)"></i>
 
                             <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
-                                    title="Xóa"
-                                    @click="deleteRecord(app)"></i>
+                                title="Xóa"
+                                @click="deleteRecord(app)"></i>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <app-form
-                ref="appForm"
-                @search-again="search()"/>
+        <app-form ref="appForm"
+            @search-again="search()" />
     </div>
 </template>
 

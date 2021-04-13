@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="form-inline mt-5 flex-wrap">
+        <div class="form-inline flex-wrap">
             <input type="text"
                 class="form-control mb-2"
                 v-model.trim="searchText"

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="top-header d-flex align-items-center px-3">
+        <div class="top-header d-flex align-items-center">
             <!-- Icon giao diện desktop -->
             <div class="hamburger-icon mr-2 cursor-pointer d-none d-md-block"
                 :class="{ 'opened': showLeftAside }"
@@ -10,8 +10,15 @@
                 <div class="line line3"></div>
             </div>
 
-            <div class="font-size-1.25 text-uppercase text-info">
-                TODO: Chuyển breadcrumb lên đây
+            <div class="font-size-1.25">
+                <nav>
+                    <ol class="breadcrumb bg-transparent pt-0 pl-0 pb-0 mb-0 text-danger">
+                        <li class="breadcrumb-item"
+                            v-for="p in paths">
+                            {{p}}
+                        </li>
+                    </ol>
+                </nav>
             </div>
 
             <!-- Icon giao diện mobile -->
@@ -27,6 +34,13 @@
 
 <script>
 export default {
+    props: {
+        paths: {
+            type: Array,
+            default: []
+        }
+    },
+
     computed: {
         ...Vuex.mapState({
             // Có hiển thị sidebar bên trái ở giao diện desktop hay không

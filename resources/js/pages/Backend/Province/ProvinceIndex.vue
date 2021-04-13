@@ -1,6 +1,6 @@
 <template>
     <div>
-        <the-breadcrumb :paths="['Tỉnh / thành phố']"/>
+        <top-header :paths="['Tỉnh / thành phố']" />
 
         <province-list />
     </div>

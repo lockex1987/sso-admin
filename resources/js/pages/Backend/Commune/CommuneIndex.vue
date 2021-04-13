@@ -1,6 +1,6 @@
 <template>
     <div>
-        <the-breadcrumb :paths="['Xã / phường']"/>
+        <top-header :paths="['Xã / phường']" />
 
         <commune-list />
     </div>

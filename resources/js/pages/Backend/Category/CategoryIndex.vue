@@ -1,10 +1,9 @@
 <template>
     <div>
-        <the-breadcrumb :paths="[categoryObj.name]"/>
+        <top-header :paths="[categoryObj.name]" />
 
-        <category-list
-                ref="categoryList"
-                :category-obj="categoryObj"/>
+        <category-list ref="categoryList"
+            :category-obj="categoryObj" />
     </div>
 </template>
 

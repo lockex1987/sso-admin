@@ -1,6 +1,6 @@
 <template>
     <div>
-        <the-breadcrumb :paths="['Slide']"/>
+        <top-header :paths="['Slide']" />
 
         <slide-list />
     </div>

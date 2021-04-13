@@ -1,6 +1,6 @@
 <template>
     <div>
-        <the-breadcrumb :paths="['Cấu hình hệ thống']"/>
+        <top-header :paths="['Cấu hình hệ thống']" />
 
         <config-list />
     </div>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <the-breadcrumb :paths="['Quản lý ứng dụng']"/>
+        <top-header :paths="['Quản lý ứng dụng']" />
 
         <app-list />
     </div>

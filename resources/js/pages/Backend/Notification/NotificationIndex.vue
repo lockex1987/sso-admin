@@ -1,6 +1,6 @@
 <template>
     <div>
-        <the-breadcrumb :paths="['Thông báo']"/>
+        <top-header :paths="['Thông báo']" />
 
         <notification-list />
     </div>

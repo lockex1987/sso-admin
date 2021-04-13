@@ -1,6 +1,6 @@
 <template>
     <div>
-        <the-breadcrumb :paths="['Quản lý vai trò']"/>
+        <top-header :paths="['Quản lý vai trò']" />
 
         <role-list />
     </div>

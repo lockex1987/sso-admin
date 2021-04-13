@@ -1,6 +1,6 @@
 <template>
     <div>
-        <the-breadcrumb :paths="['File log']" />
+        <top-header :paths="['File log']" />
 
         <div v-if="logList">
             <div class="text-danger"

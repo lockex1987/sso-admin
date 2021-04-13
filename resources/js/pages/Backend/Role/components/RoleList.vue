@@ -1,22 +1,27 @@
 <template>
     <div>
-        <div class="form-inline mt-5">
+        <div class="form-inline">
             <input type="text"
-                    class="form-control mb-2 mr-sm-2"
-                    v-model.trim="searchText"
-                    placeholder="Từ khóa"
-                    @input="debouncedSearch()">
+                class="form-control mb-2 mr-sm-2"
+                v-model.trim="searchText"
+                placeholder="Từ khóa"
+                @input="debouncedSearch()">
 
-            <button class="btn btn-primary btn-ripple mb-2 ml-auto" type="button" @click="openCreateForm()">
+            <button class="btn btn-primary btn-ripple mb-2 ml-auto"
+                type="button"
+                @click="openCreateForm()">
                 Thêm mới
             </button>
         </div>
 
         <div class="datatable-wrapper">
-            <table class="table table-bordered" ref="searchResult" v-show="roleList.length > 0">
+            <table class="table table-bordered"
+                ref="searchResult"
+                v-show="roleList.length > 0">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width: 50px">
+                        <th class="text-center"
+                            style="width: 50px">
                             #
                         </th>
                         <th class="text-center">
@@ -25,14 +30,16 @@
                         <th class="text-center">
                             Tên
                         </th>
-                        <th class="text-center" style="width: 215px;">
+                        <th class="text-center"
+                            style="width: 215px;">
                             Thao tác
                         </th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr v-for="role in roleList" :key="role.id">
+                    <tr v-for="role in roleList"
+                        :key="role.id">
                         <td class="text-center">
                             {{role.stt}}
                         </td>
@@ -44,28 +51,26 @@
                         </td>
                         <td class="text-center">
                             <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
-                                    title="Cập nhật"
-                                    @click="openUpdateForm(role)"></i>
+                                title="Cập nhật"
+                                @click="openUpdateForm(role)"></i>
 
                             <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
-                                    title="Xóa"
-                                    @click="deleteRecord(role)"></i>
+                                title="Xóa"
+                                @click="deleteRecord(role)"></i>
 
                             <i class="cursor-pointer la la-lg la-shield-alt text-warning mr-2"
-                                    title="Quyền của vai trò"
-                                    @click="openPermissionForm(role)"></i>
+                                title="Quyền của vai trò"
+                                @click="openPermissionForm(role)"></i>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <role-form
-                ref="roleForm"
-                @search-again="search()"/>
+        <role-form ref="roleForm"
+            @search-again="search()" />
 
-        <role-permission-form
-                ref="rolePermissionForm"/>
+        <role-permission-form ref="rolePermissionForm" />
     </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <the-breadcrumb :paths="['Dashboard']"/>
+        <top-header :paths="['Dashboard']" />
 
         <div class="contaner-fluid">
             <div class="row">

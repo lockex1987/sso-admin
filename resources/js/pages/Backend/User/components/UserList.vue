@@ -1,32 +1,33 @@
 <template>
     <div>
-        <div class="form-inline mt-5 mb-3">
+        <div class="form-inline mb-3">
             <input type="text"
-                    class="form-control"
-                    v-model.trim="searchText"
-                    placeholder="Từ khóa"
-                    @input="debouncedSearch()">
+                class="form-control"
+                v-model.trim="searchText"
+                placeholder="Từ khóa"
+                @input="debouncedSearch()">
 
             <button class="btn btn-primary btn-ripple ml-auto"
-                    type="button"
-                    @click="openCreateForm()">
+                type="button"
+                @click="openCreateForm()">
                 Thêm mới
             </button>
 
             <button type="button"
-                    class="btn btn-secondary ml-2"
-                    @click="exportExcel()">
+                class="btn btn-secondary ml-2"
+                @click="exportExcel()">
                 Export
             </button>
         </div>
 
         <div class="datatable-wrapper">
             <table class="table table-bordered"
-                    ref="searchResult"
-                    v-show="userList.length > 0">
+                ref="searchResult"
+                v-show="userList.length > 0">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width: 50px">
+                        <th class="text-center"
+                            style="width: 50px">
                             #
                         </th>
                         <th class="text-center">
@@ -41,28 +42,31 @@
                         <th class="text-center">
                             Email
                         </th>
-                        <th class="text-center" style="width: 110px;">
+                        <th class="text-center"
+                            style="width: 110px;">
                             Trạng thái
                         </th>
-                        <th class="text-center" style="width: 215px;">
+                        <th class="text-center"
+                            style="width: 215px;">
                             Thao tác
                         </th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr v-for="user in userList" :key="user.id">
+                    <tr v-for="user in userList"
+                        :key="user.id">
                         <td class="text-center">
                             {{user.stt}}
                         </td>
                         <td class="text-center">
                             <img :src="'http://sso-passport.cttd.tk' + '/storage/avatars/' + user.avatar"
-                                    class="avatar object-fit-cover rounded"
-                                    v-if="user.avatar"
-                                    onerror="this.src = '/images/user-avatar.png'"/>
+                                class="avatar object-fit-cover rounded"
+                                v-if="user.avatar"
+                                onerror="this.src = '/images/user-avatar.png'" />
                             <img src="/images/user-avatar.png"
-                                    class="avatar object-fit-cover rounded"
-                                    v-else/>
+                                class="avatar object-fit-cover rounded"
+                                v-else />
                         </td>
                         <td>
                             {{user.username}}
@@ -74,62 +78,61 @@
                             {{user.email}}
                         </td>
                         <td>
-                            <span v-if="user.is_active == 1" class="text-success">
+                            <span v-if="user.is_active == 1"
+                                class="text-success">
                                 Active
                             </span>
-                            <span v-else class="text-danger">
+                            <span v-else
+                                class="text-danger">
                                 Lock
                             </span>
                         </td>
                         <td class="text-center text-nowrap">
                             <i class="cursor-pointer la la-lg la-eye text-success"
-                                    title="Chuyển chế độ view"
-                                    @click="viewAs(user)"
-                                    v-if="user.id != currentUser.id && permissions.includes('user.view-as')"></i>
+                                title="Chuyển chế độ view"
+                                @click="viewAs(user)"
+                                v-if="user.id != currentUser.id && permissions.includes('user.view-as')"></i>
 
                             <i class="cursor-pointer la la-lg la-pencil text-info ml-2"
-                                    title="Cập nhật"
-                                    @click="openUpdateForm(user)"></i>
+                                title="Cập nhật"
+                                @click="openUpdateForm(user)"></i>
 
                             <i class="cursor-pointer la la-lg la-trash text-danger ml-2"
-                                    title="Xóa"
-                                    @click="deleteRecord(user)"
-                                    v-if="user.id != currentUser.id"></i>
+                                title="Xóa"
+                                @click="deleteRecord(user)"
+                                v-if="user.id != currentUser.id"></i>
 
                             <span v-if="user.id != currentUser.id">
                                 <i class="cursor-pointer la la-lg la-lock text-warning ml-2"
-                                        title="Khóa lại"
-                                        @click="lockUser(user)"
-                                        v-if="user.is_active == 1"></i>
+                                    title="Khóa lại"
+                                    @click="lockUser(user)"
+                                    v-if="user.is_active == 1"></i>
 
                                 <i class="cursor-pointer la la-lg la-unlock text-warning ml-2"
-                                        title="Mở khóa"
-                                        @click="unlockUser(user)"
-                                        v-else></i>
+                                    title="Mở khóa"
+                                    @click="unlockUser(user)"
+                                    v-else></i>
                             </span>
 
                             <i class="cursor-pointer la la-lg la-users text-primary ml-2"
-                                    title="Gán vai trò"
-                                    @click="openUpdateUserRoleForm(user)"></i>
+                                title="Gán vai trò"
+                                @click="openUpdateUserRoleForm(user)"></i>
 
                             <i class="cursor-pointer lab la-lg la-app-store text-secondary ml-2"
-                                    title="Gán ứng dụng"
-                                    @click="openUpdateUserAppForm(user)"></i>
+                                title="Gán ứng dụng"
+                                @click="openUpdateUserAppForm(user)"></i>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <user-form
-                ref="userForm"
-                @search-again="search()"/>
+        <user-form ref="userForm"
+            @search-again="search()" />
 
-        <user-role-form
-                ref="userRoleForm"/>
+        <user-role-form ref="userRoleForm" />
 
-        <user-app-form
-                ref="userAppForm"/>
+        <user-app-form ref="userAppForm" />
     </div>
 </template>
 

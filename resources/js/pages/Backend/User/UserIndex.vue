@@ -1,6 +1,6 @@
 <template>
     <div>
-        <the-breadcrumb :paths="['Quản trị người dùng']"/>
+        <top-header :paths="['Quản trị người dùng']" />
 
         <user-list />
     </div>
