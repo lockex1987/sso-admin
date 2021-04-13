@@ -132,7 +132,7 @@ export default {
                 ajax: (page, pageSize, sortColumn, sortDirection) => {
                     const params = {
                         ...this.getParams(),
-                        page: page - 1,
+                        page: page,
                         size: pageSize
                     };
                     return axios.get('/country/search', { params });

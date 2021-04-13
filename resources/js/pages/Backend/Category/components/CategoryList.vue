@@ -118,7 +118,7 @@ export default {
                     const params = {
                         table: this.categoryObj.table,
                         search: this.searchText,
-                        page: page - 1,
+                        page: page,
                         size: pageSize
                     };
                     return axios.get('/category/search', { params });

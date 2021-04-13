@@ -45,8 +45,8 @@
                     <tr v-for="noti in notificationList"
                         :key="noti.id"
                         :class="{
-                                'bg-light': noti.read_at == null
-                            }">
+                            'bg-light': !noti.read_at
+                        }">
                         <td class="text-center">
                             {{noti.stt}}
                         </td>
@@ -54,11 +54,15 @@
                             {{formatDateTime(noti.created_at)}}
                             <!-- TODO: Mấy phút trước -->
                         </td>
-                        <td class="text-center">
-                            <!-- TODO: Hover thì hiển thị -->
-                            <i class="cursor-pointer la la-lg la-bookmark text-primary"
+                        <td class="text-center text-primary">
+                            <i class="cursor-pointer la la-lg la-bookmark"
                                 title="Đánh dấu đã đọc"
-                                @click="markRead(noti)"></i>
+                                @click="markRead(noti)"
+                                v-if="!noti.read_at"></i>
+
+                            <i class="fa fa-bookmark"
+                                title="Đã đọc"
+                                v-else></i>
                         </td>
                         <td>
                             <div v-html="noti.message"></div>
@@ -100,7 +104,7 @@ export default {
                 ajax: (page, pageSize, sortColumn, sortDirection) => {
                     const params = {
                         search: this.searchText,
-                        page: page - 1,
+                        page: page,
                         size: pageSize
                     };
                     return axios.get('/notification/search', { params });
