@@ -12,10 +12,16 @@
                 <div v-for="log in logList"
                     :key="log"
                     class="mb-3">
-                    <a href="#"
-                        @click.prevent="download(log)">
-                        {{log}}
-                    </a>
+                    <div>
+                        <a href="#"
+                            @click.prevent="download(log)">
+                            {{log.name}}
+                        </a>
+                    </div>
+
+                    <div class="text-muted font-size-0.875">
+                        {{prettifyNumber(log.size)}}B
+                    </div>
                 </div>
             </div>
         </div>

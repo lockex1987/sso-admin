@@ -2,24 +2,24 @@
     <div class="d-flex align-items-start justify-content-between date-range-picker-separate">
         <div class="validate-container d-inline-block">
             <div class="input-group cursor-pointer"
-                    ref="startDateContainer">
+                ref="startDateContainer">
                 <input type="text"
-                        class="form-control bg-transparent border-right-0"
-                        :data-validation="(isStartRequired ? 'required|' : '') + 'date'"
-                        ref="startDateInput"
-                        :placeholder="startPlaceholder + (isStartRequired ? ' (*)' : '')"
-                        readonly/>
+                    class="form-control bg-transparent border-right-0"
+                    :data-validation="(isStartRequired ? 'required|' : '') + 'date'"
+                    ref="startDateInput"
+                    :placeholder="startPlaceholder + (isStartRequired ? ' (*)' : '')"
+                    readonly />
 
                 <div class="input-group-append">
-                    <span class="input-group-text bg-transparent border-left-0 px-0 pt-0 font-weight-700 font-size-1.25"
-                            @click="clearStartDate($event)">
+                    <span class="input-group-text bg-transparent border-left-0 px-0 pt-0 pb-0 font-weight-700 font-size-1.25"
+                        @click="clearStartDate($event)">
                         <span class="text-danger"
-                                v-if="!isStartRequired && value.startDate">
+                            v-if="!isStartRequired && value.startDate">
                             &times;
                         </span>
 
-                        <i class="la la-calendar mt-2"
-                                v-else></i>
+                        <i class="la la-calendar"
+                            v-else></i>
                     </span>
                 </div>
             </div>
@@ -29,25 +29,25 @@
 
         <div class="validate-container d-inline-block">
             <div class="input-group cursor-pointer"
-                    ref="endDateContainer">
+                ref="endDateContainer">
                 <input type="text"
-                        class="form-control bg-transparent"
-                        :class="[isEndRequired ? '' : 'border-right-0']"
-                        :data-validation="(isEndRequired ? 'required|' : '') + 'date'"
-                        ref="endDateInput"
-                        :placeholder="endPlaceholder + (isEndRequired ? ' (*)' : '')"
-                        readonly/>
+                    class="form-control bg-transparent"
+                    :class="[isEndRequired ? '' : 'border-right-0']"
+                    :data-validation="(isEndRequired ? 'required|' : '') + 'date'"
+                    ref="endDateInput"
+                    :placeholder="endPlaceholder + (isEndRequired ? ' (*)' : '')"
+                    readonly />
 
                 <div class="input-group-append">
-                    <span class="input-group-text bg-transparent border-left-0 px-0 pt-0 text-right font-weight-700 font-size-1.25"
-                            @click="clearEndDate($event)">
+                    <span class="input-group-text bg-transparent border-left-0 px-0 pt-0 pb-0 text-right font-weight-700 font-size-1.25"
+                        @click="clearEndDate($event)">
                         <span class="text-danger"
-                                v-if="!isEndRequired && value.endDate">
+                            v-if="!isEndRequired && value.endDate">
                             &times;
                         </span>
 
-                        <i class="la la-calendar mt-2"
-                                v-else></i>
+                        <i class="la la-calendar"
+                            v-else></i>
                     </span>
                 </div>
             </div>
