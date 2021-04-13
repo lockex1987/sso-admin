@@ -1,29 +1,27 @@
 <template>
-    <div class="container-fluid combo-box-page">
-        <div class="bg-white rounded p-3 backend-layout-min-height">
-            <the-breadcrumb :paths="['Component demo', 'Tags Input']"/>
+    <div class="combo-box-page">
+        <the-breadcrumb :paths="['Component demo', 'Tags Input']" />
 
-            <div class="mb-3">
-                <new-tags-input
-                        :tags="tags"
-                        placeholder="Chọn người"
-                        :min-length="1"
-                        :max-length="10"
-                        :max-tags="5"
-                        :custom-add-validate-function="checkBeforeAdd"
-                        :auto-complete-items="autoCompleteItems"
-                        :add-only-from-auto-complete="true"
-                        @add="tagAddedCallback($event)"/>
-            </div>
-
-            <div class="mb-3">
-                <button @click="clearData()" class="btn btn-danger">
-                    Clear
-                </button>
-            </div>
-
-            <pre class="mb-3">{{tags}}</pre>
+        <div class="mb-3">
+            <new-tags-input :tags="tags"
+                placeholder="Chọn người"
+                :min-length="1"
+                :max-length="10"
+                :max-tags="5"
+                :custom-add-validate-function="checkBeforeAdd"
+                :auto-complete-items="autoCompleteItems"
+                :add-only-from-auto-complete="true"
+                @add="tagAddedCallback($event)" />
         </div>
+
+        <div class="mb-3">
+            <button @click="clearData()"
+                class="btn btn-danger">
+                Clear
+            </button>
+        </div>
+
+        <pre class="mb-3">{{tags}}</pre>
     </div>
 </template>
 

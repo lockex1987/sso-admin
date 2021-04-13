@@ -1,28 +1,28 @@
 <template>
     <div>
-        <div class="d-flex mt-5 mb-2">
-            <single-select
-                    placeholder="Trạng thái"
-                    :options="statusList"
-                    v-model="status"
-                    :show-clear="true"
-                    @change="search()"
-                    style="width: 250px;"/>
+        <div class="d-flex mb-2">
+            <single-select placeholder="Trạng thái"
+                :options="statusList"
+                v-model="status"
+                :show-clear="true"
+                @change="search()"
+                style="width: 250px;" />
 
             <button class="btn btn-primary btn-ripple ml-auto"
-                    type="button"
-                    @click="openCreateForm()">
+                type="button"
+                @click="openCreateForm()">
                 Thêm mới
             </button>
         </div>
 
         <div class="datatable-wrapper">
             <table class="table table-bordered"
-                    ref="searchResult"
-                    v-show="slideList.length > 0">
+                ref="searchResult"
+                v-show="slideList.length > 0">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width: 50px">
+                        <th class="text-center"
+                            style="width: 50px">
                             #
                         </th>
                         <th class="text-center">
@@ -34,7 +34,8 @@
                         <th class="text-center">
                             Trạng thái
                         </th>
-                        <th class="text-center" style="width: 215px;">
+                        <th class="text-center"
+                            style="width: 215px;">
                             Thao tác
                         </th>
                     </tr>
@@ -42,13 +43,13 @@
 
                 <tbody>
                     <tr v-for="slide in slideList"
-                            :key="slide.id">
+                        :key="slide.id">
                         <td class="text-center">
                             {{slide.stt}}
                         </td>
                         <td>
                             <img src="/images/placeholder-image.png"
-                                    class="preview object-fit-cover"/>
+                                class="preview object-fit-cover" />
                         </td>
                         <td>
                             {{slide.url}}
@@ -58,27 +59,26 @@
                         </td>
                         <td class="text-center">
                             <i class="cursor-pointer la la-lg la-lock text-warning"
-                                    title="Khóa lại"
-                                    @click="changeStatus(slide)"
-                                    v-if="slide.is_active == 1"></i>
+                                title="Khóa lại"
+                                @click="changeStatus(slide)"
+                                v-if="slide.is_active == 1"></i>
 
                             <i class="cursor-pointer la la-lg la-unlock text-warning"
-                                    title="Mở khóa"
-                                    @click="changeStatus(slide)"
-                                    v-else></i>
+                                title="Mở khóa"
+                                @click="changeStatus(slide)"
+                                v-else></i>
 
                             <i class="cursor-pointer la la-lg la-trash text-danger ml-2"
-                                    title="Xóa"
-                                    @click="deleteRecord(slide)"></i>
+                                title="Xóa"
+                                @click="deleteRecord(slide)"></i>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <slide-form
-                ref="slideForm"
-                @stored="search()"/>
+        <slide-form ref="slideForm"
+            @stored="search()" />
     </div>
 </template>
 

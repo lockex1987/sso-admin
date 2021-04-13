@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class="form-inline mt-5">
+        <div class="form-inline">
             <input type="text"
-                    class="form-control mb-2 mr-sm-2"
-                    v-model.trim="searchText"
-                    placeholder="Từ khóa"
-                    @input="debouncedSearch()">
+                class="form-control mb-2 mr-sm-2"
+                v-model.trim="searchText"
+                placeholder="Từ khóa"
+                @input="debouncedSearch()">
 
             <!-- TODO: Lọc theo trạng thái -->
         </div>
@@ -19,17 +19,20 @@
 
         <div class="datatable-wrapper">
             <table class="table table-bordered"
-                    ref="searchResult"
-                    v-show="notificationList.length > 0">
+                ref="searchResult"
+                v-show="notificationList.length > 0">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width: 50px">
+                        <th class="text-center"
+                            style="width: 50px">
                             #
                         </th>
-                        <th class="text-center" style="width: 215px;">
+                        <th class="text-center"
+                            style="width: 215px;">
                             Thời điểm tạo
                         </th>
-                        <th class="text-center" style="width: 215px;">
+                        <th class="text-center"
+                            style="width: 215px;">
                             Đánh dấu đã đọc
                         </th>
                         <th class="text-center">
@@ -40,8 +43,8 @@
 
                 <tbody>
                     <tr v-for="noti in notificationList"
-                            :key="noti.id"
-                            :class="{
+                        :key="noti.id"
+                        :class="{
                                 'bg-light': noti.read_at == null
                             }">
                         <td class="text-center">
@@ -54,8 +57,8 @@
                         <td class="text-center">
                             <!-- TODO: Hover thì hiển thị -->
                             <i class="cursor-pointer la la-lg la-bookmark text-primary"
-                                    title="Đánh dấu đã đọc"
-                                    @click="markRead(noti)"></i>
+                                title="Đánh dấu đã đọc"
+                                @click="markRead(noti)"></i>
                         </td>
                         <td>
                             <div v-html="noti.message"></div>

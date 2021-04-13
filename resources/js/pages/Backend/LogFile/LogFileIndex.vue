@@ -1,17 +1,19 @@
 <template>
     <div>
-        <the-breadcrumb :paths="['File log']"/>
+        <the-breadcrumb :paths="['File log']" />
 
         <div v-if="logList">
-            <div class="text-danger" v-if="logList.length == 0">
+            <div class="text-danger"
+                v-if="logList.length == 0">
                 Không có file nào
             </div>
 
             <div v-else>
                 <div v-for="log in logList"
-                        :key="log"
-                        class="mb-3">
-                    <a href="#" @click.prevent="download(log)">
+                    :key="log"
+                    class="mb-3">
+                    <a href="#"
+                        @click.prevent="download(log)">
                         {{log}}
                     </a>
                 </div>

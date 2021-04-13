@@ -1,47 +1,44 @@
 <template>
-    <div class="container-fluid combo-box-page">
-        <div class="bg-white rounded p-3 backend-layout-min-height">
-            <the-breadcrumb :paths="['Component demo', 'Combo box']"/>
+    <div class="combo-box-page">
 
-            <div class="mb-3">
-                Selected:
-                <span class="text-info">
-                    {{selectedMember.name}}
-                </span>
-            </div>
+        <the-breadcrumb :paths="['Component demo', 'Combo box']" />
 
-            <div class="mb-3">
-                <combo-box
-                        placeholder="My family"
-                        :readonly="true"
-                        :options="members"
-                        :selected-item="selectedMember"
-                        @change="selectedMember = $event">
-                    <template v-slot:item-template="slotProps">
-                        <img :src="slotProps.item.avatar || '/images/no-image.svg'"
-                                class="mr-2 rounded avatar"/>
-                        {{slotProps.item.name}}
-                    </template>
-                </combo-box>
-            </div>
+        <div class="mb-3">
+            Selected:
+            <span class="text-info">
+                {{selectedMember.name}}
+            </span>
+        </div>
 
-            <div class="mb-3">
-                Selected:
-                <span class="text-info">
-                    {{selectedCountry.name}}
-                </span>
-            </div>
+        <div class="mb-3">
+            <combo-box placeholder="My family"
+                :readonly="true"
+                :options="members"
+                :selected-item="selectedMember"
+                @change="selectedMember = $event">
+                <template v-slot:item-template="slotProps">
+                    <img :src="slotProps.item.avatar || '/images/no-image.svg'"
+                        class="mr-2 rounded avatar" />
+                    {{slotProps.item.name}}
+                </template>
+            </combo-box>
+        </div>
 
-            <div class="mt-3">
-                <combo-box
-                        placeholder="Chọn đất nước"
-                        :readonly="false"
-                        :options="countries"
-                        :selected-item="selectedCountry"
-                        :show-clear="true"
-                        @change="selectedCountry = $event">
-                </combo-box>
-            </div>
+        <div class="mb-3">
+            Selected:
+            <span class="text-info">
+                {{selectedCountry.name}}
+            </span>
+        </div>
+
+        <div class="mt-3">
+            <combo-box placeholder="Chọn đất nước"
+                :readonly="false"
+                :options="countries"
+                :selected-item="selectedCountry"
+                :show-clear="true"
+                @change="selectedCountry = $event">
+            </combo-box>
         </div>
     </div>
 </template>

@@ -1,37 +1,34 @@
 <template>
-    <div class="container-fluid">
-        <div class="bg-white rounded p-3 backend-layout-min-height auto-complete-page">
-            <the-breadcrumb :paths="['Component demo', 'Auto complete']"/>
+    <div class="auto-complete-page">
+        <the-breadcrumb :paths="['Component demo', 'Auto complete']" />
 
-            <div class="mb-3">
-                Selected:
-                <span class="text-info">
-                    {{selectedMovie.name}}
-                </span>
-            </div>
+        <div class="mb-3">
+            Selected:
+            <span class="text-info">
+                {{selectedMovie.name}}
+            </span>
+        </div>
 
-            <div class="position-relative">
-                <input v-model.trim="searchText"
-                        ref="inputTag"
-                        placeholder="Nhập tên phim để tìm kiếm"
-                        class="form-control"
-                        type="text"
-                        autocomplete="off"
-                        @input="filterAutocompleteWhenInput()"
-                        @keydown="handleAutocompleteControls($event)">
+        <div class="position-relative">
+            <input v-model.trim="searchText"
+                ref="inputTag"
+                placeholder="Nhập tên phim để tìm kiếm"
+                class="form-control"
+                type="text"
+                autocomplete="off"
+                @input="filterAutocompleteWhenInput()"
+                @keydown="handleAutocompleteControls($event)">
 
-                <auto-complete
-                        :options="movieList"
-                        :selected-item="selectedMovie"
-                        ref="autoComplete"
-                        @change="selectedMovie = $event">
-                    <template v-slot:item-template="slotProps">
-                        <img :src="slotProps.item.avatar || '/images/no-image.svg'"
-                                class="mr-2 rounded avatar"/>
-                        {{slotProps.item.name}}
-                    </template>
-                </auto-complete>
-            </div>
+            <auto-complete :options="movieList"
+                :selected-item="selectedMovie"
+                ref="autoComplete"
+                @change="selectedMovie = $event">
+                <template v-slot:item-template="slotProps">
+                    <img :src="slotProps.item.avatar || '/images/no-image.svg'"
+                        class="mr-2 rounded avatar" />
+                    {{slotProps.item.name}}
+                </template>
+            </auto-complete>
         </div>
     </div>
 </template>
@@ -119,7 +116,7 @@ export default {
 
     .autocomplete__item {
         font-size: 14px;
-        color: #FFF;
+        color: #fff;
     }
 
     .autocomplete__item .avatar {

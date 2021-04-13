@@ -28,12 +28,6 @@ export default {
 
 <style scoped lang="scss">
 .adjust-height {
-    height: calc(100vh - 70px);
-}
-</style>
-
-<style lang="scss">
-.backend-layout-min-height {
-    min-height: calc(100vh - 70px - 16px);
+    height: max(calc(100vh - 70px), 500px);
 }
 </style>

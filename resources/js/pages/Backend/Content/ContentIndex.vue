@@ -1,7 +1,5 @@
 <template>
-    <div class="backend-layout-min-height">
-        <content-list />
-    </div>
+    <content-list />
 </template>
 
 

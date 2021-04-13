@@ -1,6 +1,7 @@
 <template>
     <div>
         <div class="top-header d-flex align-items-center px-3">
+            <!-- Icon giao diện desktop -->
             <div class="hamburger-icon mr-2 cursor-pointer d-none d-md-block"
                 :class="{ 'opened': showLeftAside }"
                 @click="toggleLeftAside()">
@@ -9,14 +10,11 @@
                 <div class="line line3"></div>
             </div>
 
-            <div class="font-size-1.25 text-uppercase">
-                <router-link :to="{ name: 'dashboard' }"
-                    title="Về trang chủ"
-                    class="text-info text-decoration-none">
-                    Hệ thống SSO
-                </router-link>
+            <div class="font-size-1.25 text-uppercase text-info">
+                TODO: Chuyển breadcrumb lên đây
             </div>
 
+            <!-- Icon giao diện mobile -->
             <div class="hamburger-icon ml-auto cursor-pointer d-block d-md-none sidebar-opener">
                 <div class="line line1"></div>
                 <div class="line line2"></div>
@@ -31,6 +29,7 @@
 export default {
     computed: {
         ...Vuex.mapState({
+            // Có hiển thị sidebar bên trái ở giao diện desktop hay không
             showLeftAside: state => state.layout.showLeftAside
         })
     },

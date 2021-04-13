@@ -1,38 +1,36 @@
 <template>
     <div>
         <div v-show="screen == 'list'">
-            <the-breadcrumb :paths="['Nội dung']"/>
+            <the-breadcrumb :paths="['Nội dung']" />
 
-            <div class="d-flex mt-5 mb-2">
+            <div class="d-flex flex-wrap">
                 <!-- Form tìm kiếm -->
                 <input type="text"
-                        class="form-control"
-                        v-model.trim="searchText"
-                        placeholder="Tiêu đề, mô tả"
-                        @input="debouncedSearch()"
-                        style="width: 200px;">
+                    class="form-control mb-2"
+                    v-model.trim="searchText"
+                    placeholder="Tiêu đề, mô tả"
+                    @input="debouncedSearch()"
+                    style="width: 200px;">
 
-                <single-select
-                        class="ml-2"
-                        placeholder="Trạng thái"
-                        :options="statusList"
-                        v-model="status"
-                        :show-clear="true"
-                        @change="search()"
-                        style="width: 200px;"/>
+                <single-select class="ml-2 mb-2"
+                    placeholder="Trạng thái"
+                    :options="statusList"
+                    v-model="status"
+                    :show-clear="true"
+                    @change="search()"
+                    style="width: 200px;" />
 
-                <single-select
-                        class="ml-2"
-                        placeholder="Loại"
-                        :options="typeList"
-                        v-model="type"
-                        :show-clear="true"
-                        @change="search()"
-                        style="width: 200px;"/>
+                <single-select class="ml-2 mb-2"
+                    placeholder="Loại"
+                    :options="typeList"
+                    v-model="type"
+                    :show-clear="true"
+                    @change="search()"
+                    style="width: 200px;" />
 
-                <button class="btn btn-primary btn-ripple ml-auto"
-                        type="button"
-                        @click="openCreateForm()">
+                <button class="btn btn-primary btn-ripple ml-auto mb-2"
+                    type="button"
+                    @click="openCreateForm()">
                     Thêm mới
                 </button>
             </div>
@@ -40,11 +38,12 @@
             <!-- Kết quả tìm kiếm -->
             <div class="datatable-wrapper">
                 <table class="table table-bordered"
-                        ref="searchResult"
-                        v-show="contentList.length > 0">
+                    ref="searchResult"
+                    v-show="contentList.length > 0">
                     <thead>
                         <tr>
-                            <th class="text-center" style="width: 50px">
+                            <th class="text-center"
+                                style="width: 50px">
                                 STT
                             </th>
                             <th class="text-center">
@@ -53,23 +52,28 @@
                             <th class="text-center">
                                 Mô tả
                             </th>
-                            <th class="text-center" style="width: 90px;">
+                            <th class="text-center"
+                                style="width: 90px;">
                                 Loại
                             </th>
-                            <th class="text-center" style="width: 120px;">
+                            <th class="text-center"
+                                style="width: 120px;">
                                 Trạng thái
                             </th>
-                            <th class="text-center" style="width: 145px;">
+                            <th class="text-center"
+                                style="width: 145px;">
                                 Ngày xuất bản
                             </th>
-                            <th class="text-center" style="width: 120px;">
+                            <th class="text-center"
+                                style="width: 120px;">
                                 Thao tác
                             </th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <tr v-for="content in contentList" :key="content.id">
+                        <tr v-for="content in contentList"
+                            :key="content.id">
                             <td class="text-center">
                                 {{content.stt}}
                             </td>
@@ -90,21 +94,21 @@
                             </td>
                             <td class="text-center">
                                 <i class="cursor-pointer la la-lg la-pencil text-info"
-                                        title="Cập nhật"
-                                        @click="openUpdateForm(content)"></i>
+                                    title="Cập nhật"
+                                    @click="openUpdateForm(content)"></i>
 
                                 <i class="cursor-pointer la la-lg la-trash text-danger ml-2"
-                                        title="Xóa"
-                                        @click="deleteRecord(content)"></i>
+                                    title="Xóa"
+                                    @click="deleteRecord(content)"></i>
 
                                 <i class="cursor-pointer la la-lg la-arrow-right text-success ml-2"
-                                        title="Xuất bản"
-                                        @click="changeStatus(content, 2)"
-                                        v-if="content.status == 1"></i>
+                                    title="Xuất bản"
+                                    @click="changeStatus(content, 2)"
+                                    v-if="content.status == 1"></i>
                                 <i class="cursor-pointer la la-lg la-arrow-left text-warning ml-2"
-                                        title="Chuyển về nháp"
-                                        @click="changeStatus(content, 1)"
-                                        v-else></i>
+                                    title="Chuyển về nháp"
+                                    @click="changeStatus(content, 1)"
+                                    v-else></i>
                             </td>
                         </tr>
                     </tbody>
@@ -114,12 +118,11 @@
 
         <!-- Form thêm mới, cập nhật -->
         <div v-show="screen == 'form'">
-            <content-form
-                    ref="contentForm"
-                    @stored="search()"
-                    @close="screen = 'list'"
-                    :status-list="statusList"
-                    :type-list="typeList"/>
+            <content-form ref="contentForm"
+                @stored="search()"
+                @close="screen = 'list'"
+                :status-list="statusList"
+                :type-list="typeList" />
         </div>
     </div>
 </template>

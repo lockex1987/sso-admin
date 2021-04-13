@@ -1,6 +1,7 @@
 <template>
-    <form @submit.prevent="submitForm()" novalidate>
-        <the-breadcrumb :paths="['Nội dung', (id ? 'Cập nhật' : 'Thêm mới') + ' nội dung']"/>
+    <form @submit.prevent="submitForm()"
+        novalidate>
+        <the-breadcrumb :paths="['Nội dung', (id ? 'Cập nhật' : 'Thêm mới') + ' nội dung']" />
 
         <div class="row">
             <div class="col-lg-6">
@@ -10,9 +11,9 @@
                     </label>
 
                     <input type="text"
-                            v-model.trim="title"
-                            class="form-control"
-                            data-validation="required|maxLength:500"/>
+                        v-model.trim="title"
+                        class="form-control"
+                        data-validation="required|maxLength:500" />
                 </div>
 
                 <div class="form-group validate-container">
@@ -21,9 +22,9 @@
                     </label>
 
                     <textarea type="text"
-                            v-model.trim="description"
-                            class="form-control"
-                            data-validation="required|maxLength:1000"></textarea>
+                        v-model.trim="description"
+                        class="form-control"
+                        data-validation="required|maxLength:1000"></textarea>
                 </div>
 
                 <div class="form-group validate-container">
@@ -31,11 +32,10 @@
                         Trạng thái
                     </label>
 
-                    <single-select
-                            placeholder=""
-                            :options="statusList"
-                            v-model="status"
-                            :show-clear="false"/>
+                    <single-select placeholder=""
+                        :options="statusList"
+                        v-model="status"
+                        :show-clear="false" />
                 </div>
 
                 <div class="form-group validate-container">
@@ -43,11 +43,10 @@
                         Loại
                     </label>
 
-                    <single-select
-                            placeholder=""
-                            :options="typeList"
-                            v-model="type"
-                            :show-clear="false"/>
+                    <single-select placeholder=""
+                        :options="typeList"
+                        v-model="type"
+                        :show-clear="false" />
                 </div>
             </div>
 
@@ -57,19 +56,16 @@
                         Thumbnail
                     </label>
 
-                    <upload-image
-                            v-model="thumbnailFile"
-                            :image-url="thumbnailUrl"/>
+                    <upload-image v-model="thumbnailFile"
+                        :image-url="thumbnailUrl" />
                 </div>
 
                 <div class="mb-3">
-                    <upload-file
-                            :files="attachments"
-                            :max-file="5"/>
+                    <upload-file :files="attachments"
+                        :max-file="5" />
 
-                    <attachment-file
-                            :files="oldAttachments"
-                            :deleted-files="deletedAttachments"/>
+                    <attachment-file :files="oldAttachments"
+                        :deleted-files="deletedAttachments" />
                 </div>
             </div>
         </div>
@@ -79,9 +75,8 @@
                 Nội dung
             </label>
 
-            <editor
-                    v-model="content"
-                    :old-value="oldContent"/>
+            <editor v-model="content"
+                :old-value="oldContent" />
         </div>
 
         <div v-if="images.length > 0">
@@ -92,18 +87,18 @@
 
                 <div class="d-flex images">
                     <div v-for="(img, idx) in images"
-                            :key="img"
-                            class="position-relative pr-3"
-                            :class="{
-                                'ml-4': idx > 0
-                            }">
+                        :key="img"
+                        class="position-relative pr-3"
+                        :class="{
+                            'ml-4': idx > 0
+                        }">
                         <img :src="'/storage/' + img"
-                                class="rounded object-fit-cover"/>
+                            class="rounded object-fit-cover" />
 
                         <i class="la la-times text-danger cursor-pointer position-absolute bottom-right"
-                                style="bottom: 0; right: 0;"
-                                @click="deleteContentImage(img, idx)"
-                                title="Xóa"></i>
+                            style="bottom: 0; right: 0;"
+                            @click="deleteContentImage(img, idx)"
+                            title="Xóa"></i>
                     </div>
                 </div>
             </div>
@@ -111,14 +106,15 @@
 
         <div class="text-right">
             <button type="submit"
-                    class="btn btn-primary">
+                class="btn btn-primary">
                 {{id ? 'Cập nhật' : 'Thêm mới'}}
-                <span class="spinner-border spinner-border-sm" v-show="isSaving"></span>
+                <span class="spinner-border spinner-border-sm"
+                    v-show="isSaving"></span>
             </button>
 
             <button type="button"
-                    class="btn btn-outline-secondary"
-                    @click="closeForm()">
+                class="btn btn-outline-secondary"
+                @click="closeForm()">
                 Đóng
             </button>
         </div>
@@ -165,7 +161,7 @@ export default {
     methods: {
         /**
          * Đóng modal.
-         * Không bật popup
+         * Không bật popup.
          * Nếu bật popup, sẽ bị xung đột với summernote, khi bật và tắt dialog của summernote (sự kiện hidden.bs.modal)
          */
         closeForm() {

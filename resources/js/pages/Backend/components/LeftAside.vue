@@ -76,7 +76,8 @@
                     </li>
 
                     <li class="sub-menu">
-                        <a href="#">
+                        <a href="#"
+                            @click.prevent="">
                             <i class="la la-atom font-size-1.25 mr-2"></i>
                             Component demo
                             <i class="la la-angle-right arrow float-right"></i>
@@ -108,7 +109,8 @@
                     </li>
 
                     <li class="sub-menu">
-                        <a href="#">
+                        <a href="#"
+                            @click.prevent="">
                             <i class="la la-users font-size-1.25 mr-2"></i>
                             Admin
                             <i class="la la-angle-right arrow float-right"></i>
@@ -150,7 +152,8 @@
                     </li>
 
                     <li class="sub-menu">
-                        <a href="#">
+                        <a href="#"
+                            @click.prevent="">
                             <i class="la la-layer-group font-size-1.25 mr-2"></i>
                             Danh mục
                             <i class="la la-angle-right arrow float-right"></i>
