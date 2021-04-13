@@ -1,27 +1,25 @@
 <template>
-    <div class="">
-        <div class="chat-page d-flex flex-column mr-n5 h-100">
-            <top-header :paths="['Chat (Web RTC)']" />
+    <div>
+        <top-header :paths="['Chat (Web RTC)']" />
 
-            <div class="flex-1 d-flex">
-                <div class="bg-light online-list">
-                    <div class="user p-4 position-relative cursor-pointer"
-                        v-for="u in onlineList"
-                        :key="u.id"
-                        @click="openMessageBox(u)">
-                        <span class="rounded-circle d-inline-block mr-2 indicator"
-                            :class="[u.isOnline ? 'bg-success' : 'bg-danger']"></span>
-                        {{u.name}}
-                    </div>
+        <div class="d-flex mr-n3 backend-layout-min-height">
+            <div class="bg-light online-list">
+                <div class="user p-4 position-relative cursor-pointer"
+                    v-for="u in onlineList"
+                    :key="u.id"
+                    @click="openMessageBox(u)">
+                    <span class="rounded-circle d-inline-block mr-2 indicator"
+                        :class="[u.isOnline ? 'bg-success' : 'bg-danger']"></span>
+                    {{u.name}}
                 </div>
+            </div>
 
-                <div class="flex-1 position-relative pl-3 pt-3 chat-boxes">
-                    <chat-rtc-box v-for="u in onlineList"
-                        :user="u"
-                        :key="u.id"
-                        :ref="'box' + u.id"
-                        :send-message="sendMessage" />
-                </div>
+            <div class="flex-1 position-relative pl-3 pt-3 chat-boxes">
+                <chat-rtc-box v-for="u in onlineList"
+                    :user="u"
+                    :key="u.id"
+                    :ref="'box' + u.id"
+                    :send-message="sendMessage" />
             </div>
         </div>
     </div>
