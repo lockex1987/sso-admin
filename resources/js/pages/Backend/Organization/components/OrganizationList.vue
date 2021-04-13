@@ -1,14 +1,14 @@
 <template>
     <div>
-        <div class="d-flex justify-content-between align-items-start">
-            <top-header :paths="['Quản trị', 'Tổ chức']" />
-
-            <button class="btn btn-primary btn-ripple"
-                type="button"
-                @click="openCreateForm()">
-                Thêm mới
-            </button>
-        </div>
+        <top-header :paths="['Quản trị', 'Tổ chức']">
+            <template v-slot:buttons>
+                <button class="btn btn-primary btn-ripple mr-2"
+                    type="button"
+                    @click="openCreateForm()">
+                    Thêm mới
+                </button>
+            </template>
+        </top-header>
 
         <div class="row">
             <div class="col-lg-3">

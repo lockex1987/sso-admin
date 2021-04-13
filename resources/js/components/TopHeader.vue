@@ -21,11 +21,16 @@
                 </nav>
             </div>
 
-            <!-- Icon giao diện mobile -->
-            <div class="hamburger-icon ml-auto cursor-pointer d-block d-md-none sidebar-opener">
-                <div class="line line1"></div>
-                <div class="line line2"></div>
-                <div class="line line3"></div>
+            <div class="ml-auto d-flex">
+                <!-- Có thể thêm các nút chức năng ở đây -->
+                <slot name="buttons"></slot>
+
+                <!-- Icon giao diện mobile -->
+                <div class="hamburger-icon cursor-pointer d-block d-md-none sidebar-opener">
+                    <div class="line line1"></div>
+                    <div class="line line2"></div>
+                    <div class="line line3"></div>
+                </div>
             </div>
         </div>
     </div>
