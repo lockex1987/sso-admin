@@ -1,23 +1,20 @@
 <template>
-    <div class="date-range-picker input-group w-auto cursor-pointer rounded">
-        <div class="input-group-prepend">
-            <span class="input-group-text bg-transparent border-right-0 pr-0">
-                <i class="la la-lg la-calendar"
-                        :class="[iconClass || '']"></i>
-            </span>
-        </div>
-
+    <div class="input-group cursor-pointer date-range-picker">
         <input type="text"
-                class="form-control bg-transparent border-left-0"
-                :class="[isRequired ? '' : 'border-right-0', inputClass || '']"
+                class="form-control bg-transparent border-right-0"
                 readonly
                 :placeholder="placeholder">
 
-        <div class="input-group-append" v-if="!isRequired">
-            <span class="input-group-text bg-transparent border-left-0 pl-0">
-                <i class="la la-lg la-times text-danger"
-                        :class="[clearClass || '']"
-                        @click.stop="clearDateRangeFilter(true)"></i>
+        <div class="input-group-append">
+            <span class="input-group-text bg-transparent border-left-0 px-0 pt-0 font-weight-700 font-size-1.25"
+                    @click="clearDateRangeFilter($event)">
+                <span class="text-danger"
+                        v-if="!isRequired && value.startDate">
+                    &times;
+                </span>
+
+                <i class="la la-calendar mt-2"
+                        v-else></i>
             </span>
         </div>
     </div>
@@ -27,6 +24,15 @@
 <script>
 export default {
     props: {
+        /**
+         * Đối tượng { startDate, endDate },
+         * mỗi thuộc tính là đối tượng moment
+         */
+        value: {
+            type: Object,
+            default: {}
+        },
+
         config: {
             type: Object,
             default: null
@@ -39,33 +45,18 @@ export default {
 
         isRequired: {
             type: Boolean,
-            default: false
-        },
-
-        inputClass: {
-            type: String,
-            default: ''
-        },
-
-        iconClass: {
-            type: String,
-            default: ''
-        },
-
-        clearClass: {
-            type: String,
-            default: ''
+            default: true
         }
     },
 
     data() {
         const currentDate = moment();
-        // const endOfWeek = moment().endOf('isoWeek');
-        // const endOfMonth = moment().endOf('month');
+        // let endOfWeek = moment().endOf('isoWeek');
+        // let endOfMonth = moment().endOf('month');
         return {
             options: {
-                format: 'DD/MM/YYYY',
                 locale: {
+                    format: 'DD/MM/YYYY',
                     separator: ' - ',
                     applyLabel: 'Áp dụng',
                     cancelLabel: 'Hủy',
@@ -77,8 +68,8 @@ export default {
                     firstDay: 1
                 },
                 ranges: {
-                    // 'Hôm nay': [moment(), moment()],
-                    // 'Hôm qua': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Hôm nay': [moment(), moment()],
+                    'Hôm qua': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
                     '7 ngày qua': [moment().subtract(6, 'days'), moment()],
                     '30 ngày qua': [moment().subtract(29, 'days'), moment()],
                     'Tuần này': [moment().startOf('isoWeek'), currentDate], // endOfWeek
@@ -86,87 +77,102 @@ export default {
                     'Tháng này': [moment().startOf('month'), currentDate], // endOfMonth
                     'Tháng trước': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
                 },
-                maxDate: currentDate
+                maxDate: currentDate,
+                // Giới hạn 1 năm
+                maxSpan: {
+                    days: 365
+                }
             }
         };
     },
 
     mounted() {
-        this.initDateRangePicker();
+        this.init();
+
+        if (this.value.startDate) {
+            this.setDateRange();
+        }
+    },
+
+    watch: {
+        value() {
+            this.setDateRange();
+        }
     },
 
     methods: {
         /**
-             * Khởi tạo.
-             */
-        initDateRangePicker() {
+         * Khởi tạo.
+         */
+        init() {
             Object.assign(this.options, this.config);
 
             $(this.$el)
                 .daterangepicker(this.options)
-                .on('apply.daterangepicker', this.applyDateRangeFilter);
-
-            if (this.options.startDate && this.options.endDate) {
-                const start = this.options.startDate;
-                const end = this.options.endDate;
-
-                const s = start.format(this.options.format) + this.options.locale.separator + end.format(this.options.format);
-                $(this.$el).find('input').val(s);
-            }
+                .on('apply.daterangepicker', this.applyDateRangePicker);
         },
 
         /**
-             * Xử lý khi chọn khoảng thời gian.
-             */
-        applyDateRangeFilter(evt, picker) {
-            const start = picker.startDate;
-            const end = picker.endDate;
-
-            const s = start.format(this.options.format) + this.options.locale.separator + end.format(this.options.format);
-            $(this.$el).find('input').val(s);
-
-            this.$emit('change', {
-                startDate: start.format('YYYY/MM/DD'),
-                endDate: end.format('YYYY/MM/DD')
+         * Xử lý khi chọn khoảng thời gian.
+         */
+        applyDateRangePicker(evt, picker) {
+            this.$emit('input', {
+                startDate: picker.startDate,
+                endDate: picker.endDate
             });
+            this.$emit('change');
         },
 
         /**
-             * Xóa chọn khoảng thời gian.
-             * @params {Boolean} showEmitChange Có khi chúng ta cần clear một cách lặng lẽ
-             */
-        clearDateRangeFilter(showEmitChange = false) {
-            $(this.$el).find('input').val('');
-
-            if (showEmitChange) {
-                this.$emit('change', {
+         * Xóa chọn khoảng thời gian.
+         */
+        clearDateRangeFilter(evt) {
+            if (!this.isRequired && this.value.startDate) {
+                evt.stopPropagation();
+                this.$emit('input', {
                     startDate: null,
                     endDate: null
                 });
+                this.$emit('change');
             }
         },
 
         /**
-             * Thiết lập ngày bắt đầu, ngày kết thúc.
-             * @param start Ngày bắt đầu, là đối tượng moment
-             * @param end Ngày kết thúc, là đối tượng moment
-             */
-        setStartAndEndDate(start, end) {
-            $(this.$el).data('daterangepicker').setStartDate(start);
-            $(this.$el).data('daterangepicker').setEndDate(end);
+         * Thiết lập ngày bắt đầu, ngày kết thúc.
+         */
+        setDateRange() {
+            const obj = this.value;
+            if (obj.startDate) {
+                const start = obj.startDate;
+                const end = obj.endDate;
 
-            const s = start.format(this.options.format) + this.options.locale.separator + end.format(this.options.format);
-            $(this.$el).find('input').val(s);
+                $(this.$el).data('daterangepicker').setStartDate(start);
+                $(this.$el).data('daterangepicker').setEndDate(end);
+
+                const s = start.format(this.options.locale.format) +
+                        this.options.locale.separator +
+                        end.format(this.options.locale.format);
+                $(this.$el).find('input').val(s);
+            } else {
+                $(this.$el).data('daterangepicker').setStartDate(moment());
+                $(this.$el).data('daterangepicker').setEndDate(moment());
+
+                $(this.$el).find('input').val('');
+            }
         }
     }
 };
 </script>
 
 
-<style lang="scss">
-    .date-range-picker {
-        .form-control {
-            width: 205px;
-        }
+<style scoped lang="scss">
+.date-range-picker {
+    .form-control {
+        width: 205px;
     }
+
+    .input-group-text {
+        width: 26px;
+    }
+}
 </style>

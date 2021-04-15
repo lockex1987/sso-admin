@@ -1,23 +1,22 @@
 <template>
-    <div class="date-picker input-group w-auto cursor-pointer rounded">
-        <div class="input-group-prepend">
-            <span class="input-group-text bg-transparent border-right-0 pr-0">
-                <i class="la la-lg la-calendar"
-                   :class="[iconClass || '']"></i>
-            </span>
-        </div>
-
+    <div class="input-group cursor-pointer date-picker">
         <input type="text"
-               class="form-control bg-transparent border-left-0"
-               :class="[isRequired ? '' : 'border-right-0', inputClass || '']"
+               class="form-control bg-transparent border-right-0"
+               :data-validation="isRequired ? 'required' : ''"
                readonly
-               :placeholder="placeholder">
+               :placeholder="placeholder"
+               ref="theInput">
 
-        <div class="input-group-append" v-if="!isRequired">
-            <span class="input-group-text bg-transparent border-left-0 pl-0">
-                <i class="la la-lg la-times text-danger"
-                   :class="[clearClass || '']"
-                   @click.stop="clearDateFilter(true)"></i>
+        <div class="input-group-append">
+            <span class="input-group-text bg-transparent border-left-0 px-0 pt-0 font-weight-700 font-size-1.25"
+                    @click="clearDateFilter($event)">
+                <span class="text-danger"
+                        v-if="!isRequired && value">
+                    &times;
+                </span>
+
+                <i class="la la-calendar mt-2"
+                        v-else></i>
             </span>
         </div>
     </div>
@@ -37,22 +36,10 @@ export default {
             default: false
         },
 
-        inputClass: {
-            type: String,
-            default: ''
-        },
-
-        iconClass: {
-            type: String,
-            default: ''
-        },
-
-        clearClass: {
-            type: String,
-            default: ''
-        },
-
-        defaultDate: {
+        /**
+         * Đối tượng moment
+         */
+        value: {
             type: Object,
             default: null
         },
@@ -71,11 +58,12 @@ export default {
     data() {
         return {
             options: {
-                format: 'DD/MM/YYYY',
                 // Chỉ chọn 1 ngày
                 singleDatePicker: true,
-                showDropdowns: false,
+                // Hiển thị dropdown, để chọn cho nhanh (ví dụ ngày sinh)
+                showDropdowns: true,
                 locale: {
+                    format: 'DD/MM/YYYY',
                     separator: ' - ',
                     applyLabel: 'Áp dụng',
                     cancelLabel: 'Hủy',
@@ -91,72 +79,77 @@ export default {
     },
 
     mounted() {
-        this.initDatePicker();
+        this.init();
+        this.setDate();
+    },
+
+    watch: {
+        value(newValue, oldValue) {
+            this.setDate();
+        }
     },
 
     methods: {
         /**
-             * Khởi tạo.
-             */
-        initDatePicker() {
+         * Khởi tạo.
+         */
+        init() {
             if (this.maxDate) {
                 this.options.maxDate = this.maxDate;
             }
+
             if (this.minDate) {
                 this.options.minDate = this.minDate;
             }
 
             $(this.$el)
                 .daterangepicker(this.options)
-                .on('apply.daterangepicker', this.applyDateFilter);
-
-            if (this.defaultDate) {
-                this.setDate(this.defaultDate);
-            }
+                .on('apply.daterangepicker', this.applyDatePicker);
         },
 
         /**
-             * Xử lý khi chọn thời gian.
-             */
-        applyDateFilter(evt, picker) {
+         * Xử lý khi chọn thời gian.
+         */
+        applyDatePicker(evt, picker) {
             const date = picker.startDate;
-            this.bindDateToInput(date);
-            this.$emit('change', {
-                date: date.format('YYYY/MM/DD')
+            this.$emit('input', date);
+            this.$emit('change');
+
+            // Chờ khi giá trị đã được cập nhật ở thẻ input thì
+            // tạo sự kiện 'input'
+            // để thư viện Common Validation bắt được
+            this.$nextTick(() => {
+                const event = new Event('input', { bubbles: true });
+                this.$refs.theInput.dispatchEvent(event);
             });
         },
 
         /**
-             * Xóa thời gian.
-             * @params {Boolean} showEmitChange Có khi chúng ta cần clear một cách lặng lẽ
-             */
-        clearDateFilter(showEmitChange = false) {
-            this.bindDateToInput('');
-            if (showEmitChange) {
-                this.$emit('change', {
-                    date: null
-                });
+         * Xóa thời gian.
+         */
+        clearDateFilter(evt) {
+            if (!this.isRequired && this.value) {
+                evt.stopPropagation();
+                this.$emit('input', null);
+                this.$emit('change');
             }
         },
 
         /**
-             * Thiết lập ngày.
-             * @param date
-             */
-        setDate(date) {
-            $(this.$el).data('daterangepicker').setStartDate(date);
-            $(this.$el).data('daterangepicker').setEndDate(date);
-            this.bindDateToInput(date);
-        },
-
-        /**
-             * Hiển thị date.
-             */
-        bindDateToInput(date) {
+         * Thiết lập ngày.
+         */
+        setDate() {
+            const date = this.value;
             if (date) {
-                const s = date.format(this.options.format);
+                $(this.$el).data('daterangepicker').setStartDate(date);
+                $(this.$el).data('daterangepicker').setEndDate(date);
+
+                const s = date.format(this.options.locale.format);
                 $(this.$el).find('input').val(s);
             } else {
+                $(this.$el).data('daterangepicker').setStartDate(moment());
+                $(this.$el).data('daterangepicker').setEndDate(moment());
+
                 $(this.$el).find('input').val('');
             }
         }
@@ -165,10 +158,14 @@ export default {
 </script>
 
 
-<style lang="scss">
-    .date-picker {
-        .form-control {
-            width: 110px;
-        }
+<style scoped lang="scss">
+.date-picker {
+    .form-control {
+        width: 110px;
     }
+
+    .input-group-text {
+        width: 26px;
+    }
+}
 </style>

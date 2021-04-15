@@ -33,7 +33,7 @@
                     <div v-for="m in monthList"
                             :key="m"
                             class="month-item text-center p-1"
-                            :class="[tempYear == maxYear && m > maxMonth ? 'invisible' : '']">
+                            :class="[(tempYear == maxYear && m > maxMonth) || (tempYear == minYear && m <= minMonth) ? 'invisible' : '']">
                         <div class="hover:bg-light hover:text-secondary rounded py-3 cursor-pointer"
                                 :class="[tempYear == chosenYear && m == chosenMonth ? 'bg-primary text-white' : '']"
                                 @click="chooseMonth(m)">
@@ -63,11 +63,6 @@ export default {
         maxYear: {
             type: Number,
             default: null
-        },
-
-        maxYearCurrent: {
-            type: Boolean,
-            default: true
         }
     },
 
@@ -88,7 +83,9 @@ export default {
             // Năm khi chọn
             tempYear: null,
             // Tháng lớn nhất
-            maxMonth: null
+            maxMonth: null,
+            // Tháng nhỏ nhất
+            minMonth: null
         };
     },
 
@@ -96,24 +93,36 @@ export default {
         // Hiện tại
         const current = new Date();
         const currentYear = current.getFullYear();
+        const currentMonth = current.getMonth() + 1;
 
-        // Điều chỉnh lại maxYear
-        if (!this.maxYear) {
-            if (this.maxYearCurrent) {
+        // Do không được chọn tháng hiện tại, nên phải cẩn thận chỗ tháng 1
+        // Khi đó phải lùi về tháng 12 năm trước
+        if (currentMonth > 1) {
+            // Điều chỉnh lại maxYear
+            if (!this.maxYear) {
                 this.maxYear = currentYear;
             }
+
+            this.maxMonth = currentMonth - 1;
+            this.minMonth = currentMonth;
+        } else {
+            // Điều chỉnh lại maxYear
+            if (!this.maxYear) {
+                this.maxYear = currentYear - 1;
+            }
+
+            this.maxMonth = 12;
+            this.minMonth = 1;
         }
 
-        this.maxMonth = current.getMonth() + 1;
-
         // Năm khi chọn
-        this.tempYear = currentYear;
+        this.tempYear = this.maxYear;
     },
 
     methods: {
         /**
-             * Chọn tháng.
-             */
+         * Chọn tháng.
+         */
         chooseMonth(m) {
             this.chosenMonth = m;
             this.chosenYear = this.tempYear;
@@ -133,17 +142,17 @@ export default {
 
 
 <style lang="scss" scoped>
-    .month-picker {
-        .form-control {
-            width: 110px;
-        }
-
-        .screen {
-            width: 330px;
-        }
-
-        .month-item {
-            width: 25%;
-        }
+.month-picker {
+    .form-control {
+        width: 110px;
     }
+
+    .screen {
+        width: 330px;
+    }
+
+    .month-item {
+        width: 25%;
+    }
+}
 </style>

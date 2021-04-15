@@ -1,5 +1,5 @@
 <template>
-    <div class="week-picker input-group w-auto cursor-pointer rounded">
+    <div class="week-picker input-group cursor-pointer rounded">
         <div class="input-group-prepend">
             <span class="input-group-text bg-transparent border-right-0 pr-0">
                 <i class="la la-lg la-calendar"></i>
@@ -57,7 +57,7 @@ export default {
                 format: 'DD/MM/YYYY',
                 // Chỉ chọn 1 ngày
                 singleDatePicker: true,
-                showDropdowns: true,
+                showDropdowns: false,
                 locale: {
                     separator: ' - ',
                     applyLabel: 'Áp dụng',
@@ -79,10 +79,10 @@ export default {
 
     methods: {
         /**
-             * Khởi tạo.
-             */
+         * Khởi tạo.
+         */
         initDatePicker() {
-            // cài đặt mindate và maxdate
+            // Cài đặt mindate và maxdate
             if (this.maxDate) {
                 this.options.maxDate = this.maxDate;
             }
@@ -103,8 +103,8 @@ export default {
         },
 
         /**
-             * Xử lý khi chọn thời gian.
-             */
+         * Xử lý khi chọn thời gian.
+         */
         applyDateFilter(evt, picker) {
             const date = picker.startDate;
 
@@ -120,9 +120,9 @@ export default {
         },
 
         /**
-             * Xóa thời gian.
-             * @params {Boolean} showEmitChange Có khi chúng ta cần clear một cách lặng lẽ
-             */
+         * Xóa thời gian.
+         * @params {Boolean} showEmitChange Có khi chúng ta cần clear một cách lặng lẽ
+         */
         clearDateFilter(showEmitChange = false) {
             this.bindDateToInput('', '');
             if (showEmitChange) {
@@ -134,8 +134,8 @@ export default {
         },
 
         /**
-             * Thiết lập ngày.
-             */
+         * Thiết lập ngày.
+         */
         setDate(start, end) {
             $(this.$el).data('daterangepicker').setStartDate(start);
             $(this.$el).data('daterangepicker').setEndDate(end);
@@ -143,8 +143,8 @@ export default {
         },
 
         /**
-             * Hiển thị date.
-             */
+         * Hiển thị date.
+         */
         bindDateToInput(start, end) {
             if (start) {
                 const s = start.format(this.options.format) + this.options.locale.separator + end.format(this.options.format);
@@ -159,19 +159,16 @@ export default {
 
 
 <style lang="scss">
-    .week-picker {
-        .form-control {
-            width: 205px;
-        }
-    }
+.week-picker {
+    width: 240px;
 
-    .week-picker {
-        tbody {
-            tr {
-                &:hover {
-                    background-color: #EEE;
-                }
+    // Hover cả dòng tuần
+    tbody {
+        tr {
+            &:hover {
+                background-color: #EEE;
             }
         }
     }
+}
 </style>

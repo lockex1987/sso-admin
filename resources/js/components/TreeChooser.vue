@@ -1,28 +1,26 @@
 <template>
     <div class="tree-chooser dropdown">
-        <div class="custom-select bg-transparent dropdown-toggle no-caret-right-down text-truncate"
+        <input class="custom-select bg-transparent dropdown-toggle no-caret-right-down text-truncate"
                 :class="{
                     'bg-none': showClear && selectedName
                 }"
                 data-toggle="dropdown"
-                ref="dropdownToggle">
-            <span v-if="selectedName">
-                {{selectedName}}
-            </span>
-            <span v-else class="text-muted">
-                {{placeholder}}
-            </span>
+                :data-validation="showClear ? '' : 'required'"
+                ref="dropdownToggle"
+                :placeholder="placeholder"
+                :value="selectedName"/>
 
-            <span class="clear-icon cursor-pointer font-weight-700 text-danger d-inline-block font-size-1.25 position-absolute text-center h-100"
-                    title='Click để xóa'
-                    v-if="showClear && selectedName"
-                    @click.stop="selectItem({})">
-                &times;
-            </span>
-        </div>
+        <span class="clear-icon cursor-pointer font-weight-700 text-danger d-inline-block font-size-1.25 position-absolute text-center h-100"
+                title='Click để xóa'
+                v-if="showClear && selectedName"
+                @click.stop="selectItem({})">
+            &times;
+        </span>
 
-        <div class="dropdown-menu shadow-sm w-100 p-2" @click.stop="">
-            <div class="mb-2" v-show="showSearch">
+        <div class="dropdown-menu shadow-sm w-100 p-2"
+                @click.stop="">
+            <div class="mb-2"
+                    v-show="showSearch">
                 <input type="text"
                         class="form-control"
                         v-model.trim="searchText"
@@ -108,6 +106,9 @@ export default {
          * Có hàm này, vì nhiều khi value chỉ có ID.
          */
         selectedName() {
+            if (!this.options) {
+                return '';
+            }
             const obj = this.options.find(opt => opt.id == this.value.id);
             return obj ? obj.name : '';
         },
@@ -116,6 +117,10 @@ export default {
          * Danh sách mà đã bỏ những tổ chức cần loại bỏ.
          */
         excludeIgnoreList() {
+            if (!this.options) {
+                return [];
+            }
+
             // Bỏ node hiện tại khỏi cây chuyên mục cha
             // Hạn chế luôn lỗi chọn cha là chính nó hoặc con cháu của nó
             if (this.ignoredId === null || this.ignoredId === undefined) {
@@ -155,6 +160,14 @@ export default {
 
             this.$emit('input', item);
             this.$emit('change');
+
+            // Chờ khi giá trị đã được cập nhật ở thẻ input thì
+            // tạo sự kiện 'input'
+            // để thư viện Common Validation bắt được
+            this.$nextTick(() => {
+                const event = new Event('input', { bubbles: true });
+                this.$refs.dropdownToggle.dispatchEvent(event);
+            });
         }
     }
 };

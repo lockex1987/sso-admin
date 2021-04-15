@@ -60,11 +60,6 @@ export default {
         maxYear: {
             type: Number,
             default: null
-        },
-
-        maxYearCurrent: {
-            type: Boolean,
-            default: true
         }
     },
 
@@ -82,8 +77,8 @@ export default {
 
     computed: {
         /**
-             * Những năm hiển thị.
-             */
+         * Những năm hiển thị.
+         */
         shownYearList() {
             const list = [];
             for (let i = this.startYear; i <= this.endYear; i++) {
@@ -93,8 +88,8 @@ export default {
         },
 
         /**
-             * Nhãn ở header.
-             */
+         * Nhãn ở header.
+         */
         yearRangeLabel() {
             const sy = Math.max(this.startYear, this.minYear);
             const ey = Math.min(this.endYear, this.maxYear);
@@ -103,45 +98,44 @@ export default {
     },
 
     mounted() {
-        // Hiện tại
-        const current = new Date();
-        const currentYear = current.getFullYear();
-
         // Điều chỉnh lại maxYear
+        // Nếu người dùng không nhập thì mặc định là năm hiện tại
         if (!this.maxYear) {
-            if (this.maxYearCurrent) {
-                this.maxYear = currentYear;
-            }
+            const current = new Date();
+            this.maxYear = current.getFullYear();
         }
 
+        // Năm khởi tạo
+        const initYear = this.maxYear;
+
         // Năm bắt đầu, năm kết thúc
-        this.startYear = currentYear - (currentYear % this.itemPerPage);
+        this.startYear = initYear - (initYear % this.itemPerPage);
         this.endYear = this.startYear + this.itemPerPage - 1;
 
         // Năm được chọn
-        // this.chosenYear = currentYear;
+        // this.chosenYear = initYear;
     },
 
     methods: {
         /**
-             * Chuyển đến màn hình trước đó.
-             */
+         * Chuyển đến màn hình trước đó.
+         */
         gotoPreviousScreen() {
             this.startYear -= this.itemPerPage;
             this.endYear -= this.itemPerPage;
         },
 
         /**
-             * Chuyển đến màn hình tiếp theo.
-             */
+         * Chuyển đến màn hình tiếp theo.
+         */
         gotoNextScreen() {
             this.startYear += this.itemPerPage;
             this.endYear += this.itemPerPage;
         },
 
         /**
-             * Chọn năm.
-             */
+         * Chọn năm.
+         */
         chooseYear(y) {
             this.chosenYear = y;
 
@@ -156,17 +150,17 @@ export default {
 
 
 <style lang="scss" scoped>
-    .year-picker {
-        .form-control {
-            width: 110px;
-        }
-
-        .screen {
-            width: 300px;
-        }
-
-        .year-item {
-            width: 25%;
-        }
+.year-picker {
+    .form-control {
+        width: 110px;
     }
+
+    .screen {
+        width: 300px;
+    }
+
+    .year-item {
+        width: 25%;
+    }
+}
 </style>
