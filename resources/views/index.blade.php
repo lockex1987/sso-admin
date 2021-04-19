@@ -21,7 +21,7 @@
         const SSO_PASSPORT_URL = "{{ config('services.sso.passportUrl') }}";
     </script>
 
-<script src="/libs/jquery/js/jquery.min.js"></script>
+    <script src="/libs/jquery/js/jquery.min.js"></script>
     <script src="/libs/popper/js/popper.min.js"></script>
     <script src="/libs/moment/js/moment.min.js"></script>
     <script src="/libs/moment/js/vi.js"></script>
