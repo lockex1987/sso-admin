@@ -211,8 +211,8 @@ export default {
          * Chọn phần tử active.
          */
         selectCurrent() {
-            if (this.currentIndex >= 0
-                    && this.currentIndex < this.filteredItems.length) {
+            if (this.currentIndex >= 0 &&
+                    this.currentIndex < this.filteredItems.length) {
                 // Hành động tương tự như được click
                 this.selectWhenClick(this.currentIndex);
 
