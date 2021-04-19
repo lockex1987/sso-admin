@@ -15,7 +15,7 @@
         </div>
 
         <div class="datatable-wrapper">
-            <table class="table table-bordered"
+            <table class="table table-bordered table-responsive-md"
                 ref="searchResult"
                 v-show="appList.length > 0">
                 <thead>

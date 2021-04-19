@@ -42,7 +42,7 @@
         </div>
 
         <div class="datatable-wrapper">
-            <table class="table table-bordered"
+            <table class="table table-bordered table-responsive-md"
                 ref="searchResult"
                 v-show="provinceList.length > 0">
                 <thead>
