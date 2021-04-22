@@ -28,7 +28,15 @@ class Sso
             // 'client_secret' => 'DjYOrAeOU4WxGtxacPpnmj96Ne53r5JAaU5EeIeP',
             'ticket' => $ticket
         ];
-        $http = new Client();
+
+        // Khi kết nối HTTPS có thể bị lỗi "cURL error 60: SSL certificate problem: unable to get local issuer certificate"
+        // Cách 1: Disable cert verification
+        // Cách 2: Sử dụng file cert
+        $http = new Client([
+            'verify' => false
+            // 'verify' => '/path/to/cacert.pem'
+        ]);
+
 		$response = $http->post($url, [
 			'form_params' => $params
         ]);

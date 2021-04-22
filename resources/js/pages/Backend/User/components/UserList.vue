@@ -60,8 +60,8 @@
                             {{user.stt}}
                         </td>
                         <td class="text-center">
-                            <img :src="'http://sso-passport.cttd.tk' + '/storage/avatars/' + user.avatar"
-                                class="avatar object-fit-cover rounded"
+                            <img :src="user.avatar"
+                                class="avatar object-fit-cover rounded-circle"
                                 v-if="user.avatar"
                                 onerror="this.src = '/images/user-avatar.png'" />
                             <img src="/images/user-avatar.png"
@@ -382,7 +382,7 @@ export default {
 
 <style scoped>
 .avatar {
-    width: 1rem;
-    height: 1rem;
+    width: 3rem;
+    height: 3rem;
 }
 </style>

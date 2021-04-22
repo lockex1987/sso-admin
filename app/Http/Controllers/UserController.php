@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Cache\Auth;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Hash;
-
 
 class UserController extends Controller
 {
@@ -38,12 +38,14 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $id = $request->id;
+        $avatar = $request->avatar;
 
         // Validate
 		$rules = [
 			'username' => 'required|unique:user,username' . (empty($id) ? '' : ',' . $id),
 			'fullName' => 'required',
-			'email' => 'email'
+			'email' => 'email',
+            'avatar' => 'mimes:png,jpg,jpeg,gif|max:2048'
 		];
 		if (empty($id)) {
 			$rules['password'] = 'required';
@@ -67,6 +69,28 @@ class UserController extends Controller
         $user->full_name = $request->fullName;
         $user->email = $request->email;
         $user->organization_id = $request->organizationId;
+
+        if (!empty($avatar)) {
+            $appUrl = config('services.sso.passportUrl');
+
+            // Xóa ảnh cũ
+            if ($user->avatar) {
+                if (str_starts_with($user->avatar, $appUrl)) {
+                    $relativePath = str_replace($appUrl . '/storage/avatars/', 'avatars/', $user->avatar);
+                    Storage::disk('sso_passport_filesystem')->delete($relativePath);
+                }
+            }
+
+            $avatarName = $user->id . '_avatar_' . time() . '.' . $avatar->getClientOriginalExtension();
+            Storage::disk('sso_passport_filesystem')->putFileAs('avatars', $avatar, $avatarName);
+
+            $user->avatar = $appUrl . '/storage/avatars/' . $avatarName;
+        }
+
+        if (empty($user->avatar)) {
+            // TODO: Tự sinh
+        }
+
         $user->save();
    
         return [

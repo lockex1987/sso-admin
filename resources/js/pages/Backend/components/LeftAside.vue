@@ -7,7 +7,7 @@
             <!-- Người dùng đang đăng nhập -->
             <div class="text-center pt-3"
                 v-if="loginUser">
-                <img :src="'http://sso-passport.cttd.tk' + '/storage/avatars/' + loginUser.avatar"
+                <img :src="loginUser.avatar"
                     class="logo rounded-circle object-fit-cover"
                     v-if="loginUser.avatar"
                     onerror="this.src = '/images/user-avatar.png'" />

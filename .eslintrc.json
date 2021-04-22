@@ -26,7 +26,6 @@
         "Pagi": "readonly",
         "CommonUtils": "readonly"
     },
-    
     "parser": "vue-eslint-parser",
     "parserOptions": {
         "parser": "babel-eslint",
@@ -36,7 +35,6 @@
     "plugins": [
         "vue"
     ],
-
     "rules": {
         "semi": ["error", "always"],
         "indent": ["error", 4],
@@ -45,10 +43,10 @@
             "named": "never",
             "asyncArrow": "always"
         }],
-
         "eqeqeq": "off",
         "no-new": "off",
         "no-multiple-empty-lines": "off",
+        "operator-linebreak": ["error", "before"],
         "vue/require-v-for-key": "off",
         "vue/require-valid-default-prop": "off"
     }
