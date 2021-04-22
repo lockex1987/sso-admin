@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use App\Cache\Auth;
 use App\Models\User;
+use App\Helpers\AvatarGenerator;
 
 class UserController extends Controller
 {
@@ -39,13 +41,24 @@ class UserController extends Controller
     {
         $id = $request->id;
         $avatar = $request->avatar;
+        $username = $request->username;
+        $fullName = $request->fullName;
+        $email = $request->email;
+        $organizationId = $request->organizationId;
+        $password = $request->password;
 
         // Validate
 		$rules = [
-			'username' => 'required|unique:user,username' . (empty($id) ? '' : ',' . $id),
+			'username' => [
+                'required',
+                'unique:user,username' . (empty($id) ? '' : ',' . $id)
+            ],
 			'fullName' => 'required',
 			'email' => 'email',
-            'avatar' => 'mimes:png,jpg,jpeg,gif|max:2048'
+            'avatar' => [
+                'mimes:png,jpg,jpeg,gif',
+                'max:2048'
+            ]
 		];
 		if (empty($id)) {
 			$rules['password'] = 'required';
@@ -55,43 +68,54 @@ class UserController extends Controller
         if (empty($id)) {
             $user = new User();
 
-            $user->password = Hash::make($request->password);
+            $user->password = Hash::make($password);
             $user->is_active = 1;
         } else {
             $user = User::find($id);
 
-            if (! empty($request->password)) {
-                $user->password = Hash::make($request->password);
+            if (!empty($password)) {
+                $user->password = Hash::make($password);
             }
         }
 
-        $user->username = $request->username;
-        $user->full_name = $request->fullName;
-        $user->email = $request->email;
-        $user->organization_id = $request->organizationId;
+        $user->username = $username;
+        $user->full_name = $fullName;
+        $user->email = $email;
+        $user->organization_id = $organizationId;
+        $user->save();
 
         if (!empty($avatar)) {
-            $appUrl = config('services.sso.passportUrl');
+            $passportUrl = config('services.sso.passportUrl');
 
             // Xóa ảnh cũ
             if ($user->avatar) {
-                if (str_starts_with($user->avatar, $appUrl)) {
-                    $relativePath = str_replace($appUrl . '/storage/avatars/', 'avatars/', $user->avatar);
-                    Storage::disk('sso_passport_filesystem')->delete($relativePath);
+                if (str_starts_with($user->avatar, $passportUrl)) {
+                    $relativePath = str_replace($passportUrl . '/storage/avatars/', 'avatars/', $user->avatar);
+                    Storage::disk('ssoPassport')->delete($relativePath);
                 }
             }
 
             $avatarName = $user->id . '_avatar_' . time() . '.' . $avatar->getClientOriginalExtension();
-            Storage::disk('sso_passport_filesystem')->putFileAs('avatars', $avatar, $avatarName);
+            Storage::disk('ssoPassport')->putFileAs('avatars', $avatar, $avatarName);
 
-            $user->avatar = $appUrl . '/storage/avatars/' . $avatarName;
+            $user->avatar = $passportUrl . '/storage/avatars/' . $avatarName;
+            $user->save();
         }
 
+        // Tự sinh avatar
         if (empty($user->avatar)) {
-            // TODO: Tự sinh
-        }
+            $passportUrl = config('services.sso.passportUrl');
+            $avatarName = $user->id . '_avatar_' . time() . '.' . 'png';
 
-        $user->save();
+            $folder = config('services.sso.passportFilesystem') . '/avatars';
+            if (!file_exists($folder)) {
+                mkdir($folder, 0777, true);
+            }
+            $filePath = $folder . '/' . $avatarName;
+            AvatarGenerator::createDefaultAvatar($fullName, $filePath);
+            $user->avatar = $passportUrl . '/storage/avatars/' . $avatarName;
+            $user->save();
+        }
    
         return [
             'code' => 0,

@@ -54,7 +54,7 @@ return [
             'visibility' => 'public'
         ],
 
-        'sso_passport_filesystem' => [
+        'ssoPassport' => [
             'driver' => 'local',
             'root' => env('SSO_PASSPORT_FILESYSTEM')
         ]

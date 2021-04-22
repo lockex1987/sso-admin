@@ -4,36 +4,37 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use App\Helpers\Downloader;
+use App\Helpers\AvatarGenerator;
 use App\Imports\VienamZoneImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 /**
- * https://github.com/kjmtrue/vietnam-zone
+ * Generate avatar cho những user chưa có.
  */
-class DownloadCommand extends Command
+class GenerateAvatar extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'vietnamzone:download';
+    protected $signature = 'avatar:generate';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'VietNam Zone Download Data';
+    protected $description = 'Generate avatar cho những user chưa có';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $this->info('Downloading...');
+        $this->info('Lấy danh sách người dùng chưa có avatar...');
 
+        /*
         $tmpFile = app(Downloader::class)->downloadFile();
 
         $this->info('Importing...');
@@ -43,5 +44,6 @@ class DownloadCommand extends Command
         File::delete($tmpFile);
 
         $this->info('Completed');
+        */
     }
 }

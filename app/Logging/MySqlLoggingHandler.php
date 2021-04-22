@@ -2,7 +2,7 @@
 
 namespace App\Logging;
 
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
@@ -23,7 +23,9 @@ class MySqlLoggingHandler extends AbstractProcessingHandler
     
     protected function write(array $record): void
     {
-        // dd($record);   
+        // dd($record);
+        // TODO: Khi thực hiện lệnh php artisan đang bị lỗi chỗ SERVER_ADDR
+        /*
         $data = [
             'description'     => $record['message'],
             // 'context'         => json_encode($record['context']),
@@ -39,5 +41,6 @@ class MySqlLoggingHandler extends AbstractProcessingHandler
             'type'            => 'error_log'
         ];
         DB::table('system_log')->insert($data);
+        */
     }
 }

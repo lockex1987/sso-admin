@@ -32,6 +32,7 @@ return [
 
     'sso' => [
         'consumerDomain' => env('SSO_CONSUMER_DOMAIN'),
-        'passportUrl' => env('SSO_PASSPORT_URL')
+        'passportUrl' => env('SSO_PASSPORT_URL'),
+        'passportFilesystem' => env('SSO_PASSPORT_FILESYSTEM')
     ]
 ];

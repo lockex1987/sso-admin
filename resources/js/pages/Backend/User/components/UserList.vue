@@ -42,6 +42,9 @@
                         <th class="text-center">
                             Email
                         </th>
+                        <th>
+                            Tổ chức
+                        </th>
                         <th class="text-center"
                             style="width: 110px;">
                             Trạng thái
@@ -76,6 +79,9 @@
                         </td>
                         <td>
                             {{user.email}}
+                        </td>
+                        <td>
+                            {{user.organization.name}}
                         </td>
                         <td>
                             <span v-if="user.is_active == 1"

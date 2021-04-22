@@ -130,6 +130,8 @@
 
 
 <script>
+const DEFAULT_AVATAR = '/images/user-avatar.png';
+
 export default {
     data() {
         return {
@@ -139,7 +141,7 @@ export default {
             email: '',
             password: '',
             organization: {},
-            oldAvatarUrl: '',
+            oldAvatarUrl: DEFAULT_AVATAR,
             avatar: null,
 
             // ID của bản ghi đang sửa
@@ -192,7 +194,7 @@ export default {
             this.email = '';
             this.password = '';
             this.organization = {};
-            this.oldAvatarUrl = '';
+            this.oldAvatarUrl = DEFAULT_AVATAR;
 
             this.avatar = null;
             this.$refs.avatarFile.value = '';
@@ -220,7 +222,7 @@ export default {
             } else {
                 this.organization = {};
             }
-            this.oldAvatarUrl = user.avatar;
+            this.oldAvatarUrl = user.avatar || DEFAULT_AVATAR;
 
             this.id = user.id;
 
