@@ -30,7 +30,7 @@
                             style="width: 50px">
                             #
                         </th>
-                        <th class="text-center">
+                        <th class="d-none d-md-table-cell">
                             Avatar
                         </th>
                         <th class="text-center">
@@ -39,10 +39,10 @@
                         <th class="text-center">
                             Tên hiển thị
                         </th>
-                        <th class="text-center">
+                        <th class="d-none d-md-table-cell">
                             Email
                         </th>
-                        <th>
+                        <th class="d-none d-md-table-cell">
                             Tổ chức
                         </th>
                         <th class="text-center"
@@ -62,7 +62,7 @@
                         <td class="text-center">
                             {{user.stt}}
                         </td>
-                        <td class="text-center">
+                        <td class="d-none d-md-table-cell text-center">
                             <img :src="user.avatar"
                                 class="avatar object-fit-cover rounded-circle"
                                 v-if="user.avatar"
@@ -77,10 +77,10 @@
                         <td>
                             {{user.full_name}}
                         </td>
-                        <td>
+                        <td class="d-none d-md-table-cell">
                             {{user.email}}
                         </td>
-                        <td>
+                        <td class="d-none d-md-table-cell">
                             {{user.organization.name}}
                         </td>
                         <td>
