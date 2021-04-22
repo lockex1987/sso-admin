@@ -3,10 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
 use App\Helpers\AvatarGenerator;
-use App\Imports\VienamZoneImport;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Models\User;
 
 /**
  * Generate avatar cho những user chưa có.
@@ -34,16 +32,15 @@ class GenerateAvatar extends Command
     {
         $this->info('Lấy danh sách người dùng chưa có avatar...');
 
-        /*
-        $tmpFile = app(Downloader::class)->downloadFile();
+        $userList = User::with('organization')
+            ->whereNull('avatar')
+            ->orderBy('id', 'desc')
+            ->get();
 
-        $this->info('Importing...');
-
-        Excel::import(new VienamZoneImport(), $tmpFile);
-
-        File::delete($tmpFile);
-
-        $this->info('Completed');
-        */
+        foreach ($userList as $user) {
+            $fullName = $user->full_name;
+            $this->info($fullName);
+            AvatarGenerator::autoGenerateAvatar($user);
+        }
     }
 }

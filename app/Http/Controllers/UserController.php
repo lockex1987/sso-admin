@@ -104,17 +104,7 @@ class UserController extends Controller
 
         // Tự sinh avatar
         if (empty($user->avatar)) {
-            $passportUrl = config('services.sso.passportUrl');
-            $avatarName = $user->id . '_avatar_' . time() . '.' . 'png';
-
-            $folder = config('services.sso.passportFilesystem') . '/avatars';
-            if (!file_exists($folder)) {
-                mkdir($folder, 0777, true);
-            }
-            $filePath = $folder . '/' . $avatarName;
-            AvatarGenerator::createDefaultAvatar($fullName, $filePath);
-            $user->avatar = $passportUrl . '/storage/avatars/' . $avatarName;
-            $user->save();
+            AvatarGenerator::autoGenerateAvatar($user);
         }
    
         return [
