@@ -12,7 +12,7 @@ class AvatarGenerator
     {
         $passportUrl = config('services.sso.passportUrl');
         $avatarName = $user->id . '_avatar_' . time() . '.' . 'png';
-        $folder = config('services.sso.passportFilesystem') . '/avatars';
+        $folder = config('filesystems.disks.ssoPassport.root') . '/avatars';
         if (!file_exists($folder)) {
             mkdir($folder, 0777, true);
         }
