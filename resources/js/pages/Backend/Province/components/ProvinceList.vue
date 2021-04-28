@@ -41,60 +41,60 @@
             </button>
         </div>
 
-        <div class="datatable-wrapper">
-            <table class="table table-bordered table-responsive-md"
-                ref="searchResult"
-                v-show="provinceList.length > 0">
-                <thead>
-                    <tr>
-                        <th class="text-center"
-                            style="width: 50px">
-                            #
-                        </th>
-                        <th class="text-center">
-                            Mã
-                        </th>
-                        <th class="text-center">
-                            Tên
-                        </th>
-                        <th class="text-center">
-                            Loại
-                        </th>
-                        <th class="text-center"
-                            style="width: 215px;">
-                            Thao tác
-                        </th>
-                    </tr>
-                </thead>
+        <table class="table table-bordered table-responsive-md"
+            v-show="provinceList.length > 0">
+            <thead>
+                <tr>
+                    <th class="text-center"
+                        style="width: 50px">
+                        #
+                    </th>
+                    <th class="text-center">
+                        Mã
+                    </th>
+                    <th class="text-center">
+                        Tên
+                    </th>
+                    <th class="text-center">
+                        Loại
+                    </th>
+                    <th class="text-center"
+                        style="width: 215px;">
+                        Thao tác
+                    </th>
+                </tr>
+            </thead>
 
-                <tbody>
-                    <tr v-for="province in provinceList"
-                        :key="province.id">
-                        <td class="text-center">
-                            {{province.stt}}
-                        </td>
-                        <td>
-                            {{province.code}}
-                        </td>
-                        <td>
-                            {{province.name}}
-                        </td>
-                        <td>
-                            {{getTypeName(province.type)}}
-                        </td>
-                        <td class="text-center">
-                            <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
-                                title="Cập nhật"
-                                @click="openUpdateForm(province)"></i>
+            <tbody>
+                <tr v-for="(province, i) in provinceList"
+                    :key="province.id">
+                    <td class="text-center">
+                        {{pagi.from + i}}
+                    </td>
+                    <td>
+                        {{province.code}}
+                    </td>
+                    <td>
+                        {{province.name}}
+                    </td>
+                    <td>
+                        {{getTypeName(province.type)}}
+                    </td>
+                    <td class="text-center">
+                        <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
+                            title="Cập nhật"
+                            @click="openUpdateForm(province)"></i>
 
-                            <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
-                                title="Xóa"
-                                @click="deleteRecord(province)"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                        <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
+                            title="Xóa"
+                            @click="deleteRecord(province)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pagi @change="search"
+            v-model="pagi"></pagi>
 
         <province-form ref="provinceForm"
             :type-list="typeList"
@@ -119,8 +119,8 @@ export default {
             // Text tìm kiếm
             searchText: '',
 
-            // Đối tượng datatable
-            datatable: null,
+            // Đối tượng Pagi
+            pagi: {},
 
             type: {},
             typeList: [
@@ -131,7 +131,7 @@ export default {
     },
 
     mounted() {
-        this.initDatatable();
+        this.search();
     },
 
     methods: {
@@ -147,33 +147,6 @@ export default {
         },
 
         /**
-         * Khởi tạo đối tượng datatable.
-         */
-        initDatatable() {
-            this.datatable = new Datatable({
-                table: this.$refs.searchResult,
-                ajax: (page, size, sortColumn, sortDirection) => {
-                    const params = {
-                        ...this.getParams(),
-                        page: page,
-                        size: size
-                    };
-                    return axios.get('/province/search', { params });
-                },
-                bindItemsCallback: (items) => {
-                    this.provinceList = items;
-                },
-                getTotalAndData: ({ data }) => {
-                    return {
-                        total: data.total,
-                        data: data.data
-                    };
-                },
-                showLoading: true
-            });
-        },
-
-        /**
          * Lọc theo từ khóa.
          */
         debouncedSearch: CommonUtils.debounce(
@@ -186,8 +159,15 @@ export default {
         /**
          * Tìm kiếm.
          */
-        search() {
-            this.datatable.reload();
+        async search(page = 1) {
+            const params = {
+                ...this.getParams(),
+                page: page,
+                size: 10
+            };
+            const { data } = await axios.get('/province/search', { params });
+            this.pagi = data;
+            this.provinceList = data.data;
         },
 
         /**

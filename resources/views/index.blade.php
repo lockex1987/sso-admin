@@ -30,8 +30,6 @@
     <script src="/libs/noti/js/noti.js"></script>
     <link rel="stylesheet" href="/libs/common-validation/css/common-validation.css" />
     <script src="/libs/common-validation/js/common-validation.js"></script>
-    <link rel="stylesheet" href="/libs/datatable/css/datatable.css" />
-    <script src="/libs/datatable/js/datatable.js"></script>
     <link rel="stylesheet" href="/libs/animate/css/animate.min.css" />
     <link rel="stylesheet" href="/libs/daterangepicker/css/daterangepicker.min.css" />
     <script src="/libs/daterangepicker/js/daterangepicker.min.js"></script>
@@ -52,6 +50,8 @@
     <script src="/libs/vue/js/vue-router.min.js"></script>
     <script src="/libs/vue/js/vuex.min.js"></script>
     <script src="/libs/exceljs/js/exceljs.min.js"></script>
+    <script src="/libs/common-utils/js/common.js"></script>
+    <script src="/libs/pagi/js/pagi.js"></script>
 
     <script src="{{ mix('/js/script.js') }}"></script>
 </body>

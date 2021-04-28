@@ -14,58 +14,58 @@
             </button>
         </div>
 
-        <div class="datatable-wrapper">
-            <table class="table table-bordered table-responsive-md"
-                ref="searchResult"
-                v-show="roleList.length > 0">
-                <thead>
-                    <tr>
-                        <th class="text-center"
-                            style="width: 50px">
-                            #
-                        </th>
-                        <th class="text-center">
-                            Mã
-                        </th>
-                        <th class="text-center">
-                            Tên
-                        </th>
-                        <th class="text-center"
-                            style="width: 215px;">
-                            Thao tác
-                        </th>
-                    </tr>
-                </thead>
+        <table class="table table-bordered table-responsive-md"
+            v-show="roleList.length > 0">
+            <thead>
+                <tr>
+                    <th class="text-center"
+                        style="width: 50px">
+                        #
+                    </th>
+                    <th class="text-center">
+                        Mã
+                    </th>
+                    <th class="text-center">
+                        Tên
+                    </th>
+                    <th class="text-center"
+                        style="width: 215px;">
+                        Thao tác
+                    </th>
+                </tr>
+            </thead>
 
-                <tbody>
-                    <tr v-for="role in roleList"
-                        :key="role.id">
-                        <td class="text-center">
-                            {{role.stt}}
-                        </td>
-                        <td>
-                            {{role.code}}
-                        </td>
-                        <td>
-                            {{role.name}}
-                        </td>
-                        <td class="text-center">
-                            <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
-                                title="Cập nhật"
-                                @click="openUpdateForm(role)"></i>
+            <tbody>
+                <tr v-for="(role, i) in roleList"
+                    :key="role.id">
+                    <td class="text-center">
+                        {{pagi.from + i}}
+                    </td>
+                    <td>
+                        {{role.code}}
+                    </td>
+                    <td>
+                        {{role.name}}
+                    </td>
+                    <td class="text-center">
+                        <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
+                            title="Cập nhật"
+                            @click="openUpdateForm(role)"></i>
 
-                            <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
-                                title="Xóa"
-                                @click="deleteRecord(role)"></i>
+                        <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
+                            title="Xóa"
+                            @click="deleteRecord(role)"></i>
 
-                            <i class="cursor-pointer la la-lg la-shield-alt text-warning mr-2"
-                                title="Quyền của vai trò"
-                                @click="openPermissionForm(role)"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                        <i class="cursor-pointer la la-lg la-shield-alt text-warning mr-2"
+                            title="Quyền của vai trò"
+                            @click="openPermissionForm(role)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pagi @change="search"
+            v-model="pagi"></pagi>
 
         <role-form ref="roleForm"
             @search-again="search()" />
@@ -94,43 +94,16 @@ export default {
             // Text tìm kiếm
             searchText: '',
 
-            // Đối tượng datatable
-            datatable: null
+            // Đối tượng
+            pagi: {}
         };
     },
 
     mounted() {
-        this.initDatatable();
+        this.search();
     },
 
     methods: {
-        /**
-         * Khởi tạo đối tượng datatable.
-         */
-        initDatatable() {
-            this.datatable = new Datatable({
-                table: this.$refs.searchResult,
-                ajax: (page, pageSize, sortColumn, sortDirection) => {
-                    const params = {
-                        search: this.searchText,
-                        page: page,
-                        size: pageSize
-                    };
-                    return axios.get('/role/search', { params });
-                },
-                bindItemsCallback: (items) => {
-                    this.roleList = items;
-                },
-                getTotalAndData: ({ data }) => {
-                    return {
-                        total: data.total,
-                        data: data.data
-                    };
-                },
-                showLoading: true
-            });
-        },
-
         /**
          * Lọc theo từ khóa.
          */
@@ -144,8 +117,15 @@ export default {
         /**
          * Tìm kiếm.
          */
-        search() {
-            this.datatable.reload();
+        async search(page = 1) {
+            const params = {
+                search: this.searchText,
+                page: page,
+                size: 10
+            };
+            const { data } = await axios.get('/role/search', { params });
+            this.pagi = data;
+            this.roleList = data.data;
         },
 
         /**

@@ -24,54 +24,54 @@
             </div>
 
             <div class="col-lg-9">
-                <div class="datatable-wrapper">
-                    <table class="table table-bordered"
-                        ref="searchResult"
-                        v-show="orgList.length > 0">
-                        <thead>
-                            <tr>
-                                <th class="text-center"
-                                    style="width: 50px">
-                                    STT
-                                </th>
-                                <th class="text-center">
-                                    Tên tổ chức
-                                </th>
-                                <th class="text-center">
-                                    Mô tả
-                                </th>
-                                <th class="text-center"
-                                    style="width: 215px;">
-                                    Thao tác
-                                </th>
-                            </tr>
-                        </thead>
+                <table class="table table-bordered"
+                    v-show="orgList.length > 0">
+                    <thead>
+                        <tr>
+                            <th class="text-center"
+                                style="width: 50px">
+                                STT
+                            </th>
+                            <th class="text-center">
+                                Tên tổ chức
+                            </th>
+                            <th class="text-center">
+                                Mô tả
+                            </th>
+                            <th class="text-center"
+                                style="width: 215px;">
+                                Thao tác
+                            </th>
+                        </tr>
+                    </thead>
 
-                        <tbody>
-                            <tr v-for="org in orgList"
-                                :key="org.id">
-                                <td class="text-center">
-                                    {{org.stt}}
-                                </td>
-                                <td>
-                                    {{org.name}}
-                                </td>
-                                <td class="text-break">
-                                    {{org.description}}
-                                </td>
-                                <td class="text-center">
-                                    <i class="cursor-pointer la la-lg la-pencil text-info"
-                                        title="Cập nhật"
-                                        @click="openUpdateForm(org)"></i>
+                    <tbody>
+                        <tr v-for="(org, i) in orgList"
+                            :key="org.id">
+                            <td class="text-center">
+                                {{pagi.from + i}}
+                            </td>
+                            <td>
+                                {{org.name}}
+                            </td>
+                            <td class="text-break">
+                                {{org.description}}
+                            </td>
+                            <td class="text-center">
+                                <i class="cursor-pointer la la-lg la-pencil text-info"
+                                    title="Cập nhật"
+                                    @click="openUpdateForm(org)"></i>
 
-                                    <i class="cursor-pointer la la-lg la-trash text-danger ml-2"
-                                        title="Xóa"
-                                        @click="deleteRecord(org)"></i>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                                <i class="cursor-pointer la la-lg la-trash text-danger ml-2"
+                                    title="Xóa"
+                                    @click="deleteRecord(org)"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <pagi @change="search"
+                    v-model="pagi"></pagi>
             </div>
         </div>
 
@@ -100,8 +100,8 @@ export default {
             // Text tìm kiếm
             searchText: '',
 
-            // Đối tượng datatable
-            datatable: null,
+            // Đối tượng Pagi
+            pagi: {},
 
             // Đơn vị đang được chọn
             selectedOrg: {},
@@ -126,7 +126,7 @@ export default {
     },
 
     mounted() {
-        this.initDatatable();
+        this.search();
         this.getAllList();
     },
 
@@ -149,34 +149,6 @@ export default {
         },
 
         /**
-         * Khởi tạo đối tượng datatable.
-         */
-        initDatatable() {
-            this.datatable = new Datatable({
-                table: this.$refs.searchResult,
-                ajax: (page, size, sortColumn, sortDirection) => {
-                    const params = {
-                        search: this.searchText,
-                        parentId: this.selectedOrg.id,
-                        page: page,
-                        size: size
-                    };
-                    return axios.get('/organization/search', { params });
-                },
-                bindItemsCallback: (items) => {
-                    this.orgList = items;
-                },
-                getTotalAndData: ({ data }) => {
-                    return {
-                        total: data.total,
-                        data: data.data
-                    };
-                },
-                showLoading: true
-            });
-        },
-
-        /**
          * Lọc theo từ khóa.
          */
         debouncedSearch: CommonUtils.debounce(
@@ -189,8 +161,16 @@ export default {
         /**
          * Tìm kiếm.
          */
-        search() {
-            this.datatable.reload();
+        async search(page = 1) {
+            const params = {
+                search: this.searchText,
+                parentId: this.selectedOrg.id,
+                page: page,
+                size: 10
+            };
+            const { data } = await axios.get('/organization/search', { params });
+            this.pagi = data;
+            this.orgList = data.data;
         },
 
         /**

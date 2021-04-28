@@ -14,61 +14,61 @@
             </button>
         </div>
 
-        <div class="datatable-wrapper">
-            <table class="table table-bordered"
-                ref="searchResult"
-                v-show="configList.length > 0">
-                <thead>
-                    <tr>
-                        <th class="text-center"
-                            style="width: 50px">
-                            #
-                        </th>
-                        <th class="text-center">
-                            Mã
-                        </th>
-                        <th class="text-center">
-                            Tên
-                        </th>
-                        <th class="text-center">
-                            Giá trị
-                        </th>
-                        <th class="text-center"
-                            style="width: 215px;">
-                            Thao tác
-                        </th>
-                    </tr>
-                </thead>
+        <table class="table table-bordered"
+            v-show="configList.length > 0">
+            <thead>
+                <tr>
+                    <th class="text-center"
+                        style="width: 50px">
+                        #
+                    </th>
+                    <th class="text-center">
+                        Mã
+                    </th>
+                    <th class="text-center">
+                        Tên
+                    </th>
+                    <th class="text-center">
+                        Giá trị
+                    </th>
+                    <th class="text-center"
+                        style="width: 215px;">
+                        Thao tác
+                    </th>
+                </tr>
+            </thead>
 
-                <tbody>
-                    <tr v-for="config in configList"
-                        :key="config.id">
-                        <td class="text-center">
-                            {{config.stt}}
-                        </td>
-                        <td>
-                            {{config.code}}
-                        </td>
-                        <td>
-                            {{config.name}}
-                        </td>
-                        <td>
-                            {{config.value}}
-                        </td>
-                        <td class="text-center">
-                            <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
-                                title="Cập nhật"
-                                @click="openUpdateForm(config)"></i>
+            <tbody>
+                <tr v-for="(config, i) in configList"
+                    :key="config.id">
+                    <td class="text-center">
+                        {{pagi.from + i}}
+                    </td>
+                    <td>
+                        {{config.code}}
+                    </td>
+                    <td>
+                        {{config.name}}
+                    </td>
+                    <td>
+                        {{config.value}}
+                    </td>
+                    <td class="text-center">
+                        <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
+                            title="Cập nhật"
+                            @click="openUpdateForm(config)"></i>
 
-                            <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
-                                title="Xóa"
-                                @click="deleteRecord(config)"
-                                v-if="!config.strict"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                        <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
+                            title="Xóa"
+                            @click="deleteRecord(config)"
+                            v-if="!config.strict"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pagi @change="search"
+            v-model="pagi"></pagi>
 
         <config-form ref="systemConfigForm"
             @stored="search()" />
@@ -92,43 +92,16 @@ export default {
             // Text tìm kiếm
             searchText: '',
 
-            // Đối tượng datatable
-            datatable: null
+            // Đối tượng Pagi
+            pagi: {}
         };
     },
 
     mounted() {
-        this.initDatatable();
+        this.search();
     },
 
     methods: {
-        /**
-         * Khởi tạo đối tượng datatable.
-         */
-        initDatatable() {
-            this.datatable = new Datatable({
-                table: this.$refs.searchResult,
-                ajax: (page, pageSize, sortColumn, sortDirection) => {
-                    const params = {
-                        search: this.searchText,
-                        page: page,
-                        size: pageSize
-                    };
-                    return axios.get('/config/search', { params });
-                },
-                bindItemsCallback: (items) => {
-                    this.configList = items;
-                },
-                getTotalAndData: ({ data }) => {
-                    return {
-                        total: data.total,
-                        data: data.data
-                    };
-                },
-                showLoading: true
-            });
-        },
-
         /**
          * Lọc theo từ khóa.
          */
@@ -142,8 +115,15 @@ export default {
         /**
          * Tìm kiếm.
          */
-        search() {
-            this.datatable.reload();
+        async search(page = 1) {
+            const params = {
+                search: this.searchText,
+                page: page,
+                size: 10
+            };
+            const { data } = await axios.get('/config/search', { params });
+            this.pagi = data;
+            this.configList = data.data;
         },
 
         /**

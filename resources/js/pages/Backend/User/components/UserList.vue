@@ -20,118 +20,118 @@
             </button>
         </div>
 
-        <div class="datatable-wrapper">
-            <table class="table table-bordered table-responsive-md"
-                ref="searchResult"
-                v-show="userList.length > 0">
-                <thead>
-                    <tr>
-                        <th class="text-center"
-                            style="width: 50px">
-                            #
-                        </th>
-                        <th class="d-none d-md-table-cell">
-                            Avatar
-                        </th>
-                        <th class="text-center">
-                            Tên đăng nhập
-                        </th>
-                        <th class="text-center">
-                            Tên hiển thị
-                        </th>
-                        <th class="d-none d-md-table-cell">
-                            Email
-                        </th>
-                        <th class="d-none d-md-table-cell">
-                            Tổ chức
-                        </th>
-                        <th class="text-center"
-                            style="width: 110px;">
-                            Trạng thái
-                        </th>
-                        <th class="text-center"
-                            style="width: 215px;">
-                            Thao tác
-                        </th>
-                    </tr>
-                </thead>
+        <table class="table table-bordered table-responsive-md"
+            v-show="userList.length > 0">
+            <thead>
+                <tr>
+                    <th class="text-center"
+                        style="width: 50px">
+                        #
+                    </th>
+                    <th class="d-none d-md-table-cell">
+                        Avatar
+                    </th>
+                    <th class="text-center">
+                        Tên đăng nhập
+                    </th>
+                    <th class="text-center">
+                        Tên hiển thị
+                    </th>
+                    <th class="d-none d-md-table-cell">
+                        Email
+                    </th>
+                    <th class="d-none d-md-table-cell">
+                        Tổ chức
+                    </th>
+                    <th class="text-center"
+                        style="width: 110px;">
+                        Trạng thái
+                    </th>
+                    <th class="text-center"
+                        style="width: 215px;">
+                        Thao tác
+                    </th>
+                </tr>
+            </thead>
 
-                <tbody>
-                    <tr v-for="user in userList"
-                        :key="user.id">
-                        <td class="text-center">
-                            {{user.stt}}
-                        </td>
-                        <td class="d-none d-md-table-cell text-center">
-                            <img :src="user.avatar"
-                                class="avatar object-fit-cover rounded-circle"
-                                v-if="user.avatar"
-                                onerror="this.src = '/images/user-avatar.png'" />
-                            <img src="/images/user-avatar.png"
-                                class="avatar object-fit-cover rounded"
-                                v-else />
-                        </td>
-                        <td>
-                            {{user.username}}
-                        </td>
-                        <td>
-                            {{user.full_name}}
-                        </td>
-                        <td class="d-none d-md-table-cell">
-                            {{user.email}}
-                        </td>
-                        <td class="d-none d-md-table-cell">
-                            {{user.organization.name}}
-                        </td>
-                        <td>
-                            <span v-if="user.is_active == 1"
-                                class="text-success">
-                                Active
-                            </span>
-                            <span v-else
-                                class="text-danger">
-                                Lock
-                            </span>
-                        </td>
-                        <td class="text-center text-nowrap">
-                            <i class="cursor-pointer la la-lg la-eye text-success"
-                                title="Chuyển chế độ view"
-                                @click="viewAs(user)"
-                                v-if="user.id != currentUser.id && permissions.includes('user.view-as')"></i>
+            <tbody>
+                <tr v-for="(user, i) in userList"
+                    :key="user.id">
+                    <td class="text-center">
+                        {{pagi.from + i}}
+                    </td>
+                    <td class="d-none d-md-table-cell text-center">
+                        <img :src="user.avatar"
+                            class="avatar object-fit-cover rounded-circle"
+                            v-if="user.avatar"
+                            onerror="this.src = '/images/user-avatar.png'" />
+                        <img src="/images/user-avatar.png"
+                            class="avatar object-fit-cover rounded"
+                            v-else />
+                    </td>
+                    <td>
+                        {{user.username}}
+                    </td>
+                    <td>
+                        {{user.full_name}}
+                    </td>
+                    <td class="d-none d-md-table-cell">
+                        {{user.email}}
+                    </td>
+                    <td class="d-none d-md-table-cell">
+                        {{user.organization.name}}
+                    </td>
+                    <td>
+                        <span v-if="user.is_active == 1"
+                            class="text-success">
+                            Active
+                        </span>
+                        <span v-else
+                            class="text-danger">
+                            Lock
+                        </span>
+                    </td>
+                    <td class="text-center text-nowrap">
+                        <i class="cursor-pointer la la-lg la-eye text-success"
+                            title="Chuyển chế độ view"
+                            @click="viewAs(user)"
+                            v-if="user.id != currentUser.id && permissions.includes('user.view-as')"></i>
 
-                            <i class="cursor-pointer la la-lg la-pencil text-info ml-2"
-                                title="Cập nhật"
-                                @click="openUpdateForm(user)"></i>
+                        <i class="cursor-pointer la la-lg la-pencil text-info ml-2"
+                            title="Cập nhật"
+                            @click="openUpdateForm(user)"></i>
 
-                            <i class="cursor-pointer la la-lg la-trash text-danger ml-2"
-                                title="Xóa"
-                                @click="deleteRecord(user)"
-                                v-if="user.id != currentUser.id"></i>
+                        <i class="cursor-pointer la la-lg la-trash text-danger ml-2"
+                            title="Xóa"
+                            @click="deleteRecord(user)"
+                            v-if="user.id != currentUser.id"></i>
 
-                            <span v-if="user.id != currentUser.id">
-                                <i class="cursor-pointer la la-lg la-lock text-warning ml-2"
-                                    title="Khóa lại"
-                                    @click="lockUser(user)"
-                                    v-if="user.is_active == 1"></i>
+                        <span v-if="user.id != currentUser.id">
+                            <i class="cursor-pointer la la-lg la-lock text-warning ml-2"
+                                title="Khóa lại"
+                                @click="lockUser(user)"
+                                v-if="user.is_active == 1"></i>
 
-                                <i class="cursor-pointer la la-lg la-unlock text-warning ml-2"
-                                    title="Mở khóa"
-                                    @click="unlockUser(user)"
-                                    v-else></i>
-                            </span>
+                            <i class="cursor-pointer la la-lg la-unlock text-warning ml-2"
+                                title="Mở khóa"
+                                @click="unlockUser(user)"
+                                v-else></i>
+                        </span>
 
-                            <i class="cursor-pointer la la-lg la-users text-primary ml-2"
-                                title="Gán vai trò"
-                                @click="openUpdateUserRoleForm(user)"></i>
+                        <i class="cursor-pointer la la-lg la-users text-primary ml-2"
+                            title="Gán vai trò"
+                            @click="openUpdateUserRoleForm(user)"></i>
 
-                            <i class="cursor-pointer lab la-lg la-app-store text-secondary ml-2"
-                                title="Gán ứng dụng"
-                                @click="openUpdateUserAppForm(user)"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                        <i class="cursor-pointer lab la-lg la-app-store text-secondary ml-2"
+                            title="Gán ứng dụng"
+                            @click="openUpdateUserAppForm(user)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pagi @change="search"
+            v-model="pagi"></pagi>
 
         <user-form ref="userForm"
             @search-again="search()" />
@@ -171,13 +171,13 @@ export default {
             // Text tìm kiếm
             searchText: '',
 
-            // Đối tượng datatable
-            datatable: null
+            // Đối tượng
+            pagi: {}
         };
     },
 
     mounted() {
-        this.initDatatable();
+        this.search();
     },
 
     methods: {
@@ -189,33 +189,6 @@ export default {
             return {
                 search: this.searchText
             };
-        },
-
-        /**
-         * Khởi tạo đối tượng datatable.
-         */
-        initDatatable() {
-            this.datatable = new Datatable({
-                table: this.$refs.searchResult,
-                ajax: (page, size, sortColumn, sortDirection) => {
-                    const params = {
-                        ...this.getParams(),
-                        page: page,
-                        size: size
-                    };
-                    return axios.get('/user/search', { params });
-                },
-                bindItemsCallback: (items) => {
-                    this.userList = items;
-                },
-                getTotalAndData: ({ data }) => {
-                    return {
-                        total: data.total,
-                        data: data.data
-                    };
-                },
-                showLoading: true
-            });
         },
 
         /**
@@ -231,8 +204,15 @@ export default {
         /**
          * Tìm kiếm.
          */
-        search() {
-            this.datatable.reload();
+        async search(page = 1) {
+            const params = {
+                ...this.getParams(),
+                page: page,
+                size: 10
+            };
+            const { data } = await axios.get('/user/search', { params });
+            this.pagi = data;
+            this.userList = data.data;
         },
 
         /**

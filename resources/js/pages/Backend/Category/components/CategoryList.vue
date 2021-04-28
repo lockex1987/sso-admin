@@ -14,54 +14,54 @@
             </button>
         </div>
 
-        <div class="datatable-wrapper">
-            <table class="table table-bordered"
-                ref="searchResult"
-                v-show="categoryList.length > 0">
-                <thead>
-                    <tr>
-                        <th class="text-center"
-                            style="width: 50px">
-                            #
-                        </th>
-                        <th class="text-center">
-                            Mã
-                        </th>
-                        <th class="text-center">
-                            Tên
-                        </th>
-                        <th class="text-center"
-                            style="width: 215px;">
-                            Thao tác
-                        </th>
-                    </tr>
-                </thead>
+        <table class="table table-bordered"
+            v-show="categoryList.length > 0">
+            <thead>
+                <tr>
+                    <th class="text-center"
+                        style="width: 50px">
+                        #
+                    </th>
+                    <th class="text-center">
+                        Mã
+                    </th>
+                    <th class="text-center">
+                        Tên
+                    </th>
+                    <th class="text-center"
+                        style="width: 215px;">
+                        Thao tác
+                    </th>
+                </tr>
+            </thead>
 
-                <tbody>
-                    <tr v-for="category in categoryList"
-                        :key="category.id">
-                        <td class="text-center">
-                            {{category.stt}}
-                        </td>
-                        <td>
-                            {{category.code}}
-                        </td>
-                        <td>
-                            {{category.name}}
-                        </td>
-                        <td class="text-center">
-                            <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
-                                title="Cập nhật"
-                                @click="openUpdateForm(category)"></i>
+            <tbody>
+                <tr v-for="(category, i) in categoryList"
+                    :key="category.id">
+                    <td class="text-center">
+                        {{pagi.from + i}}
+                    </td>
+                    <td>
+                        {{category.code}}
+                    </td>
+                    <td>
+                        {{category.name}}
+                    </td>
+                    <td class="text-center">
+                        <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
+                            title="Cập nhật"
+                            @click="openUpdateForm(category)"></i>
 
-                            <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
-                                title="Xóa"
-                                @click="deleteRecord(category)"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                        <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
+                            title="Xóa"
+                            @click="deleteRecord(category)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pagi @change="search"
+            v-model="pagi"></pagi>
 
         <category-form ref="categoryForm"
             :category-obj="categoryObj"
@@ -72,7 +72,6 @@
 
 <script>
 import CategoryForm from './CategoryForm.vue';
-
 
 export default {
     components: {
@@ -91,8 +90,8 @@ export default {
             // Text tìm kiếm
             searchText: '',
 
-            // Đối tượng datatable
-            datatable: null
+            // Đối tượng Pagi
+            pagi: {}
         };
     },
 
@@ -109,34 +108,6 @@ export default {
         },
 
         /**
-         * Khởi tạo đối tượng datatable.
-         */
-        initDatatable() {
-            this.datatable = new Datatable({
-                table: this.$refs.searchResult,
-                ajax: (page, pageSize, sortColumn, sortDirection) => {
-                    const params = {
-                        table: this.categoryObj.table,
-                        search: this.searchText,
-                        page: page,
-                        size: pageSize
-                    };
-                    return axios.get('/category/search', { params });
-                },
-                bindItemsCallback: (items) => {
-                    this.categoryList = items;
-                },
-                getTotalAndData: ({ data }) => {
-                    return {
-                        total: data.total,
-                        data: data.data
-                    };
-                },
-                showLoading: true
-            });
-        },
-
-        /**
          * Lọc theo từ khóa.
          */
         debouncedSearch: CommonUtils.debounce(
@@ -149,8 +120,16 @@ export default {
         /**
          * Tìm kiếm.
          */
-        search() {
-            this.datatable.reload();
+        async search(page = 1) {
+            const params = {
+                table: this.categoryObj.table,
+                search: this.searchText,
+                page: page,
+                size: 10
+            };
+            const { data } = await axios.get('/category/search', { params });
+            this.pagi = data;
+            this.categoryList = data.data;
         },
 
         /**

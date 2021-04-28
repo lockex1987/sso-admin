@@ -15,67 +15,67 @@
             </button>
         </div>
 
-        <div class="datatable-wrapper">
-            <table class="table table-bordered"
-                ref="searchResult"
-                v-show="slideList.length > 0">
-                <thead>
-                    <tr>
-                        <th class="text-center"
-                            style="width: 50px">
-                            #
-                        </th>
-                        <th class="text-center">
-                            Preview
-                        </th>
-                        <th class="text-center">
-                            URL
-                        </th>
-                        <th class="text-center">
-                            Trạng thái
-                        </th>
-                        <th class="text-center"
-                            style="width: 215px;">
-                            Thao tác
-                        </th>
-                    </tr>
-                </thead>
+        <table class="table table-bordered"
+            v-show="slideList.length > 0">
+            <thead>
+                <tr>
+                    <th class="text-center"
+                        style="width: 50px">
+                        #
+                    </th>
+                    <th class="text-center">
+                        Preview
+                    </th>
+                    <th class="text-center">
+                        URL
+                    </th>
+                    <th class="text-center">
+                        Trạng thái
+                    </th>
+                    <th class="text-center"
+                        style="width: 215px;">
+                        Thao tác
+                    </th>
+                </tr>
+            </thead>
 
-                <tbody>
-                    <tr v-for="slide in slideList"
-                        :key="slide.id">
-                        <td class="text-center">
-                            {{slide.stt}}
-                        </td>
-                        <td>
-                            <img src="/images/placeholder-image.png"
-                                class="preview object-fit-cover" />
-                        </td>
-                        <td>
-                            {{slide.url}}
-                        </td>
-                        <td>
-                            {{getTypeName(slide.is_active)}}
-                        </td>
-                        <td class="text-center">
-                            <i class="cursor-pointer la la-lg la-lock text-warning"
-                                title="Khóa lại"
-                                @click="changeStatus(slide)"
-                                v-if="slide.is_active == 1"></i>
+            <tbody>
+                <tr v-for="(slide, i) in slideList"
+                    :key="slide.id">
+                    <td class="text-center">
+                        {{pagi.from + i}}
+                    </td>
+                    <td>
+                        <img src="/images/placeholder-image.png"
+                            class="preview object-fit-cover" />
+                    </td>
+                    <td>
+                        {{slide.url}}
+                    </td>
+                    <td>
+                        {{getTypeName(slide.is_active)}}
+                    </td>
+                    <td class="text-center">
+                        <i class="cursor-pointer la la-lg la-lock text-warning"
+                            title="Khóa lại"
+                            @click="changeStatus(slide)"
+                            v-if="slide.is_active == 1"></i>
 
-                            <i class="cursor-pointer la la-lg la-unlock text-warning"
-                                title="Mở khóa"
-                                @click="changeStatus(slide)"
-                                v-else></i>
+                        <i class="cursor-pointer la la-lg la-unlock text-warning"
+                            title="Mở khóa"
+                            @click="changeStatus(slide)"
+                            v-else></i>
 
-                            <i class="cursor-pointer la la-lg la-trash text-danger ml-2"
-                                title="Xóa"
-                                @click="deleteRecord(slide)"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                        <i class="cursor-pointer la la-lg la-trash text-danger ml-2"
+                            title="Xóa"
+                            @click="deleteRecord(slide)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pagi @change="search"
+            v-model="pagi"></pagi>
 
         <slide-form ref="slideForm"
             @stored="search()" />
@@ -96,8 +96,8 @@ export default {
             // Danh sách kết quả tìm kiếm
             slideList: [],
 
-            // Đối tượng datatable
-            datatable: null,
+            // Đối tượng Pagi
+            pagi: {},
 
             status: {},
             statusList: [
@@ -108,7 +108,7 @@ export default {
     },
 
     mounted() {
-        this.initDatatable();
+        this.search();
     },
 
     methods: {
@@ -123,37 +123,17 @@ export default {
         },
 
         /**
-         * Khởi tạo đối tượng datatable.
-         */
-        initDatatable() {
-            this.datatable = new Datatable({
-                table: this.$refs.searchResult,
-                ajax: (page, size, sortColumn, sortDirection) => {
-                    const params = {
-                        ...this.getParams(),
-                        page: page,
-                        size: size
-                    };
-                    return axios.get('/slide/search', { params });
-                },
-                bindItemsCallback: (items) => {
-                    this.slideList = items;
-                },
-                getTotalAndData: ({ data }) => {
-                    return {
-                        total: data.total,
-                        data: data.data
-                    };
-                },
-                showLoading: true
-            });
-        },
-
-        /**
          * Tìm kiếm.
          */
-        search() {
-            this.datatable.reload();
+        async search(page = 1) {
+            const params = {
+                ...this.getParams(),
+                page: page,
+                size: 10
+            };
+            const { data } = await axios.get('/slide/search', { params });
+            this.pagi = data;
+            this.slideList = data.data;
         },
 
         /**

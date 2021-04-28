@@ -50,66 +50,66 @@
             </button>
         </div>
 
-        <div class="datatable-wrapper">
-            <table class="table table-bordered"
-                ref="searchResult"
-                v-show="districtList.length > 0">
-                <thead>
-                    <tr>
-                        <th class="text-center"
-                            style="width: 50px">
-                            #
-                        </th>
-                        <th class="text-center">
-                            Mã
-                        </th>
-                        <th class="text-center">
-                            Tên
-                        </th>
-                        <th class="text-center">
-                            Loại
-                        </th>
-                        <th class="text-center">
-                            Tỉnh / thành phố
-                        </th>
-                        <th class="text-center"
-                            style="width: 215px;">
-                            Thao tác
-                        </th>
-                    </tr>
-                </thead>
+        <table class="table table-bordered"
+            v-show="districtList.length > 0">
+            <thead>
+                <tr>
+                    <th class="text-center"
+                        style="width: 50px">
+                        #
+                    </th>
+                    <th class="text-center">
+                        Mã
+                    </th>
+                    <th class="text-center">
+                        Tên
+                    </th>
+                    <th class="text-center">
+                        Loại
+                    </th>
+                    <th class="text-center">
+                        Tỉnh / thành phố
+                    </th>
+                    <th class="text-center"
+                        style="width: 215px;">
+                        Thao tác
+                    </th>
+                </tr>
+            </thead>
 
-                <tbody>
-                    <tr v-for="district in districtList"
-                        :key="district.id">
-                        <td class="text-center">
-                            {{district.stt}}
-                        </td>
-                        <td>
-                            {{district.code}}
-                        </td>
-                        <td>
-                            {{district.name}}
-                        </td>
-                        <td>
-                            {{getTypeName(district.type)}}
-                        </td>
-                        <td>
-                            {{district.province.name}}
-                        </td>
-                        <td class="text-center">
-                            <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
-                                title="Cập nhật"
-                                @click="openUpdateForm(district)"></i>
+            <tbody>
+                <tr v-for="(district, i) in districtList"
+                    :key="district.id">
+                    <td class="text-center">
+                        {{pagi.from + i}}
+                    </td>
+                    <td>
+                        {{district.code}}
+                    </td>
+                    <td>
+                        {{district.name}}
+                    </td>
+                    <td>
+                        {{getTypeName(district.type)}}
+                    </td>
+                    <td>
+                        {{district.province.name}}
+                    </td>
+                    <td class="text-center">
+                        <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
+                            title="Cập nhật"
+                            @click="openUpdateForm(district)"></i>
 
-                            <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
-                                title="Xóa"
-                                @click="deleteRecord(district)"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                        <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
+                            title="Xóa"
+                            @click="deleteRecord(district)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pagi @change="search"
+            v-model="pagi"></pagi>
 
         <district-form ref="districtForm"
             :province-list="provinceList"
@@ -135,8 +135,8 @@ export default {
             // Text tìm kiếm
             searchText: '',
 
-            // Đối tượng datatable
-            datatable: null,
+            // Đối tượng Pagi
+            pagi: {},
 
             type: {},
             typeList: [
@@ -153,7 +153,7 @@ export default {
     },
 
     mounted() {
-        this.initDatatable();
+        this.search();
         this.getProvinceList();
     },
 
@@ -176,33 +176,6 @@ export default {
         },
 
         /**
-         * Khởi tạo đối tượng datatable.
-         */
-        initDatatable() {
-            this.datatable = new Datatable({
-                table: this.$refs.searchResult,
-                ajax: (page, size, sortColumn, sortDirection) => {
-                    const params = {
-                        ...this.getParams(),
-                        page: page,
-                        size: size
-                    };
-                    return axios.get('/district/search', { params });
-                },
-                bindItemsCallback: (items) => {
-                    this.districtList = items;
-                },
-                getTotalAndData: ({ data }) => {
-                    return {
-                        total: data.total,
-                        data: data.data
-                    };
-                },
-                showLoading: true
-            });
-        },
-
-        /**
          * Lọc theo từ khóa.
          */
         debouncedSearch: CommonUtils.debounce(
@@ -215,8 +188,15 @@ export default {
         /**
          * Tìm kiếm.
          */
-        search() {
-            this.datatable.reload();
+        async search(page = 1) {
+            const params = {
+                ...this.getParams(),
+                page: page,
+                size: 10
+            };
+            const { data } = await axios.get('/district/search', { params });
+            this.pagi = data;
+            this.districtList = data.data;
         },
 
         /**

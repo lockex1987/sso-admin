@@ -14,54 +14,54 @@
             </button>
         </div>
 
-        <div class="datatable-wrapper">
-            <table class="table table-bordered table-responsive-md"
-                ref="searchResult"
-                v-show="permissionList.length > 0">
-                <thead>
-                    <tr>
-                        <th class="text-center"
-                            style="width: 50px">
-                            #
-                        </th>
-                        <th class="text-center">
-                            Mã
-                        </th>
-                        <th class="text-center">
-                            Tên
-                        </th>
-                        <th class="text-center"
-                            style="width: 215px;">
-                            Thao tác
-                        </th>
-                    </tr>
-                </thead>
+        <table class="table table-bordered table-responsive-md"
+            v-show="permissionList.length > 0">
+            <thead>
+                <tr>
+                    <th class="text-center"
+                        style="width: 50px">
+                        #
+                    </th>
+                    <th class="text-center">
+                        Mã
+                    </th>
+                    <th class="text-center">
+                        Tên
+                    </th>
+                    <th class="text-center"
+                        style="width: 215px;">
+                        Thao tác
+                    </th>
+                </tr>
+            </thead>
 
-                <tbody>
-                    <tr v-for="permission in permissionList"
-                        :key="permission.id">
-                        <td class="text-center">
-                            {{permission.stt}}
-                        </td>
-                        <td>
-                            {{permission.code}}
-                        </td>
-                        <td>
-                            {{permission.name}}
-                        </td>
-                        <td class="text-center">
-                            <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
-                                title="Cập nhật"
-                                @click="openUpdateForm(permission)"></i>
+            <tbody>
+                <tr v-for="(permission, i) in permissionList"
+                    :key="permission.id">
+                    <td class="text-center">
+                        {{pagi.from + i}}
+                    </td>
+                    <td>
+                        {{permission.code}}
+                    </td>
+                    <td>
+                        {{permission.name}}
+                    </td>
+                    <td class="text-center">
+                        <i class="cursor-pointer la la-lg la-pencil text-info mr-2"
+                            title="Cập nhật"
+                            @click="openUpdateForm(permission)"></i>
 
-                            <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
-                                title="Xóa"
-                                @click="deleteRecord(permission)"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                        <i class="cursor-pointer la la-lg la-trash text-danger mr-2"
+                            title="Xóa"
+                            @click="deleteRecord(permission)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pagi @change="search"
+            v-model="pagi"></pagi>
 
         <permission-form ref="appForm"
             @search-again="search()" />
@@ -86,43 +86,16 @@ export default {
             // Text tìm kiếm
             searchText: '',
 
-            // Đối tượng datatable
-            datatable: null
+            // Đối tượng
+            pagi: {}
         };
     },
 
     mounted() {
-        this.initDatatable();
+        this.search();
     },
 
     methods: {
-        /**
-         * Khởi tạo đối tượng datatable.
-         */
-        initDatatable() {
-            this.datatable = new Datatable({
-                table: this.$refs.searchResult,
-                ajax: (page, pageSize, sortColumn, sortDirection) => {
-                    const params = {
-                        search: this.searchText,
-                        page: page,
-                        size: pageSize
-                    };
-                    return axios.get('/permission/search', { params });
-                },
-                bindItemsCallback: (items) => {
-                    this.permissionList = items;
-                },
-                getTotalAndData: ({ data }) => {
-                    return {
-                        total: data.total,
-                        data: data.data
-                    };
-                },
-                showLoading: true
-            });
-        },
-
         /**
          * Lọc theo từ khóa.
          */
@@ -136,8 +109,15 @@ export default {
         /**
          * Tìm kiếm.
          */
-        search() {
-            this.datatable.reload();
+        async search(page = 1) {
+            const params = {
+                search: this.searchText,
+                page: page,
+                size: 10
+            };
+            const { data } = await axios.get('/permission/search', { params });
+            this.pagi = data;
+            this.permissionList = data.data;
         },
 
         /**

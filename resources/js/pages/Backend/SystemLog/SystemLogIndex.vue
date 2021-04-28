@@ -43,59 +43,59 @@
             </button>
         </div>
 
-        <div class="datatable-wrapper">
-            <table class="table table-bordered table-responsive-md"
-                ref="searchResult"
-                v-show="logList.length > 0">
-                <thead>
-                    <tr>
-                        <th class="text-center"
-                            style="width: 50px">
-                            #
-                        </th>
-                        <th class="text-center">
-                            Thời gian
-                        </th>
-                        <th class="text-center">
-                            IP
-                        </th>
-                        <th class="text-center">
-                            Loại
-                        </th>
-                        <th class="text-center">
-                            Tài khoản
-                        </th>
-                        <th class="text-center">
-                            Mô tả
-                        </th>
-                    </tr>
-                </thead>
+        <table class="table table-bordered table-responsive-md"
+            v-show="logList.length > 0">
+            <thead>
+                <tr>
+                    <th class="text-center"
+                        style="width: 50px">
+                        #
+                    </th>
+                    <th class="text-center">
+                        Thời gian
+                    </th>
+                    <th class="text-center">
+                        IP
+                    </th>
+                    <th class="text-center">
+                        Loại
+                    </th>
+                    <th class="text-center">
+                        Tài khoản
+                    </th>
+                    <th class="text-center">
+                        Mô tả
+                    </th>
+                </tr>
+            </thead>
 
-                <tbody>
-                    <tr v-for="log in logList"
-                        :key="log.id">
-                        <td class="text-center">
-                            {{log.stt}}
-                        </td>
-                        <td class="text-center">
-                            {{log.created_at}}
-                        </td>
-                        <td>
-                            {{log.ip}}
-                        </td>
-                        <td>
-                            {{getTypeName(log.type)}}
-                        </td>
-                        <td>
-                            {{log.user ? log.user.username : ''}}
-                        </td>
-                        <td>
-                            {{log.description}}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <tbody>
+                <tr v-for="(log, i) in logList"
+                    :key="log.id">
+                    <td class="text-center">
+                        {{pagi.from + i}}
+                    </td>
+                    <td class="text-center">
+                        {{log.created_at}}
+                    </td>
+                    <td>
+                        {{log.ip}}
+                    </td>
+                    <td>
+                        {{getTypeName(log.type)}}
+                    </td>
+                    <td>
+                        {{log.user ? log.user.username : ''}}
+                    </td>
+                    <td>
+                        {{log.description}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pagi @change="search"
+            v-model="pagi"></pagi>
     </div>
 </template>
 
@@ -107,8 +107,8 @@ export default {
             // Danh sách ứng dụng
             logList: [],
 
-            // Đối tượng datatable
-            datatable: null,
+            // Đối tượng Pagi
+            pagi: {},
 
             // Tiêu chí tìm kiếm
             username: '',
@@ -134,7 +134,7 @@ export default {
     },
 
     mounted() {
-        this.initDatatable();
+        this.search();
     },
 
     methods: {
@@ -157,33 +157,6 @@ export default {
         },
 
         /**
-         * Khởi tạo đối tượng datatable.
-         */
-        initDatatable() {
-            this.datatable = new Datatable({
-                table: this.$refs.searchResult,
-                ajax: (page, size, sortColumn, sortDirection) => {
-                    const params = {
-                        ...this.getParams(),
-                        page: page,
-                        size: size
-                    };
-                    return axios.get('/system-log/search', { params });
-                },
-                bindItemsCallback: (items) => {
-                    this.logList = items;
-                },
-                getTotalAndData: ({ data }) => {
-                    return {
-                        total: data.total,
-                        data: data.data
-                    };
-                },
-                showLoading: true
-            });
-        },
-
-        /**
          * Debounce hàm tìm kiếm sau nửa giây.
          */
         debouncedSearch: CommonUtils.debounce(
@@ -196,8 +169,15 @@ export default {
         /**
          * Tìm kiếm.
          */
-        search() {
-            this.datatable.reload();
+        async search(page = 1) {
+            const params = {
+                ...this.getParams(),
+                page: page,
+                size: 10
+            };
+            const { data } = await axios.get('/system-log/search', { params });
+            this.pagi = data;
+            this.logList = data.data;
         },
 
         /**

@@ -17,60 +17,60 @@
             </button>
         </div>
 
-        <div class="datatable-wrapper">
-            <table class="table table-bordered"
-                ref="searchResult"
-                v-show="notificationList.length > 0">
-                <thead>
-                    <tr>
-                        <th class="text-center"
-                            style="width: 50px">
-                            #
-                        </th>
-                        <th class="text-center"
-                            style="width: 215px;">
-                            Thời điểm tạo
-                        </th>
-                        <th class="text-center"
-                            style="width: 215px;">
-                            Đánh dấu đã đọc
-                        </th>
-                        <th class="text-center">
-                            Thông báo
-                        </th>
-                    </tr>
-                </thead>
+        <table class="table table-bordered"
+            v-show="notificationList.length > 0">
+            <thead>
+                <tr>
+                    <th class="text-center"
+                        style="width: 50px">
+                        #
+                    </th>
+                    <th class="text-center"
+                        style="width: 215px;">
+                        Thời điểm tạo
+                    </th>
+                    <th class="text-center"
+                        style="width: 215px;">
+                        Đánh dấu đã đọc
+                    </th>
+                    <th class="text-center">
+                        Thông báo
+                    </th>
+                </tr>
+            </thead>
 
-                <tbody>
-                    <tr v-for="noti in notificationList"
-                        :key="noti.id"
-                        :class="{
+            <tbody>
+                <tr v-for="(noti, i) in notificationList"
+                    :key="noti.id"
+                    :class="{
                             'bg-light': !noti.read_at
                         }">
-                        <td class="text-center">
-                            {{noti.stt}}
-                        </td>
-                        <td class="text-center">
-                            {{formatDateTime(noti.created_at)}}
-                            <!-- TODO: Mấy phút trước -->
-                        </td>
-                        <td class="text-center text-primary">
-                            <i class="cursor-pointer la la-lg la-bookmark"
-                                title="Đánh dấu đã đọc"
-                                @click="markRead(noti)"
-                                v-if="!noti.read_at"></i>
+                    <td class="text-center">
+                        {{pagi.from + i}}
+                    </td>
+                    <td class="text-center">
+                        {{formatDateTime(noti.created_at)}}
+                        <!-- TODO: Mấy phút trước -->
+                    </td>
+                    <td class="text-center text-primary">
+                        <i class="cursor-pointer la la-lg la-bookmark"
+                            title="Đánh dấu đã đọc"
+                            @click="markRead(noti)"
+                            v-if="!noti.read_at"></i>
 
-                            <i class="fa fa-bookmark"
-                                title="Đã đọc"
-                                v-else></i>
-                        </td>
-                        <td>
-                            <div v-html="noti.message"></div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                        <i class="fa fa-bookmark"
+                            title="Đã đọc"
+                            v-else></i>
+                    </td>
+                    <td>
+                        <div v-html="noti.message"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pagi @change="search"
+            v-model="pagi"></pagi>
     </div>
 </template>
 
@@ -85,43 +85,16 @@ export default {
             // Text tìm kiếm
             searchText: '',
 
-            // Đối tượng datatable
-            datatable: null
+            // Đối tượng Pagi
+            pagi: {}
         };
     },
 
     mounted() {
-        this.initDatatable();
+        this.search();
     },
 
     methods: {
-        /**
-         * Khởi tạo đối tượng datatable.
-         */
-        initDatatable() {
-            this.datatable = new Datatable({
-                table: this.$refs.searchResult,
-                ajax: (page, pageSize, sortColumn, sortDirection) => {
-                    const params = {
-                        search: this.searchText,
-                        page: page,
-                        size: pageSize
-                    };
-                    return axios.get('/notification/search', { params });
-                },
-                bindItemsCallback: (items) => {
-                    this.notificationList = items;
-                },
-                getTotalAndData: ({ data }) => {
-                    return {
-                        total: data.total,
-                        data: data.data
-                    };
-                },
-                showLoading: true
-            });
-        },
-
         /**
          * Lọc theo từ khóa.
          */
@@ -135,8 +108,15 @@ export default {
         /**
          * Tìm kiếm.
          */
-        search() {
-            this.datatable.reload();
+        async search(page = 1) {
+            const params = {
+                search: this.searchText,
+                page: page,
+                size: 10
+            };
+            const { data } = await axios.get('/notification/search', { params });
+            this.pagi = data;
+            this.notificationList = data.data;
         },
 
         /**

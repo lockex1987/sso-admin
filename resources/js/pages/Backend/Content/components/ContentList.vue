@@ -36,84 +36,84 @@
             </div>
 
             <!-- Kết quả tìm kiếm -->
-            <div class="datatable-wrapper">
-                <table class="table table-bordered"
-                    ref="searchResult"
-                    v-show="contentList.length > 0">
-                    <thead>
-                        <tr>
-                            <th class="text-center"
-                                style="width: 50px">
-                                STT
-                            </th>
-                            <th class="text-center">
-                                Tiêu đề
-                            </th>
-                            <th class="text-center">
-                                Mô tả
-                            </th>
-                            <th class="text-center"
-                                style="width: 90px;">
-                                Loại
-                            </th>
-                            <th class="text-center"
-                                style="width: 120px;">
-                                Trạng thái
-                            </th>
-                            <th class="text-center"
-                                style="width: 145px;">
-                                Ngày xuất bản
-                            </th>
-                            <th class="text-center"
-                                style="width: 120px;">
-                                Thao tác
-                            </th>
-                        </tr>
-                    </thead>
+            <table class="table table-bordered"
+                v-show="contentList.length > 0">
+                <thead>
+                    <tr>
+                        <th class="text-center"
+                            style="width: 50px">
+                            STT
+                        </th>
+                        <th class="text-center">
+                            Tiêu đề
+                        </th>
+                        <th class="text-center">
+                            Mô tả
+                        </th>
+                        <th class="text-center"
+                            style="width: 90px;">
+                            Loại
+                        </th>
+                        <th class="text-center"
+                            style="width: 120px;">
+                            Trạng thái
+                        </th>
+                        <th class="text-center"
+                            style="width: 145px;">
+                            Ngày xuất bản
+                        </th>
+                        <th class="text-center"
+                            style="width: 120px;">
+                            Thao tác
+                        </th>
+                    </tr>
+                </thead>
 
-                    <tbody>
-                        <tr v-for="content in contentList"
-                            :key="content.id">
-                            <td class="text-center">
-                                {{content.stt}}
-                            </td>
-                            <td>
-                                {{content.title}}
-                            </td>
-                            <td>
-                                {{content.description}}
-                            </td>
-                            <td>
-                                {{getTypeName(content.type)}}
-                            </td>
-                            <td :class="[content.status == 1 ? 'text-danger' : 'text-success']">
-                                {{getStatusName(content.status)}}
-                            </td>
-                            <td>
-                                {{formatDate(content.published_date)}}
-                            </td>
-                            <td class="text-center">
-                                <i class="cursor-pointer la la-lg la-pencil text-info"
-                                    title="Cập nhật"
-                                    @click="openUpdateForm(content)"></i>
+                <tbody>
+                    <tr v-for="(content, i) in contentList"
+                        :key="content.id">
+                        <td class="text-center">
+                            {{pagi.from + i}}
+                        </td>
+                        <td>
+                            {{content.title}}
+                        </td>
+                        <td>
+                            {{content.description}}
+                        </td>
+                        <td>
+                            {{getTypeName(content.type)}}
+                        </td>
+                        <td :class="[content.status == 1 ? 'text-danger' : 'text-success']">
+                            {{getStatusName(content.status)}}
+                        </td>
+                        <td>
+                            {{formatDate(content.published_date)}}
+                        </td>
+                        <td class="text-center">
+                            <i class="cursor-pointer la la-lg la-pencil text-info"
+                                title="Cập nhật"
+                                @click="openUpdateForm(content)"></i>
 
-                                <i class="cursor-pointer la la-lg la-trash text-danger ml-2"
-                                    title="Xóa"
-                                    @click="deleteRecord(content)"></i>
+                            <i class="cursor-pointer la la-lg la-trash text-danger ml-2"
+                                title="Xóa"
+                                @click="deleteRecord(content)"></i>
 
-                                <i class="cursor-pointer la la-lg la-arrow-right text-success ml-2"
-                                    title="Xuất bản"
-                                    @click="changeStatus(content, 2)"
-                                    v-if="content.status == 1"></i>
-                                <i class="cursor-pointer la la-lg la-arrow-left text-warning ml-2"
-                                    title="Chuyển về nháp"
-                                    @click="changeStatus(content, 1)"
-                                    v-else></i>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                            <i class="cursor-pointer la la-lg la-arrow-right text-success ml-2"
+                                title="Xuất bản"
+                                @click="changeStatus(content, 2)"
+                                v-if="content.status == 1"></i>
+                            <i class="cursor-pointer la la-lg la-arrow-left text-warning ml-2"
+                                title="Chuyển về nháp"
+                                @click="changeStatus(content, 1)"
+                                v-else></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <pagi @change="search"
+                v-model="pagi"></pagi>
         </div>
 
         <!-- Form thêm mới, cập nhật -->
@@ -168,8 +168,8 @@ export default {
                 }
             ],
 
-            // Đối tượng datatable
-            datatable: null,
+            // Đối tượng Pagi
+            pagi: {},
 
             // Màn hình danh sách (list) hay màn hình form
             screen: 'list'
@@ -177,7 +177,7 @@ export default {
     },
 
     mounted() {
-        this.initDatatable();
+        this.search();
     },
 
     methods: {
@@ -193,33 +193,6 @@ export default {
         },
 
         /**
-         * Khởi tạo đối tượng datatable.
-         */
-        initDatatable() {
-            this.datatable = new Datatable({
-                table: this.$refs.searchResult,
-                ajax: (page, size, sortColumn, sortDirection) => {
-                    const params = {
-                        ...this.getParams(),
-                        page: page,
-                        size: size
-                    };
-                    return axios.get('/content/search', { params });
-                },
-                bindItemsCallback: (items) => {
-                    this.contentList = items;
-                },
-                getTotalAndData: ({ data }) => {
-                    return {
-                        total: data.total,
-                        data: data.data
-                    };
-                },
-                showLoading: true
-            });
-        },
-
-        /**
          * Lọc theo từ khóa.
          */
         debouncedSearch: CommonUtils.debounce(
@@ -232,8 +205,15 @@ export default {
         /**
          * Tìm kiếm.
          */
-        search() {
-            this.datatable.reload();
+        async search(page = 1) {
+            const params = {
+                ...this.getParams(),
+                page: page,
+                size: 10
+            };
+            const { data } = await axios.get('/content/search', { params });
+            this.pagi = data;
+            this.contentList = data.data;
         },
 
         /**

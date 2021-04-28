@@ -42,7 +42,7 @@ export default {
 
         // Chờ cho categoryObj được áp dụng
         this.$nextTick(() => {
-            this.$refs.categoryList.initDatatable();
+            this.$refs.categoryList.search();
         });
     },
 
