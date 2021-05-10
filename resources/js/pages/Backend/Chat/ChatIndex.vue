@@ -31,7 +31,7 @@
 
 
 <script>
-import ChatBox from './components/ChatBox';
+import ChatBox from './components/ChatBox.vue';
 import { getWsUrl } from '~/helpers/websocket.js';
 
 export default {

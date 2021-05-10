@@ -27,7 +27,7 @@
 
 
 <script>
-import ChatRtcBox from './components/ChatRtcBox';
+import ChatRtcBox from './components/ChatRtcBox.vue';
 import { getWsUrl } from '~/helpers/websocket.js';
 
 export default {
