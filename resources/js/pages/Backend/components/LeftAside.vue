@@ -258,9 +258,7 @@
 
 
 <script>
-const config = {
-    wsUrl: 'ws://localhost:9000/'
-};
+import { getWsUrl } from '~/helpers/websocket.js';
 
 export default {
     data() {
@@ -374,11 +372,8 @@ export default {
          * Khởi tạo websocket.
          */
         initWebSocket() {
-            // Lấy token để xác thực websocket
-            const token = localStorage.getItem('authToken');
-
             // console.log('Connecting');
-            this.ws = new WebSocket(config.wsUrl + '?token=' + token);
+            this.ws = new WebSocket(getWsUrl());
 
 
             this.ws.onopen = () => {

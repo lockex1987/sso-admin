@@ -28,11 +28,7 @@
 
 <script>
 import ChatRtcBox from './components/ChatRtcBox';
-
-const config = {
-    wsUrl: 'ws://localhost:9000/'
-};
-
+import { getWsUrl } from '~/helpers/websocket.js';
 
 export default {
     components: {
@@ -60,7 +56,7 @@ export default {
 
     methods: {
         /**
-         * Gửi đến WebSocket server.
+         * Gửi đến web socket server.
          */
         sendMessage(recipient, type, obj) {
             if (this.ws.readyState == WebSocket.OPEN) {
@@ -75,10 +71,7 @@ export default {
         },
 
         initWebSocket() {
-            const token = localStorage.getItem('authToken');
-            // `ws://${location.host}`
-            // var HOST = location.origin.replace(/^http/, 'ws')
-            this.ws = new WebSocket(config.wsUrl + '?token=' + token);
+            this.ws = new WebSocket(getWsUrl());
 
             this.ws.onopen = () => {
                 // Lấy danh sách online
