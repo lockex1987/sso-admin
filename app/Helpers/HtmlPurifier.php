@@ -11,7 +11,7 @@ use \DOMNode;
 class HtmlPurifier
 {
     // https://www.w3schools.com/TAGS/default.ASP
-    const WHITE_LIST_TAGS = [
+    private const WHITE_LIST_TAGS = [
         '#text',
         // ------------------
         'a',
@@ -124,7 +124,7 @@ class HtmlPurifier
     ];
 
     // XSS phải bỏ thuộc tính onload
-    const WHITE_LIST_ATTRIBUTES = [
+    private const WHITE_LIST_ATTRIBUTES = [
         'class',
         'src',
         'href',
@@ -132,7 +132,6 @@ class HtmlPurifier
         'alt',
         'style'
     ];
-
 
     /**
      * Bỏ các thẻ nguy hiểm, đề phòng lỗi XSS.
@@ -163,7 +162,7 @@ class HtmlPurifier
     {
         $shouldRemove = [];
         foreach ($parentNode->childNodes as $childNode) {
-            if (!in_array($childNode->nodeName, self::WHITE_LIST_TAGS)) {
+            if (! in_array($childNode->nodeName, self::WHITE_LIST_TAGS)) {
                 // echo $childNode->nodeName . "\n";
                 $shouldRemove[] = $childNode;
             } else {
@@ -185,7 +184,7 @@ class HtmlPurifier
         if ($node->hasAttributes()) {
             $attrs = $node->attributes;
             foreach ($attrs as $i => $attr) {
-                if (!in_array($attr->name, self::WHITE_LIST_ATTRIBUTES)) {
+                if (! in_array($attr->name, self::WHITE_LIST_ATTRIBUTES)) {
                     $node->removeAttribute($attr->name);
                 }
             }

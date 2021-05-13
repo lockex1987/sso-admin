@@ -13,11 +13,10 @@ class Sso
         return Sso::checkSsoTicket('/check-login-ticket');
     }
 
-
     private static function checkSsoTicket($path)
     {
         $consumerDomain = config('services.sso.consumerDomain');
-		$passportUrl = config('services.sso.passportUrl');
+        $passportUrl = config('services.sso.passportUrl');
 
         $request = request();
         $ticket = $request->input('ticket');
@@ -37,19 +36,18 @@ class Sso
             // 'verify' => '/path/to/cacert.pem'
         ]);
 
-		$response = $http->post($url, [
-			'form_params' => $params
+        $response = $http->post($url, [
+            'form_params' => $params
         ]);
         $responseBody = (string) $response->getBody();
         $obj = json_decode($responseBody);
-        
-        
+
         // https://laravel.com/docs/master/http-client
         /*
         $response = Http::post($url, $params);
         $obj = json_decode($response->body());
         */
-        
+
         return $obj;
     }
 }

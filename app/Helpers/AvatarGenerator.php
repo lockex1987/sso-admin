@@ -13,7 +13,7 @@ class AvatarGenerator
         $passportUrl = config('services.sso.passportUrl');
         $avatarName = $user->id . '_avatar_' . time() . '.' . 'png';
         $folder = config('filesystems.disks.ssoPassport.root') . '/avatars';
-        if (!file_exists($folder)) {
+        if (! file_exists($folder)) {
             mkdir($folder, 0777, true);
         }
         $filePath = $folder . '/' . $avatarName;
@@ -61,7 +61,7 @@ class AvatarGenerator
         $idx = rand(0, count($colors) - 1);
         $hex = $colors[$idx];
         // Chuyển từ hex sang RGB
-        [$r, $g, $b] = sscanf($hex, "#%02x%02x%02x");
+        [$r, $g, $b] = sscanf($hex, '#%02x%02x%02x');
         return [$r, $g, $b];
     }
 
