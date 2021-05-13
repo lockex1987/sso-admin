@@ -23,7 +23,7 @@ class NotificationController extends Controller
             $this->createNotification('Generate video <b>Chu Chu</b> thất bại ' . $i);
         }
         */
-        
+
         $search = '%' . $request->search . '%';
         $size = $request->size;
         $pagi = Notification::where('message', 'like', $search)
@@ -45,7 +45,7 @@ class NotificationController extends Controller
 
         return [
             'code' => 0,
-            'number' => $number
+            'number' => $number,
         ];
     }
 
@@ -68,7 +68,7 @@ class NotificationController extends Controller
 
         return [
             'code' => 0,
-            'message' => 'Update'
+            'message' => 'Update',
         ];
     }
 
@@ -86,12 +86,12 @@ class NotificationController extends Controller
         Redis::publish($channel, json_encode([
             'message' => $message,
             'userId' => $user->id,
-            'username' => $user->username
+            'username' => $user->username,
         ]));
 
         return [
             'code' => 0,
-            'message' => 'Published'
+            'message' => 'Published',
         ];
     }
 

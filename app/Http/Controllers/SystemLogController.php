@@ -35,7 +35,7 @@ class SystemLogController extends Controller
         $query->delete();
         return [
             'code' => 0,
-            'message' => 'Deleted'
+            'message' => 'Deleted',
         ];
     }
 
@@ -47,19 +47,19 @@ class SystemLogController extends Controller
         $createdFrom = $request->createdFrom;
         $createdTo = $request->createdTo;
 
-        if (!empty($createdFrom)) {
+        if (! empty($createdFrom)) {
             $query->where('created_at', '>=', $createdFrom);
         }
-        if (!empty($createdTo)) {
+        if (! empty($createdTo)) {
             $query->where('created_at', '<=', $createdTo);
         }
-        if (!empty($ip)) {
+        if (! empty($ip)) {
             $query->where('ip', 'like', '%' . $ip . '%');
         }
-        if (!empty($type)) {
+        if (! empty($type)) {
             $query->where('type', $type);
         }
-        if (!empty($username)) {
+        if (! empty($username)) {
             $query->whereHas('user', function (Builder $query) use ($username) {
                 $query->where('username', 'like', '%' . $username . '%');
             });

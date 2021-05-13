@@ -30,11 +30,11 @@ class ContentController extends Controller
                 ->orWhere('description', 'like', $search);
         });
 
-        if (!empty($status)) {
+        if (! empty($status)) {
             $query->where('status', intval($status));
         }
 
-        if (!empty($type)) {
+        if (! empty($type)) {
             $query->where('type', intval($type));
         }
 
@@ -53,7 +53,7 @@ class ContentController extends Controller
         $rules = [
             'title' => 'required | unique:content,title' . (empty($id) ? '' : ',' . $id),
             'attachments.*' => 'file | mimes:jpeg,png,jpg,gif,svg,pdf,doc,docx | max:' . (100 * 1000), // size theo kB
-            'thumbnail' => 'image | mimes:jpeg,png,jpg,gif,svg | max:' . (100 * 1000) // size theo kB
+            'thumbnail' => 'image | mimes:jpeg,png,jpg,gif,svg | max:' . (100 * 1000), // size theo kB
         ];
         $request->validate($rules);
 
@@ -79,7 +79,7 @@ class ContentController extends Controller
 
         // File đính kèm mới
         $attachments = $request->attachments;
-        if (!empty($attachments)) {
+        if (! empty($attachments)) {
             foreach ($attachments as $file) {
                 // Lưu file ra ổ cứng
                 $attachmentsFolder = 'attachments/content/' . $content->id;
@@ -110,7 +110,7 @@ class ContentController extends Controller
 
         // Xóa file đính kèm cũ
         $deletedAttachments = $request->deletedAttachments;
-        if (!empty($deletedAttachments)) {
+        if (! empty($deletedAttachments)) {
             foreach ($deletedAttachments as $attachmentId) {
                 $attachment = Attachment::find($attachmentId);
 
@@ -123,7 +123,7 @@ class ContentController extends Controller
         }
 
         // Lưu các ảnh trong bài viết
-        list($hasChange, $newHtml) = $this->saveImages($content->content, $content->id);
+        [$hasChange, $newHtml] = $this->saveImages($content->content, $content->id);
         if ($hasChange) {
             $content->content = $newHtml;
             $content->save();
@@ -138,7 +138,7 @@ class ContentController extends Controller
 
         return [
             'code' => 0,
-            'message' => 'Stored'
+            'message' => 'Stored',
         ];
     }
 
@@ -169,7 +169,7 @@ class ContentController extends Controller
         $content->delete();
         return [
             'code' => 0,
-            'message' => 'Deleted'
+            'message' => 'Deleted',
         ];
     }
 
@@ -188,7 +188,7 @@ class ContentController extends Controller
         $content->save();
         return [
             'code' => 0,
-            'message' => 'Updated'
+            'message' => 'Updated',
         ];
     }
 
@@ -204,7 +204,7 @@ class ContentController extends Controller
         Storage::delete($image);
         return [
             'code' => 0,
-            'message' => 'Deleted'
+            'message' => 'Deleted',
         ];
     }
 
@@ -214,8 +214,8 @@ class ContentController extends Controller
     private function saveImages($html, $contentId)
     {
         $doc = new DOMDocument();
-		@ $doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
-        
+        @$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+
 
         // Lặp qua các ảnh, decode src dạng base64 và lưu ảnh lên server
         // Thay thế src dạng base64 thành dạng URL
@@ -225,13 +225,13 @@ class ContentController extends Controller
         // Liệt kê các ảnh cũ của bài viết, cho phép xóa
         $hasChange = false;
         $images = $doc->getElementsByTagName('img');
-		foreach ($images as $k => $img){
+        foreach ($images as $k => $img) {
             $src = $img->getAttribute('src');
-            
+
             if (strpos($src, ';') !== false) {
                 $hasChange = true;
-                list(, $base64) = explode(';', $src);
-                list(, $data) = explode(',', $base64);
+                [, $base64] = explode(';', $src);
+                [, $data] = explode(',', $base64);
 
                 $tempPath = 'attachments/content/' . $contentId . '/images';
                 $imageName = $tempPath . '/' . Str::uuid() . Str::random(10) . '.png';
@@ -250,7 +250,7 @@ class ContentController extends Controller
 
         return [
             $hasChange,
-            $newHtml
+            $newHtml,
         ];
     }
 }

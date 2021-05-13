@@ -42,13 +42,13 @@ class Auth
     public static function saveUser($user)
     {
         $token = self::generateRandomToken();
-        
+
         // Sinh code và lưu ở Redis trong 10 ngày
         $expiredTime = 10 * 24 * 60 * 60;
         $redisKey = self::getRedisKeyFromToken($token);
         $redisValue = json_encode([
             'id' => $user->id,
-            'username' => $user->username
+            'username' => $user->username,
         ]);
         Redis::set($redisKey, $redisValue, 'EX', $expiredTime);
         return $token;
@@ -64,7 +64,7 @@ class Auth
 
         $redisValue = json_encode([
             'id' => $user->id,
-            'username' => $user->username
+            'username' => $user->username,
         ]);
 
         // Sinh code và lưu ở Redis trong 10 ngày
@@ -115,6 +115,6 @@ class Auth
     private static function generateRandomToken()
     {
         $token = Str::uuid() . Str::random(100);
-        return $token;        
+        return $token;
     }
 }

@@ -22,7 +22,7 @@ class ProvinceController extends Controller
                 ->orWhere('code', 'like', $search);
         });
 
-        if (!empty($type)) {
+        if (! empty($type)) {
             $query->where('type', $type);
         }
 
@@ -50,7 +50,7 @@ class ProvinceController extends Controller
                 ->orWhere('code', 'like', $search);
         });
 
-        if (!empty($type)) {
+        if (! empty($type)) {
             $query->where('type', $type);
         }
 
@@ -58,7 +58,7 @@ class ProvinceController extends Controller
         return [
             'code' => 0,
             'message' => 'Deleted',
-            'num' => $num
+            'num' => $num,
         ];
     }
 
@@ -73,7 +73,7 @@ class ProvinceController extends Controller
         $rules = [
             'code' => 'required|unique:province,code' . (empty($id) ? '' : ',' . $id),
             'name' => 'required',
-            'type' => 'required'
+            'type' => 'required',
         ];
         $request->validate($rules);
 
@@ -86,10 +86,10 @@ class ProvinceController extends Controller
         $province->name = str_ireplace(['Tỉnh ', 'Thành phố '], ['', ''], $request->name);
         $province->type = $request->type;
         $province->save();
-   
+
         return [
             'code' => 0,
-            'message' => 'Stored'
+            'message' => 'Stored',
         ];
     }
 
@@ -101,7 +101,7 @@ class ProvinceController extends Controller
         $province->delete();
         return [
             'code' => 0,
-            'message' => 'Deleted'
+            'message' => 'Deleted',
         ];
     }
 }

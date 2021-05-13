@@ -37,12 +37,12 @@ class CategoryController extends Controller
         if (empty($id)) {
             $rules = [
                 'code' => 'required|unique:' . $table . ',code',
-                'name' => 'required'
+                'name' => 'required',
             ];
         } else {
             $rules = [
                 'code' => 'required|unique:' . $table . ',code,' . $id,
-                'name' => 'required'
+                'name' => 'required',
             ];
         }
         $request->validate($rules);
@@ -52,20 +52,20 @@ class CategoryController extends Controller
             DB::table($table)
                 ->insert([
                     'code' => $request->code,
-                    'name' => $request->name
+                    'name' => $request->name,
                 ]);
         } else {
             DB::table($table)
                 ->where('id', $id)
                 ->update([
                     'code' => $request->code,
-                    'name' => $request->name
+                    'name' => $request->name,
                 ]);
         }
-   
+
         return [
             'code' => 0,
-            'message' => 'Stored'
+            'message' => 'Stored',
         ];
     }
 
@@ -81,7 +81,7 @@ class CategoryController extends Controller
             ->delete();
         return [
             'code' => 0,
-            'message' => 'Deleted'
+            'message' => 'Deleted',
         ];
     }
 

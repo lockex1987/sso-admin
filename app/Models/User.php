@@ -10,7 +10,7 @@ class User extends BaseModel
 
     // Ẩn cột password ở JSON trả về
     protected $hidden = [
-        'password'
+        'password',
     ];
 
     /**

@@ -22,13 +22,13 @@ class Controller extends BaseController
     protected function checkPermission($permissionCode)
     {
         $sql = <<<'SQL'
-    select count(1) as count
-    from permission p, role_permission rp, user_role ur
-    where p.code = ?
-    and rp.permission_id = p.id
-    and ur.role_id = rp.role_id
-    and ur.user_id = ?
-SQL;
+                select count(1) as count
+                from permission p, role_permission rp, user_role ur
+                where p.code = ?
+                and rp.permission_id = p.id
+                and ur.role_id = rp.role_id
+                and ur.user_id = ?
+            SQL;
 
         $userId = Auth::user()->id;
         $arr = DB::selectOne($sql, [$permissionCode, $userId]);
@@ -46,7 +46,6 @@ SQL;
     protected function authoriseVideo($video)
     {
         if ($realValue != $expectedValue) {
-            
         }
         $this->checkPermission($video->user_id, auth()->id());
     }

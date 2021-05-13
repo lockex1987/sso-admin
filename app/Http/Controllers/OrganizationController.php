@@ -25,7 +25,7 @@ class OrganizationController extends Controller
                     ->orWhere('description', 'like', $search);
             });
 
-        if (!empty($parentId)) {
+        if (! empty($parentId)) {
             $query->where('path', 'like', '%/' . $parentId . '/%');
         }
 
@@ -45,7 +45,7 @@ class OrganizationController extends Controller
             ->get();
         return $list;
     }
-     
+
     /**
      * Thêm mới hoặc cập nhật.
      */
@@ -53,13 +53,13 @@ class OrganizationController extends Controller
     {
         $id = $request->id;
         $newParentId = $request->parentId;
-        
+
         if (empty($id)) {
             $rules = [
                 'name' => [
                     'required',
                     Rule::unique('organization')
-                        ->where(function ($query) use ($newParentId)  {
+                        ->where(function ($query) use ($newParentId) {
                             // Validate name là duy nhất ở cùng cha
                             // Cùng cha thì không được trùng tên
                             if (empty($newParentId)) {
@@ -67,8 +67,8 @@ class OrganizationController extends Controller
                             } else {
                                 $query->where('parent_id', $newParentId);
                             }
-                        })
-                ]
+                        }),
+                ],
             ];
         } else {
             $rules = [
@@ -82,8 +82,8 @@ class OrganizationController extends Controller
                             } else {
                                 $query->where('parent_id', $newParentId);
                             }
-                        })
-                ]
+                        }),
+                ],
             ];
         }
         $request->validate($rules);
@@ -93,10 +93,10 @@ class OrganizationController extends Controller
 
         // Kiểm tra quan hệ vòng tròn
         // Đã validate ở giao diện nhưng vẫn phải validate cả ở đây
-        if ($newParentObj && !empty($id) && $this->isCircleRelationship($id, $newParentObj)) {
+        if ($newParentObj && ! empty($id) && $this->isCircleRelationship($id, $newParentObj)) {
             return [
                 'code' => 1,
-                'message' => 'Quan hệ vòng tròn'
+                'message' => 'Quan hệ vòng tròn',
             ];
         }
 
@@ -123,10 +123,10 @@ class OrganizationController extends Controller
             $org->path = ($newParentObj ? $newParentObj->path : '/') . $org->id . '/';
             $org->save();
         }
-   
+
         return [
             'code' => 0,
-            'message' => 'Stored'
+            'message' => 'Stored',
         ];
     }
 
@@ -143,7 +143,7 @@ class OrganizationController extends Controller
 
         return [
             'code' => 0,
-            'message' => 'Deleted'
+            'message' => 'Deleted',
         ];
     }
 
@@ -166,10 +166,10 @@ class OrganizationController extends Controller
         $newPath = ($newParentObj ? $newParentObj->path : '/') . $org->id . '/';
 
         $sql = <<<'SQL'
-            update organization
-            set path = replace(path, ?, ?)
-            where path like ?
-SQL;
+                        update organization
+                        set path = replace(path, ?, ?)
+                        where path like ?
+            SQL;
 
         DB::update($sql, [$oldPath, $newPath, $oldPath . '_%']);
     }

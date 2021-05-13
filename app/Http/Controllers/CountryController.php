@@ -39,7 +39,7 @@ class CountryController extends Controller
         return [
             'code' => 0,
             'message' => 'Deleted',
-            'num' => $num
+            'num' => $num,
         ];
     }
 
@@ -53,7 +53,7 @@ class CountryController extends Controller
         // Validate
         $rules = [
             'code' => 'required|unique:country,code' . (empty($id) ? '' : ',' . $id),
-            'name' => 'required'
+            'name' => 'required',
         ];
         $request->validate($rules);
 
@@ -65,10 +65,10 @@ class CountryController extends Controller
         $country->code = $request->code;
         $country->name = $request->name;
         $country->save();
-   
+
         return [
             'code' => 0,
-            'message' => 'Stored'
+            'message' => 'Stored',
         ];
     }
 
@@ -80,7 +80,7 @@ class CountryController extends Controller
         $country->delete();
         return [
             'code' => 0,
-            'message' => 'Deleted'
+            'message' => 'Deleted',
         ];
     }
 }

@@ -130,7 +130,7 @@ class HtmlPurifier
         'href',
         'controls',
         'alt',
-        'style'
+        'style',
     ];
 
     /**
@@ -202,7 +202,7 @@ class HtmlPurifier
             '<TABLE><tr><td>HELLO</tr></TABL>',
             '<UL><li><A HREF=//google.com>click</UL>',
             */
-            'Tiếng Việt, Nguyễn Văn Huyên, Cao Thị Thùy Dương, Nguyễn Anh Tuấn'
+            'Tiếng Việt, Nguyễn Văn Huyên, Cao Thị Thùy Dương, Nguyễn Anh Tuấn',
         ];
 
         foreach ($a as $html) {

@@ -33,7 +33,7 @@ class UserController extends Controller
         // Trả về phân trang
         return $query->paginate($size);
     }
-     
+
     /**
      * Thêm mới hoặc cập nhật.
      */
@@ -48,21 +48,21 @@ class UserController extends Controller
         $password = $request->password;
 
         // Validate
-		$rules = [
-			'username' => [
+        $rules = [
+            'username' => [
                 'required',
-                'unique:user,username' . (empty($id) ? '' : ',' . $id)
+                'unique:user,username' . (empty($id) ? '' : ',' . $id),
             ],
-			'fullName' => 'required',
-			'email' => 'email',
+            'fullName' => 'required',
+            'email' => 'email',
             'avatar' => [
                 'mimes:png,jpg,jpeg,gif',
-                'max:2048'
-            ]
-		];
-		if (empty($id)) {
-			$rules['password'] = 'required';
-		}
+                'max:2048',
+            ],
+        ];
+        if (empty($id)) {
+            $rules['password'] = 'required';
+        }
         $request->validate($rules);
 
         if (empty($id)) {
@@ -73,7 +73,7 @@ class UserController extends Controller
         } else {
             $user = User::find($id);
 
-            if (!empty($password)) {
+            if (! empty($password)) {
                 $user->password = Hash::make($password);
             }
         }
@@ -84,7 +84,7 @@ class UserController extends Controller
         $user->organization_id = $organizationId;
         $user->save();
 
-        if (!empty($avatar)) {
+        if (! empty($avatar)) {
             $passportUrl = config('services.sso.passportUrl');
 
             // Xóa ảnh cũ
@@ -106,10 +106,10 @@ class UserController extends Controller
         if (empty($user->avatar)) {
             AvatarGenerator::autoGenerateAvatar($user);
         }
-   
+
         return [
             'code' => 0,
-            'message' => 'Stored'
+            'message' => 'Stored',
         ];
     }
 
@@ -124,7 +124,7 @@ class UserController extends Controller
         User::find($id)->delete();
         return [
             'code' => 0,
-            'message' => 'Deleted'
+            'message' => 'Deleted',
         ];
     }
 
@@ -142,7 +142,7 @@ class UserController extends Controller
 
         return [
             'code' => 0,
-            'message' => 'Updated'
+            'message' => 'Updated',
         ];
     }
 
@@ -158,7 +158,7 @@ class UserController extends Controller
         Auth::updateUser($user);
         return [
             'code' => 0,
-            'message' => 'Success'
+            'message' => 'Success',
         ];
     }
 
@@ -186,7 +186,7 @@ class UserController extends Controller
         $user->roles()->attach($roles);
 
         return [
-            'code' => 0
+            'code' => 0,
         ];
     }
 
@@ -214,7 +214,7 @@ class UserController extends Controller
         $user->apps()->attach($apps);
 
         return [
-            'code' => 0
+            'code' => 0,
         ];
     }
 }

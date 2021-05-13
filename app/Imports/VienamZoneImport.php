@@ -46,7 +46,7 @@ class VienamZoneImport implements WithHeadingRow, SkipsOnFailure, ToArray, WithC
                 config('vietnam-zone.columns.gso_id') => $item['ma'],
                 config('vietnam-zone.columns.district_id') => $districtId,
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ];
         }
 
@@ -78,7 +78,7 @@ class VienamZoneImport implements WithHeadingRow, SkipsOnFailure, ToArray, WithC
             config('vietnam-zone.columns.name') => $item['tinh_thanh_pho'],
             config('vietnam-zone.columns.gso_id') => $item['ma_tp'],
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $this->provinceMap[$item['ma_tp']] = $provinceId;
@@ -95,7 +95,7 @@ class VienamZoneImport implements WithHeadingRow, SkipsOnFailure, ToArray, WithC
             config('vietnam-zone.columns.gso_id') => $item['ma_qh'],
             config('vietnam-zone.columns.province_id') => $provinceId,
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
 
         $this->districtMap[$item['ma_qh']] = $districtId;

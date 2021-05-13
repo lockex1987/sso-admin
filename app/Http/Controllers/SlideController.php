@@ -18,7 +18,7 @@ class SlideController extends Controller
 
         $query = Slide::getQuery();
 
-        if (!empty($status) || $status == '0') {
+        if (! empty($status) || $status == '0') {
             $query->where('is_active', $status);
         }
 
@@ -44,7 +44,7 @@ class SlideController extends Controller
         $rules = [
             'code' => 'required|unique:slide,code' . (empty($id) ? '' : ',' . $id),
             'name' => 'required',
-            'type' => 'required'
+            'type' => 'required',
         ];
         $request->validate($rules);
 
@@ -57,10 +57,10 @@ class SlideController extends Controller
         $slide->name = str_ireplace(['Tỉnh ', 'Thành phố '], ['', ''], $request->name);
         $slide->type = $request->type;
         $slide->save();
-   
+
         return [
             'code' => 0,
-            'message' => 'Stored'
+            'message' => 'Stored',
         ];
     }
 
@@ -72,7 +72,7 @@ class SlideController extends Controller
         $slide->delete();
         return [
             'code' => 0,
-            'message' => 'Deleted'
+            'message' => 'Deleted',
         ];
     }
 
@@ -90,7 +90,7 @@ class SlideController extends Controller
 
         return [
             'code' => 0,
-            'message' => 'Updated'
+            'message' => 'Updated',
         ];
     }
 }

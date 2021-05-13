@@ -31,7 +31,7 @@ class PermissionController extends Controller
             ->get();
         return $list;
     }
-     
+
     /**
      * Thêm mới hoặc cập nhật.
      */
@@ -43,12 +43,12 @@ class PermissionController extends Controller
         if (empty($id)) {
             $rules = [
                 'code' => 'required|unique:permission,code',
-                'name' => 'required'
+                'name' => 'required',
             ];
         } else {
             $rules = [
                 'code' => 'required|unique:permission,code,' . $id,
-                'name' => 'required'
+                'name' => 'required',
             ];
         }
         $request->validate($rules);
@@ -62,10 +62,10 @@ class PermissionController extends Controller
         $permission->code = $request->code;
         $permission->name = $request->name;
         $permission->save();
-   
+
         return [
             'code' => 0,
-            'message' => 'Stored'
+            'message' => 'Stored',
         ];
     }
 
@@ -78,7 +78,7 @@ class PermissionController extends Controller
         Permission::find($id)->delete();
         return [
             'code' => 0,
-            'message' => 'Deleted'
+            'message' => 'Deleted',
         ];
     }
 }

@@ -35,13 +35,13 @@ class ConfigController extends Controller
             $rules = [
                 'code' => 'required|unique:system_config,code',
                 'name' => 'required',
-                'value' => 'required'
+                'value' => 'required',
             ];
         } else {
             $rules = [
                 'code' => 'required|unique:system_config,code,' . $id,
                 'name' => 'required',
-                'value' => 'required'
+                'value' => 'required',
             ];
         }
         $request->validate($rules);
@@ -58,10 +58,10 @@ class ConfigController extends Controller
         }
         $config->value = $request->value;
         $config->save();
-   
+
         return [
             'code' => 0,
-            'message' => 'Stored'
+            'message' => 'Stored',
         ];
     }
 
@@ -73,14 +73,14 @@ class ConfigController extends Controller
         if ($config->strict) {
             return [
                 'code' => 2,
-                'message' => 'Bạn không được xóa cấu hình này'
+                'message' => 'Bạn không được xóa cấu hình này',
             ];
         }
 
         $config->delete();
         return [
             'code' => 0,
-            'message' => 'Deleted'
+            'message' => 'Deleted',
         ];
     }
 }

@@ -36,7 +36,7 @@ class AppController extends Controller
             ->get();
         return $list;
     }
-     
+
     /**
      * Thêm mới hoặc cập nhật.
      */
@@ -73,10 +73,10 @@ class AppController extends Controller
         $app->login_redirect = $request->loginRedirect;
         $app->logout_redirect = $request->logoutRedirect;
         $app->save();
-   
+
         return [
             'code' => 0,
-            'message' => 'Stored'
+            'message' => 'Stored',
         ];
     }
 
@@ -90,7 +90,7 @@ class AppController extends Controller
         App::find($id)->delete();
         return [
             'code' => 0,
-            'message' => 'Deleted'
+            'message' => 'Deleted',
         ];
     }
 }

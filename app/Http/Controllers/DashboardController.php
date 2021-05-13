@@ -32,7 +32,7 @@ class DashboardController extends Controller
             'app' => $noOfApp,
             'permission' => $noOfPermission,
             'role' => $noOfRole,
-            'user' => $noOfUser
+            'user' => $noOfUser,
         ];
     }
 }

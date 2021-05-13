@@ -9,7 +9,7 @@ class SystemLog extends BaseModel
         $systemLog = new SystemLog();
         $systemLog->ip = $request->ip();
         // TODO: Parse user agent thành browser (Firefox, Chrome, Edge, Chromium,...) và os (Windows, Ubuntu, Linux,...)
-        $systemLog->user_agent = $request->header('User-Agent');;
+        $systemLog->user_agent = $request->header('User-Agent');
         $systemLog->created_at = now();
         $systemLog->type = $type;
         $systemLog->user_id = $userId;

@@ -25,11 +25,11 @@ class DistrictController extends Controller
                     ->orWhere('code', 'like', $search);
             });
 
-        if (!empty($type)) {
+        if (! empty($type)) {
             $query->where('type', $type);
         }
 
-        if (!empty($provinceId)) {
+        if (! empty($provinceId)) {
             $query->where('province_id', $provinceId);
         }
 
@@ -58,11 +58,11 @@ class DistrictController extends Controller
                 ->orWhere('code', 'like', $search);
         });
 
-        if (!empty($type)) {
+        if (! empty($type)) {
             $query->where('type', $type);
         }
 
-        if (!empty($provinceId)) {
+        if (! empty($provinceId)) {
             $query->where('province_id', $provinceId);
         }
 
@@ -70,7 +70,7 @@ class DistrictController extends Controller
         return [
             'code' => 0,
             'message' => 'Deleted',
-            'num' => $num
+            'num' => $num,
         ];
     }
 
@@ -86,7 +86,7 @@ class DistrictController extends Controller
             'code' => 'required|unique:district,code' . (empty($id) ? '' : ',' . $id),
             'name' => 'required',
             'type' => 'required',
-            'provinceId' => 'required'
+            'provinceId' => 'required',
         ];
         $request->validate($rules);
 
@@ -98,7 +98,7 @@ class DistrictController extends Controller
             if ($district->province_id != $request->provinceId) {
                 Commune::where('district_id', $district->id)
                     ->update([
-                        'province_id' => $request->provinceId
+                        'province_id' => $request->provinceId,
                     ]);
             }
         }
@@ -109,10 +109,10 @@ class DistrictController extends Controller
 
         $district->type = $request->type;
         $district->save();
-   
+
         return [
             'code' => 0,
-            'message' => 'Stored'
+            'message' => 'Stored',
         ];
     }
 
@@ -124,7 +124,7 @@ class DistrictController extends Controller
         $district->delete();
         return [
             'code' => 0,
-            'message' => 'Deleted'
+            'message' => 'Deleted',
         ];
     }
 }

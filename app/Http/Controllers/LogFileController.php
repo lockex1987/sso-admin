@@ -18,7 +18,7 @@ class LogFileController extends Controller
         $files = array_values(array_diff(scandir($path), ['.', '..', '.gitignore']));
         $files = array_map(fn($f) => [
             'name' => $f,
-            'size' => filesize($path . '/' . $f)
+            'size' => filesize($path . '/' . $f),
         ], $files);
         return $files;
     }

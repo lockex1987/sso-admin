@@ -31,24 +31,24 @@ class RoleController extends Controller
             ->get();
         return $list;
     }
-     
+
     /**
      * Thêm mới hoặc cập nhật.
      */
     public function store(Request $request)
     {
         $id = $request->id;
-        
+
         // Validate
         if (empty($id)) {
             $rules = [
                 'code' => 'required|unique:role,code',
-                'name' => 'required'
+                'name' => 'required',
             ];
         } else {
             $rules = [
                 'code' => 'required|unique:role,code,' . $id,
-                'name' => 'required'
+                'name' => 'required',
             ];
         }
         $request->validate($rules);
@@ -62,10 +62,10 @@ class RoleController extends Controller
         $role->code = $request->code;
         $role->name = $request->name;
         $role->save();
-   
+
         return [
             'code' => 0,
-            'message' => 'Stored'
+            'message' => 'Stored',
         ];
     }
 
@@ -78,7 +78,7 @@ class RoleController extends Controller
         Role::destroy($id);
         return [
             'code' => 0,
-            'message' => 'Deleted'
+            'message' => 'Deleted',
         ];
     }
 
@@ -106,7 +106,7 @@ class RoleController extends Controller
         $role->permissions()->attach($permissions);
 
         return [
-            'code' => 0
+            'code' => 0,
         ];
     }
 }

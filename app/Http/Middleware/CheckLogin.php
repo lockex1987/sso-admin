@@ -20,7 +20,7 @@ class CheckLogin
         if (! Auth::user()) {
             $content = json_encode([
                 'code' => 401,
-			    'message' => 'Unauthorized'
+                'message' => 'Unauthorized',
             ]);
             $response = new Response($content, 401);
             $response->headers->set('Content-Type', 'application/json');

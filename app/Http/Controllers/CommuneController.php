@@ -40,7 +40,7 @@ class CommuneController extends Controller
         return [
             'code' => 0,
             'message' => 'Deleted',
-            'num' => $num
+            'num' => $num,
         ];
     }
 
@@ -60,7 +60,7 @@ class CommuneController extends Controller
             'type' => 'required',
             'districtId' => 'required_without:districtCode',
             'districtCode' => 'required_without:districtId',
-            'provinceId' => 'required_with:districtId'
+            'provinceId' => 'required_with:districtId',
         ];
         $request->validate($rules);
 
@@ -75,10 +75,10 @@ class CommuneController extends Controller
 
         if (empty($districtId)) {
             $district = District::where('code', $request->districtCode)->first();
-            if (!$district) {
+            if (! $district) {
                 return [
                     'code' => 1,
-                    'message' => 'Mã huyện / quận không tồn tại'
+                    'message' => 'Mã huyện / quận không tồn tại',
                 ];
             }
 
@@ -93,10 +93,10 @@ class CommuneController extends Controller
         $commune->province_id = $provinceId;
         $commune->type = $request->type;
         $commune->save();
-   
+
         return [
             'code' => 0,
-            'message' => 'Stored'
+            'message' => 'Stored',
         ];
     }
 
@@ -108,17 +108,17 @@ class CommuneController extends Controller
         $commune->delete();
         return [
             'code' => 0,
-            'message' => 'Deleted'
+            'message' => 'Deleted',
         ];
     }
 
     private function filterSearch(Request $request, $query)
-    {        
+    {
         $type = $request->type;
         $provinceId = $request->provinceId;
         $districtId = $request->districtId;
 
-        if (!empty($request->search)) {
+        if (! empty($request->search)) {
             $search = '%' . $request->search . '%';
 
             $query->where(function ($query) use ($search) {
@@ -127,15 +127,15 @@ class CommuneController extends Controller
             });
         }
 
-        if (!empty($type)) {
+        if (! empty($type)) {
             $query->where('type', $type);
         }
 
-        if (!empty($provinceId)) {
+        if (! empty($provinceId)) {
             $query->where('province_id', $provinceId);
         }
 
-        if (!empty($districtId)) {
+        if (! empty($districtId)) {
             $query->where('district_id', $districtId);
         }
     }
