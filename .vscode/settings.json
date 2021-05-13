@@ -19,5 +19,8 @@
         }
     },
     "vetur.format.defaultFormatter.js": "none",
-    "vetur.format.options.tabSize": 4
+    "vetur.format.options.tabSize": 4,
+    "[php]": {
+        "editor.formatOnSave": true
+    }
 }
