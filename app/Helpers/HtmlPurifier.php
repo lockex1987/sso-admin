@@ -2,8 +2,8 @@
 
 namespace App\Helpers;
 
-use \DOMDocument;
-use \DOMNode;
+use DOMDocument;
+use DOMNode;
 
 /**
  * ezyang/htmlpurifier sử dụng phức tạp.
