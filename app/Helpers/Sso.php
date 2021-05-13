@@ -4,7 +4,6 @@ namespace App\Helpers;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
-use Log;
 
 class Sso
 {

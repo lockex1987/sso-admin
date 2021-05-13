@@ -4,13 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Cache\Auth;
 use App\Helpers\Sso;
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
-use GuzzleHttp\Client;
-use Log;
 use DB;
+use Illuminate\Http\Request;
 
 
 class LoginController extends Controller

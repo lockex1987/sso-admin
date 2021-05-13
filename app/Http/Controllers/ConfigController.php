@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\SystemConfig;
+use Illuminate\Http\Request;
 
 
 class ConfigController extends Controller

@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Cache\Auth;
 use App\Models\SystemLog;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 
 class SystemLogController extends Controller

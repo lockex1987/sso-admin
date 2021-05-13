@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Helpers\AvatarGenerator;
 use App\Models\User;
+use Illuminate\Console\Command;
 
 /**
  * Generate avatar cho những user chưa có.

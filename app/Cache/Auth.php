@@ -4,7 +4,6 @@ namespace App\Cache;
 
 use Illuminate\Support\Facades\Redis;
 use Str;
-use Log;
 
 class Auth
 {

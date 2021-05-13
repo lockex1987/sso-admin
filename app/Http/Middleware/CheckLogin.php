@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Cache\Auth;
+use Closure;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckLogin

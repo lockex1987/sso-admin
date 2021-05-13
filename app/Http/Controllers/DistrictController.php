@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\District;
 use App\Models\Commune;
+use App\Models\District;
+use Illuminate\Http\Request;
 
 
 class DistrictController extends Controller

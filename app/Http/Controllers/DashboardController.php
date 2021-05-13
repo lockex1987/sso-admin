@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\App;
 use App\Models\Permission;
+
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Log;
-
 
 class DashboardController extends Controller
 {
+
     /**
      * Tìm kiếm danh sách.
      */
@@ -32,7 +33,7 @@ class DashboardController extends Controller
             'app' => $noOfApp,
             'permission' => $noOfPermission,
             'role' => $noOfRole,
-            'user' => $noOfUser,
+            'user' => $noOfUser
         ];
     }
 }

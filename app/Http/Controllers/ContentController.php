@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Content;
-use App\Models\Attachment;
-use App\Models\SystemLog;
-use App\Helpers\HtmlPurifier;
 use App\Cache\Auth;
+use App\Helpers\HtmlPurifier;
+use App\Models\Attachment;
+use App\Models\Content;
+use App\Models\SystemLog;
+use DOMDocument;
 use Illuminate\Http\Request;
-use Log;
 use Storage;
 use Str;
-use \DOMDocument;
 
 class ContentController extends Controller
 {

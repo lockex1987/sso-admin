@@ -3,9 +3,8 @@
 namespace App\Logging;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
+use Monolog\Logger;
 
 /**
  * Tham khảo:

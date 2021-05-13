@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Cache\Auth;
+use App\Helpers\AvatarGenerator;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
-use App\Cache\Auth;
-use App\Models\User;
-use App\Helpers\AvatarGenerator;
 
 class UserController extends Controller
 {

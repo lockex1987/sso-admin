@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
 use App\Helpers\Downloader;
 use App\Imports\VienamZoneImport;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 
 /**

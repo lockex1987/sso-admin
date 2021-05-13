@@ -28,7 +28,7 @@ $config
             'align_equals' => false,
         ],
         */
-        
+
         // 'blank_line_after_opening_tag' => true,
         // 'blank_line_before_return' => true,
         'braces' => [
@@ -67,9 +67,9 @@ $config
         // 'no_singleline_whitespace_before_semicolons' => true,
         'no_spaces_around_offset' => true,
         // 'no_trailing_comma_in_list_call' => true,
-        // 'no_trailing_comma_in_singleline_array' => true,
+        'no_trailing_comma_in_singleline_array' => true,
         // 'no_unneeded_control_parentheses' => true,
-        // 'no_unused_imports' => true,
+        'no_unused_imports' => true,
         'no_whitespace_before_comma_in_array' => true,
         'no_whitespace_in_blank_line' => true,
         // 'normalize_index_brace' => true,
@@ -102,10 +102,18 @@ $config
         // 'space_after_semicolon' => true,
         // 'standardize_not_equals' => true,
         'ternary_operator_spaces' => true,
-        // 'trailing_comma_in_multiline_array' => false,
+        'trailing_comma_in_multiline' => [
+            // 'after_heredoc' => false
+            'elements' => [], // default ['arrays']
+        ],
         'trim_array_spaces' => true,
         'unary_operator_spaces' => true,
         'whitespace_after_comma_in_array' => true,
+
+        'ordered_imports' => [
+            'imports_order' => ['class', 'function', 'const'],
+            'sort_algorithm' => 'alpha'
+        ]
     ])
     // ->setIndent("\t")
     ->setLineEnding("\n");

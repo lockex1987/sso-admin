@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Notification;
 use App\Cache\Auth;
+use App\Models\Notification;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
 
