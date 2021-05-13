@@ -3,7 +3,7 @@
 namespace App\Cache;
 
 use Illuminate\Support\Facades\Redis;
-use Str;
+use Illuminate\Support\Str;
 
 class Auth
 {

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cache\Auth;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;

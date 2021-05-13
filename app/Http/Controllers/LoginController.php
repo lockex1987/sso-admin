@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Cache\Auth;
 use App\Helpers\Sso;
 use App\Models\User;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 

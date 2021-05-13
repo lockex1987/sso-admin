@@ -9,8 +9,8 @@ use App\Models\Content;
 use App\Models\SystemLog;
 use DOMDocument;
 use Illuminate\Http\Request;
-use Storage;
-use Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ContentController extends Controller
 {
