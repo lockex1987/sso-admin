@@ -26,7 +26,6 @@ class VienamZoneImport implements WithHeadingRow, SkipsOnFailure, ToArray, WithC
 
     public function onFailure(Failure ...$failures)
     {
-
     }
 
     public function array(array $array)
@@ -43,11 +42,11 @@ class VienamZoneImport implements WithHeadingRow, SkipsOnFailure, ToArray, WithC
 
             $districtId = $this->getDistrictId($item);
             $wardImport[] = [
-                config('vietnam-zone.columns.name')        => $item['ten'],
-                config('vietnam-zone.columns.gso_id')      => $item['ma'],
+                config('vietnam-zone.columns.name') => $item['ten'],
+                config('vietnam-zone.columns.gso_id') => $item['ma'],
                 config('vietnam-zone.columns.district_id') => $districtId,
-                'created_at'                               => now(),
-                'updated_at'                               => now(),
+                'created_at' => now(),
+                'updated_at' => now()
             ];
         }
 
@@ -76,10 +75,10 @@ class VienamZoneImport implements WithHeadingRow, SkipsOnFailure, ToArray, WithC
     private function createProvince(array $item)
     {
         $provinceId = DB::table(config('vietnam-zone.tables.provinces'))->insertGetId([
-            config('vietnam-zone.columns.name')   => $item['tinh_thanh_pho'],
+            config('vietnam-zone.columns.name') => $item['tinh_thanh_pho'],
             config('vietnam-zone.columns.gso_id') => $item['ma_tp'],
-            'created_at'                          => now(),
-            'updated_at'                          => now(),
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
 
         $this->provinceMap[$item['ma_tp']] = $provinceId;
@@ -92,11 +91,11 @@ class VienamZoneImport implements WithHeadingRow, SkipsOnFailure, ToArray, WithC
         $provinceId = $this->getProvinceId($item);
 
         $districtId = DB::table(config('vietnam-zone.tables.districts'))->insertGetId([
-            config('vietnam-zone.columns.name')        => $item['quan_huyen'],
-            config('vietnam-zone.columns.gso_id')      => $item['ma_qh'],
+            config('vietnam-zone.columns.name') => $item['quan_huyen'],
+            config('vietnam-zone.columns.gso_id') => $item['ma_qh'],
             config('vietnam-zone.columns.province_id') => $provinceId,
-            'created_at'                               => now(),
-            'updated_at'                               => now(),
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
 
         $this->districtMap[$item['ma_qh']] = $districtId;

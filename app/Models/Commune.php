@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 class Commune extends BaseModel
 {
     public function district()

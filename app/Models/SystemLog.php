@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 class SystemLog extends BaseModel
 {
     public static function insertSystemLog($request, $type, $userId = null, $description = null)

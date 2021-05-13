@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 class Attachment extends BaseModel
 {
     public static function insertAttachment(String $type, $objectId, $path, $file)
@@ -25,7 +24,7 @@ class Attachment extends BaseModel
     }
 
     public static function deleteAttachments(String $type, $objectId)
-    {   
+    {
         Attachment::where('type', $type)
             ->where('object_id', $objectId)
             ->delete();

@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
 
-
 /**
  * Tham khảo:
  * https://github.com/markhilton/monolog-mysql/blob/master/src/Logger/Monolog/Handler/MysqlHandler.php
@@ -20,7 +19,7 @@ class MySqlLoggingHandler extends AbstractProcessingHandler
          parent::__construct($level, $bubble);
     }
     */
-    
+
     protected function write(array $record): void
     {
         // dd($record);

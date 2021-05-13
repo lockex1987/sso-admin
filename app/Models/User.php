@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 class User extends BaseModel
 {
     //use \Illuminate\Notifications\Notifiable
