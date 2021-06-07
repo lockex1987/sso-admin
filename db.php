@@ -19,7 +19,7 @@ $username = $config['DB_USERNAME'];
 $password = $config['DB_PASSWORD'];
 
 // Các câu lệnh
-$filePath = 'database/backup.sql';
+$filePath = 'database_backup.sql';
 $exportCommand = "mysqldump -h $host -P $port -u $username -p$password $database > $filePath";
 $importCommand = "mysql -h $host -P $port -u $username -p$password $database < $filePath";
 
@@ -27,7 +27,7 @@ $importCommand = "mysql -h $host -P $port -u $username -p$password $database < $
 $command = count($argv) > 1 ? strtolower($argv[1]) : '';
 if ($command == 'import') {
     system($importCommand);
-} else if ($command == 'export') {
+} elseif ($command == 'export') {
     system($exportCommand);
 } else {
     echo "Invalid command\n";

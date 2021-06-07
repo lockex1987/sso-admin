@@ -28,14 +28,16 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewareGroups = [
+        // Nhóm các middleware sử dụng cho trang web
+        // Project này có dạng SPA và sử dụng token nên không cần nhiều, không cần session
         'web' => [
-            \App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
+            // \App\Http\Middleware\EncryptCookies::class,
+            // \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            // \Illuminate\Session\Middleware\StartSession::class,
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\VerifyCsrfToken::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            // \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            // \App\Http\Middleware\VerifyCsrfToken::class,
+            // \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
         'api' => [
