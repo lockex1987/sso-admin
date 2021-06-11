@@ -61,17 +61,17 @@
         </table>
 
         <pagi @change="search"
-            v-model="pagi"></pagi>
+            v-model="pagi" />
 
         <permission-form ref="appForm"
-            @search-again="search()" />
+            @created="search(1)"
+            @updated="search(pagi.current_page)" />
     </div>
 </template>
 
 
 <script>
 import PermissionForm from './PermissionForm.vue';
-
 
 export default {
     components: {
@@ -86,7 +86,7 @@ export default {
             // Text tìm kiếm
             searchText: '',
 
-            // Đối tượng
+            // Đối tượng phân trang
             pagi: {}
         };
     },
@@ -138,14 +138,16 @@ export default {
          * Xóa bản ghi.
          */
         deleteRecord(permission) {
-            noti.confirm('Bạn chắc chắn muốn xoá bản ghi <b>' + CommonUtils.escapeHtml(permission.code) + '</b> hay không?', async () => {
+            const message = 'Bạn chắc chắn muốn xoá bản ghi <b>' + CommonUtils.escapeHtml(permission.code) + '</b> hay không?';
+            noti.confirm(message, async () => {
                 const params = {
                     id: permission.id
                 };
                 const { data } = await axios.delete('/permission/destroy', { data: params });
                 if (data.code == 0) {
                     noti.success('Xóa thành công');
-                    this.search();
+                    const page = Math.max(1, (this.permissionList.length == 1) ? this.pagi.current_page - 1 : this.pagi.current_page);
+                    this.search(page);
                 } else {
                     noti.error(data.message);
                 }

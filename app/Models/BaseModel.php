@@ -17,7 +17,7 @@ class BaseModel extends Model
      *
      * @return string Tên bảng
      */
-    public function getTable()
+    public function getTable(): string
     {
         // Bỏ hàm Str::pluralStudly()
         return $this->table ?? Str::snake(class_basename($this));

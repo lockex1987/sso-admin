@@ -112,7 +112,7 @@
                         <a href="#"
                             @click.prevent="">
                             <i class="la la-users font-size-1.25 mr-2"></i>
-                            Admin
+                            Quản trị
                             <i class="la la-angle-right arrow float-right"></i>
                         </a>
 

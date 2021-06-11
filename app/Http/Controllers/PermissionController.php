@@ -25,7 +25,7 @@ class PermissionController extends Controller
     /**
      * Lấy toàn bộ danh sách.
      */
-    public function getAll(Request $request)
+    public function getAll()
     {
         $list = Permission::orderBy('code')
             ->get();
@@ -65,7 +65,7 @@ class PermissionController extends Controller
 
         return [
             'code' => 0,
-            'message' => 'Stored',
+            'message' => 'Stored'
         ];
     }
 
@@ -78,7 +78,7 @@ class PermissionController extends Controller
         Permission::find($id)->delete();
         return [
             'code' => 0,
-            'message' => 'Deleted',
+            'message' => 'Deleted'
         ];
     }
 }

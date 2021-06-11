@@ -89,7 +89,8 @@ export default {
     height: 40px;
     width: 40px;
     cursor: pointer;
-    background-color: transparent; //#294a67;
+    background-color: transparent;
+    margin-top: -0.5rem;
 
     .line {
         height: 2px;

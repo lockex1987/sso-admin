@@ -107,12 +107,12 @@
                             v-if="user.id != currentUser.id"></i>
 
                         <span v-if="user.id != currentUser.id">
-                            <i class="cursor-pointer la la-lg la-lock text-warning ml-2"
+                            <i class="cursor-pointer la la-lg la-unlock text-success ml-2"
                                 title="Khóa lại"
                                 @click="lockUser(user)"
                                 v-if="user.is_active == 1"></i>
 
-                            <i class="cursor-pointer la la-lg la-unlock text-warning ml-2"
+                            <i class="cursor-pointer la la-lg la-lock text-danger ml-2"
                                 title="Mở khóa"
                                 @click="unlockUser(user)"
                                 v-else></i>
@@ -147,7 +147,6 @@
 import UserForm from './UserForm.vue';
 import UserRoleForm from './UserRoleForm.vue';
 import UserAppForm from './UserAppForm.vue';
-
 
 export default {
     components: {

@@ -2,12 +2,16 @@
     <div class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form @submit.prevent="submitForm()" novalidate>
+                <form @submit.prevent="submitForm()"
+                    novalidate>
                     <div class="modal-header">
                         <h4 class="modal-title">
                             {{id ? 'Cập nhật' : 'Thêm mới'}} quyền
                         </h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                        <button type="button"
+                            class="close"
+                            data-dismiss="modal">&times;</button>
                     </div>
 
                     <div class="modal-body text-body">
@@ -15,30 +19,36 @@
                             <label class="required">
                                 Mã
                             </label>
+
                             <input type="text"
-                                    v-model.trim="code"
-                                    class="form-control"
-                                    data-validation="required|maxLength:100"/>
+                                v-model.trim="code"
+                                class="form-control"
+                                data-validation="required|maxLength:100" />
                         </div>
 
                         <div class="form-group validate-container">
                             <label class="required">
                                 Tên
                             </label>
+
                             <input type="text"
-                                    v-model.trim="name"
-                                    class="form-control"
-                                    data-validation="required|maxLength:100"/>
+                                v-model.trim="name"
+                                class="form-control"
+                                data-validation="required|maxLength:100" />
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit"
+                            class="btn btn-primary">
                             {{id ? 'Cập nhật' : 'Thêm mới'}}
-                            <span class="spinner-border spinner-border-sm" v-show="isSaving"></span>
+                            <span class="spinner-border spinner-border-sm"
+                                v-show="isSaving"></span>
                         </button>
 
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                        <button type="button"
+                            class="btn btn-outline-secondary"
+                            data-dismiss="modal">
                             Đóng
                         </button>
                     </div>
@@ -62,10 +72,7 @@ export default {
             id: null,
 
             // Đang lưu thông tin
-            isSaving: false,
-
-            // Có hiển thị password hay không
-            showPassword: false
+            isSaving: false
         };
     },
 
@@ -99,7 +106,6 @@ export default {
         resetInfo() {
             this.code = '';
             this.name = '';
-
             this.id = null;
         },
 
@@ -116,7 +122,6 @@ export default {
         openUpdateForm(permission) {
             this.code = permission.code;
             this.name = permission.name;
-
             this.id = permission.id;
 
             this.openModal();
@@ -126,42 +131,27 @@ export default {
          * Lưu thông tin.
          */
         async submitForm() {
-            // Nếu đang xử lý rồi thì dừng lại
             if (this.isSaving) {
                 return;
             }
 
-            // Validate form dữ liệu
             if (CV.invalidForm(this.$el)) {
                 return;
             }
 
-            // Đánh dấu đang xử lý
-            this.isSaving = true;
-
-            // Gọi lên server
             const params = {
                 code: this.code,
-                name: this.name
+                name: this.name,
+                id: this.id
             };
-            if (this.id) {
-                params.id = this.id;
-            }
-
+            this.isSaving = true;
             const { data } = await axios.post('/permission/store', params);
-
-            // Đánh dấu đã xử lý xong
             this.isSaving = false;
 
             if (data.code == 0) {
-                // Thông báo thành công
                 noti.success(this.id ? 'Cập nhật thành công' : 'Thêm mới thành công');
-
-                // Đóng modal
+                this.$emit(this.id ? 'updated' : 'created');
                 this.closeModal();
-
-                // Tìm kiếm lại
-                this.$emit('search-again');
             }
         }
     }
