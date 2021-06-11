@@ -87,9 +87,9 @@ export default {
 
         async searchMovie() {
             const apiKey = '1e0dcaa7e93980fb84e1d2430d01b887';
-            const url = 'https://api.themoviedb.org/3/search/multi' +
-                    '?api_key=' + apiKey +
-                    '&query=' + encodeURIComponent(this.searchText);
+            const url = 'https://api.themoviedb.org/3/search/multi'
+                    + '?api_key=' + apiKey
+                    + '&query=' + encodeURIComponent(this.searchText);
             const data = await fetch(url)
                 .then(resp => resp.json());
 

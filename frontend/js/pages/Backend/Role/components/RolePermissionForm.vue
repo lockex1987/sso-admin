@@ -90,8 +90,8 @@ export default {
         filteredPermissionList() {
             const text = this.searchText.toLowerCase();
             return this.permissionList.filter(p => {
-                return p.code.toLowerCase().includes(text) ||
-                    p.name.toLowerCase().includes(text);
+                return p.code.toLowerCase().includes(text)
+                    || p.name.toLowerCase().includes(text);
             });
         }
     },

@@ -90,8 +90,8 @@ export default {
         filteredAppList() {
             const text = this.searchText.toLowerCase();
             return this.appList.filter(r => {
-                return r.code.toLowerCase().includes(text) ||
-                    r.name.toLowerCase().includes(text);
+                return r.code.toLowerCase().includes(text)
+                    || r.name.toLowerCase().includes(text);
             });
         }
     },

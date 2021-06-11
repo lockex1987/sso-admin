@@ -149,9 +149,9 @@ export default {
                 $(this.$el).data('daterangepicker').setStartDate(start);
                 $(this.$el).data('daterangepicker').setEndDate(end);
 
-                const s = start.format(this.options.locale.format) +
-                        this.options.locale.separator +
-                        end.format(this.options.locale.format);
+                const s = start.format(this.options.locale.format)
+                        + this.options.locale.separator
+                        + end.format(this.options.locale.format);
                 $(this.$el).find('input').val(s);
             } else {
                 $(this.$el).data('daterangepicker').setStartDate(moment());

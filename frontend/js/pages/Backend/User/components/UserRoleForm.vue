@@ -91,8 +91,8 @@ export default {
         filteredRoleList() {
             const text = this.searchText.toLowerCase();
             return this.roleList.filter(r => {
-                return r.code.toLowerCase().includes(text) ||
-                    r.name.toLowerCase().includes(text);
+                return r.code.toLowerCase().includes(text)
+                    || r.name.toLowerCase().includes(text);
             });
         }
     },
