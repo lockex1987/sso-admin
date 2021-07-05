@@ -6,27 +6,32 @@ use App\Cache\Auth;
 use App\Helpers\Sso;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 
 
 class LoginController extends Controller
 {
-    public function logout(Request $request)
+    /**
+     * Thực hiện đăng xuất.
+     */
+    public function logout()
     {
         Auth::removeUser();
-
         return [
-            'code' => 0,
+            'code' => 0
         ];
     }
 
-    public function loginCallback(Request $request)
+    /**
+     * Xử lý khi đã đăng nhập thành công ở sso-passport, sso-passport trả lại code.
+     */
+    public function loginCallback()
     {
         $obj = Sso::checkLoginCallback();
+
         if (! empty($obj->error)) {
             return [
                 'code' => 1,
-                'messsage' => 'Lỗi khi lấy người dùng từ SSO',
+                'messsage' => 'Lỗi khi lấy người dùng từ SSO'
             ];
         }
 
@@ -44,13 +49,13 @@ class LoginController extends Controller
     /**
      * Lấy thông tin người dùng từ token truyền vào.
      */
-    public function getUserInfo(Request $request)
+    public function getUserInfo()
     {
         $redisUser = Auth::user();
 
         if ($redisUser == null) {
             return [
-                'code' => 2,
+                'code' => 2
             ];
         }
 
@@ -59,7 +64,7 @@ class LoginController extends Controller
 
         if (! $user) {
             return [
-                'code' => 1,
+                'code' => 1
             ];
         }
 
@@ -67,7 +72,7 @@ class LoginController extends Controller
         return [
             'code' => 0,
             'user' => $user,
-            'permissions' => $permissions,
+            'permissions' => $permissions
         ];
     }
 
@@ -77,7 +82,8 @@ class LoginController extends Controller
      */
     private function findOrCreateUser($passportUser)
     {
-        $authUser = User::where('username', $passportUser->username)->first();
+        $authUser = User::where('username', $passportUser->username)
+            ->first();
         if (! $authUser) {
             $authUser = new User();
             $authUser->username = $passportUser->username;
@@ -93,14 +99,17 @@ class LoginController extends Controller
         return $authUser;
     }
 
+    /**
+     * Lấy danh sách mã quyền được phân cho người dùng.
+     */
     private function getUserPermissions($userId)
     {
         $sql = <<<'SQL'
-            	select distinct(p.code) as code
-            	from user_role ur, role_permission rp, permission p
-            	where ur.user_id = ?
-            	and rp.role_id = ur.role_id
-            	and p.id = rp.permission_id
+            select distinct(p.code) as code
+            from user_role ur, role_permission rp, permission p
+            where ur.user_id = ?
+            and rp.role_id = ur.role_id
+            and p.id = rp.permission_id
             SQL;
 
         $collections = DB::select($sql, [$userId]);
